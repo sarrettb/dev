@@ -22,6 +22,8 @@ std::vector<int> read_debug(const char* debug_path) {
                 debug_string.push_back(c);
         }
    }
+   if (debug_string.length() > 0)
+      debug_data.push_back(std::stoi(debug_string));
    return debug_data;
 }
 #endif 

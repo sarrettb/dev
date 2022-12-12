@@ -5,8 +5,14 @@
    debugging or commonly used in solving problems (such as printing a vector)
 */
 
-#include <iostream> 
+#include <vector>
 
-void print_vector(const std::vector<int>& v);
+void print_vector(const std::vector<int>& v) {
+    std::cout << "{"; 
+    for (const auto& x : v) {
+        std::cout << x << ", "; 
+    }
+    std::cout << "\n"; 
+}
 
 #endif 
