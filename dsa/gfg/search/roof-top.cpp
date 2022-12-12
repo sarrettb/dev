@@ -17,11 +17,13 @@ int maxStep(int arr[], int N) {
     int curr_steps = 0;
     for (int i = 1; i < N; i++) {
         if (arr[i - 1] < arr[i])
-            max_steps = std::max(max_steps, ++curr_steps);
-        else 
+            curr_steps++;
+        else {
+            max_steps = std::max(max_steps, curr_steps);
             curr_steps = 0;
+        }
     }
-    return max_steps;
+    return std::max(max_steps, curr_steps);
 }
 
 int main() {
