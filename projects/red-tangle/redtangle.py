@@ -203,43 +203,78 @@ class Game:
         self.white_turn = not self.white_turn
         self.piece_selected = (None, None)
         self.piece_locked = False
+    
+    def check_winner(self):
+        for row in range(Constants.RECT_HEIGHT):
+            for col in range(Constants.RECT_WIDTH):
+                if self.board[row][col + 2].get_team() == Constants.BLACK:
+                    self.winner = (True, 'Black')
+                    break
+                if self.board[Constants.GRID_SIZE - 1 - row][col + 2].get_team() == Constants.WHITE:
+                    self.winner = (True, 'White')
+                    break
 
     def move(self, to):
         eight_adj, diag = Game.is_eight_adj(self.piece_selected, to)
         if eight_adj:
+            print('Is 8-adj')
             red_tangle_flag, red_tangle_type = Game.is_redtangle(to[0], to[1])
             red_tangle_flag = red_tangle_flag and red_tangle_type == (Constants.BOTTOM_RECT if self.white_turn else Constants.TOP_RECT)
             # Red Tangle Flag -> Attempting to enter opponents redtangle
             if red_tangle_flag:
                 if not diag:
-                    self.winner = ('White' if self.white_turn else 'Black', True)
                     self.make_move(to)
             else:
                 self.make_move(to)
         
         # Attempting a Jump
         else:
-            if self.vertical_jump(self.piece_selected, to):
+           if self.vertical_jump(self.piece_selected, to) or self.horizontal_jump(self.piece_selected, to):
                 self.make_move(to)
+        
+        self.check_winner()
 
+    
     def vertical_jump(self, _from, to):
         prev = [_from[0], _from[1]]
         a = 1 if to[0] - _from[0] > 0 else -1
         curr_row = _from[0] + a
-        piece_blocked = False
+        valid_jump = True
         captured_pieces = []
 
-        while curr_row != to[0] and (not piece_blocked):
-            if self.is_blocked(prev, (curr_row, to[1])):
-                piece_blocked = True
+        while curr_row != to[0] and valid_jump:
+            print(f'Curr Piece: {self.board[curr_row][_from[1]]}')
+            if self.board[curr_row][_from[1]].get_team() == None or self.is_blocked(prev, (curr_row, _from[1])):
+                valid_jump = False
             else:
-                captured_pieces.append((curr_row, to[1]))
+                captured_pieces.append((curr_row, _from[1]))
             prev[0] = curr_row
             curr_row += a
         
-        if not piece_blocked:
+        print(f'Valid Jump: {valid_jump}')
+        if valid_jump:
             self.delete_pieces(captured_pieces)
-        return not piece_blocked
+        return valid_jump
+    
+    def horizontal_jump(self, _from, to):
+        prev = [_from[0], _from[1]]
+        a = 1 if to[1] - _from[1] > 0 else -1
+        curr_col = _from[1] + a
+        valid_jump = True
+        captured_pieces = []
+        print(f'Jumping from {_from} to {to}')
+        while curr_col != to[1] and valid_jump:
+            print(f'Curr Piece: {self.board[_from[0]][curr_col]}')
+            if self.board[_from[0]][curr_col].get_team() == None or self.is_blocked(prev, (_from[0], curr_col)):
+                valid_jump = False
+            else:
+                captured_pieces.append((_from[0], curr_col))
+            prev[1] = curr_col
+            curr_col += a
+        if valid_jump:
+            print(f'Captured Pieces: {captured_pieces} ')
+            self.delete_pieces(captured_pieces)
+        return valid_jump
 
     def delete_pieces(self, pieces_to_delete):
         for pos in pieces_to_delete:
