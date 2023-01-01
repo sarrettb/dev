@@ -3,3 +3,6 @@ This repo contains all code related to the development of my software developmen
 
 # DSA
 This subfolder includes problems solved from the [Geeks for Geeks Course](https://practice.geeksforgeeks.org/courses/dsa-self-paced?utm_source=gfg&utm_medium=Submenu&utm_campaign=courses-submenu) I am enrolled in as well as [Leet Code](https://leetcode.com/) problems. The folder structure should follow the following format: `dev/dsa/platform/topic`. 
+
+# Projects
+This subfolder includes personal projects I have developed. Currently, only red-tangle exists which is a chess-like game I developed (did not design). 
