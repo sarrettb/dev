@@ -40,6 +40,9 @@ class Piece:
 
     def get_team(self):
         return self.team_color
+
+    def get_orientation(self):
+        return self.orientation
     
     def rotate(self):
         first = self.orientation[0]
@@ -53,6 +56,7 @@ class Piece:
                                 Constants.PIECE_WIDTH, Constants.PIECE_HEIGHT)
         pygame.draw.rect(win, Constants.BLACK, rect)
         points = []
+        # Orientations are in the order (LEFT, BOTTOM, RIGHT, TOP)
         for c, i in zip(self.orientation, range(4)):
             match i:
                 case 0:
@@ -96,6 +100,34 @@ class Game:
             if (row >= Constants.GRID_SIZE - 2):
                 return (True, Constants.BOTTOM_RECT)
         return (False, None)
+    
+    def is_blocked(self, _from, to):
+        # Orientations are in the order [LEFT, BOTTOM, RIGHT, TOP]
+        from_ori = self.board[_from[0]][_from[1]].get_orientation()
+        to_ori = self.board[to[0]][to[1]].get_orientation()
+
+        # Moving Up
+        if (_from[0] - to[0] > 0):
+            print('Moving Up')
+            return from_ori[3] == to_ori[1]
+        
+        # Moving Down
+        elif (_from[0] - to[0] < 0):
+            print('Moving Down')
+            return from_ori[1] == to_ori[3]
+        
+        # Moving Right
+        elif (_from[1] - to[1] < 0):
+            print('Moving Right')
+            return from_ori[2] == to_ori[0]
+        
+        # Moving Left
+        elif(_from[1] - to[1] > 0):
+            print('Moving Left')
+            return from_ori[0] == to_ori[2]
+
+        # Default -- Bug if occurs (TODO return error)
+        return False
 
     def get_square_color(row, col):
         flag, _ = Game.is_redtangle(row, col)
@@ -177,8 +209,6 @@ class Game:
         if eight_adj:
             red_tangle_flag, red_tangle_type = Game.is_redtangle(to[0], to[1])
             red_tangle_flag = red_tangle_flag and red_tangle_type == (Constants.BOTTOM_RECT if self.white_turn else Constants.TOP_RECT)
-            if red_tangle_flag:
-                print('In opponents rect')
             # Red Tangle Flag -> Attempting to enter opponents redtangle
             if red_tangle_flag:
                 if not diag:
@@ -189,8 +219,32 @@ class Game:
         
         # Attempting a Jump
         else:
-            pass
+            if self.vertical_jump(self.piece_selected, to):
+                self.make_move(to)
+
+    def vertical_jump(self, _from, to):
+        prev = [_from[0], _from[1]]
+        a = 1 if to[0] - _from[0] > 0 else -1
+        curr_row = _from[0] + a
+        piece_blocked = False
+        captured_pieces = []
+
+        while curr_row != to[0] and (not piece_blocked):
+            if self.is_blocked(prev, (curr_row, to[1])):
+                piece_blocked = True
+            else:
+                captured_pieces.append((curr_row, to[1]))
+            prev[0] = curr_row
+            curr_row += a
         
+        if not piece_blocked:
+            self.delete_pieces(captured_pieces)
+        return not piece_blocked
+
+    def delete_pieces(self, pieces_to_delete):
+        for pos in pieces_to_delete:
+            self.board[pos[0]][pos[1]] = Piece(None, None)
+
     def update(self):
         for row in range(Constants.GRID_SIZE):
             for col in range(Constants.GRID_SIZE):
