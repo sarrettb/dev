@@ -95,18 +95,27 @@ class Game:
     def __init__(self, win):
         self.window = win
         self.board = [[Piece(None, None) for i in range(Constants.GRID_SIZE)] for j in range(Constants.GRID_SIZE)]
-        self.init_board()
-        self.white_turn = True
+        self.turn = Constants.WHITE
         self.piece_selected = (None, None)
-        self.winner = (None, None)
         self.piece_locked = False
-        self.moved = False
-
+        self.must_jump = False
+        self.winner = ''
+        self.init_board()
+        
     def get_winner(self):
         return self.winner
 
     def get_turn(self):
-        return 'WHITE' if self.white_turn else 'BLACK'
+        return 'WHITE' if self.turn == Constants.WHITE else 'BLACK'
+    
+    def set_winner(self):
+        self.winner = self.get_turn()
+
+    def end_turn(self):
+        self.turn = Constants.BLACK if self.turn == Constants.WHITE else Constants.WHITE
+        self.piece_selected = (None, None)
+        self.piece_locked = False
+        self.must_jump = False
 
     def is_redtangle(row, col):
         if (col >= 2 and col < Constants.GRID_SIZE - 2):
@@ -154,7 +163,7 @@ class Game:
     def swap_pieces(self, pos1, pos2):
         self.board[pos1[0]][pos1[1]], self.board[pos2[0]][pos2[1]] = self.board[pos2[0]][pos2[1]], self.board[pos1[0]][pos1[1]]
 
-    # Returns (eight_adj_flag, diagnol_flag)
+    # Returns (is_eight_adj, is_diagnol)
     def is_eight_adj(_from, to):
         return ((abs(_from[0] - to[0]) <= 1 and
                 abs(_from[1] - to[1]) <= 1), 
@@ -183,138 +192,121 @@ class Game:
                 self.board[Constants.GRID_SIZE - 1 - row][col + 2] = black_pieces[idx]
                 idx += 1
 
-    def select(self, pos, rotate=(False, False), double_jump=False):
+    def select_piece(self, pos):
         col, row = Game.get_row_col(pos)
-        _from = self.piece_selected
-        selecting_piece = not (rotate[0] or double_jump)
-        teams_turn = Constants.WHITE if self.white_turn else Constants.BLACK
-        selected_team = self.board[row][col].get_team()
-
-        # Black or White selected empty space
-        if selected_team == None:
-            if self.piece_selected != (None, None):
-                self.move((row, col), double_jump)
-        
-        # Selected its own piece
-        elif selected_team == teams_turn:
-            if selecting_piece:
-                if not self.piece_locked:
-                  self.piece_locked = True
-                  self.piece_selected = (row, col)
-                
-                elif (row, col) == self.piece_selected:
-                    self.make_move((row, col), double_jump)
-
-            elif self.piece_locked:
-                if rotate[0] and self.moved:
-                    self.board[row][col].rotate(rotate[1])
-                    
-        # Selected opposite team (Only valid case: jumping off the board to capture piece)
-        else:
-            if self.valid_suicide(self.piece_selected, (row, col)):
-                print('Valid Suicide')
-                if self.move((row, col)):
-                    print('Valid Move')
-                    self.delete_pieces([_from, (row, col)])
-                
-        self.debug()
-    
-    def make_move(self, to, double_jump):
-        self.swap_pieces(self.piece_selected, to)
-        self.white_turn = self.white_turn if double_jump else not self.white_turn
-        self.piece_selected = to if double_jump else (None, None)
-        self.piece_locked = double_jump
-        self.moved = double_jump
-
-    def check_winner(self):
-        for row in range(Constants.RECT_HEIGHT):
-            for col in range(Constants.RECT_WIDTH):
-                if self.board[row][col + 2].get_team() == Constants.BLACK:
-                    self.winner = (True, 'Black')
-                    break
-                if self.board[Constants.GRID_SIZE - 1 - row][col + 2].get_team() == Constants.WHITE:
-                    self.winner = (True, 'White')
-                    break
-
-    def move(self, to, double_jump):
-        success = False
-        eight_adj, diag = Game.is_eight_adj(self.piece_selected, to)
-        if eight_adj and not self.moved:
-            print('Is 8-adj')
-            red_tangle_flag, red_tangle_type = Game.is_redtangle(to[0], to[1])
-            red_tangle_flag = red_tangle_flag and red_tangle_type == (Constants.BOTTOM_RECT if self.white_turn else Constants.TOP_RECT)
-            # Red Tangle Flag -> Attempting to enter opponents redtangle
-            if red_tangle_flag:
-                if not diag:
-                    self.make_move(to, double_jump)
-                    success = True
+        # Can only rotate if piece is locked
+        if not self.piece_locked:
+            if self.board[row][col].get_team() == self.turn:
+                self.piece_selected = (row, col)
+            elif self.board[row][col].get_team() == None:
+                self.move((row, col))
+            # Opponents Piece
             else:
-                self.make_move(to, double_jump)
-                success = True
-        
-        # Attempting a Jump
-        elif not eight_adj:
-           valid_vert_jump, cap_vert_pieces = self.vertical_jump(self.piece_selected, to)
-           valid_horz_jump, cap_horz_pieces = self.horizontal_jump(self.piece_selected, to)
-           self.delete_pieces(cap_vert_pieces + cap_horz_pieces)
-           if valid_horz_jump and valid_vert_jump:
-              self.make_move(to, double_jump)
-              success = True
-           
-        self.check_winner()
-        return success
+                _from = self.piece_selected
+                if self.valid_suicide(self.piece_selected, (row, col)):
+                    if self.move((row, col)):
+                        print('Successful Suicide')
+                        self.delete_pieces([_from, (row, col)])
+                        self.end_turn()
+                    else:
+                        print('Unsuccessful Suicide')
+    
+    def move(self, to):
+        row, col = to
+        # Check a piece has been selected and moving to empty space
+        if self.piece_selected != (None, None):
+            # Handle the case for moving to eight adjacent
+            eight_adj, diagnol = Game.is_eight_adj(self.piece_selected, (row, col))
+            winning_move = self.is_winning_move((row, col))
+            if eight_adj and not self.must_jump:
+                if diagnol and not winning_move:
+                        self.make_move((row, col))
+                        return True
+                else:
+                    if winning_move:
+                        self.set_winner()
+                    self.make_move((row, col))
+                    return True
+            
+            # Perform a Jump
+            else:
+                cap_vert_pieces = self.vertical_jump(self.piece_selected, (row, col))
+                cap_horz_pieces = self.horizontal_jump(self.piece_selected, (row, col))
+                if len(cap_horz_pieces + cap_vert_pieces) > 0 and self.valid_jump(self.piece_selected, (row, col)):
+                    print('Jumping Piece Success')
+                    self.make_move((row, col))
+                    self.delete_pieces(cap_horz_pieces + cap_vert_pieces)
+                    self.piece_locked = False # Unlock Piece because it can double jump
+                    self.must_jump = True # Piece must jump if it moves
+                    if winning_move:
+                        self.set_winner()
+                    return True
+            return False
+
+    def make_move(self, to):
+        self.swap_pieces(self.piece_selected, to)
+        self.piece_selected = to
+        self.piece_locked = True
+
+    def rotate(self, clockwise):
+        row, col = self.piece_selected
+        self.board[row][col].rotate(clockwise)
+        self.movement_locked = True
+   
+    def is_winning_move(self, to):
+        OPPONENTS_RECT = Constants.BOTTOM_RECT if self.turn == Constants.WHITE else Constants.TOP_RECT
+        to_redtangle = Game.is_redtangle(to[0], to[1])
+        return to_redtangle[0] and to_redtangle[1] == OPPONENTS_RECT
     
     def vertical_jump(self, _from, to):
         if _from[0] == to[0]:
-            return (True, [])
+            return []
         prev = [_from[0], _from[1]]
         a = 1 if to[0] - _from[0] > 0 else -1
         curr_row = _from[0] + a
-        valid_jump = True
         captured_pieces = []
         own_team = self.board[_from[0]][_from[1]].get_team()
 
-        while curr_row != to[0] and valid_jump:
+        while curr_row != to[0]:
             print(f'Curr Piece: {self.board[curr_row][_from[1]]}')
             jumped_piece_team = self.board[curr_row][_from[1]].get_team()
-            if jumped_piece_team == None or jumped_piece_team == own_team:
-                valid_jump = False
-            elif self.is_blocked(prev, (curr_row, _from[1])):
-                valid_jump = False
+            if jumped_piece_team == None or jumped_piece_team == own_team or self.is_blocked(prev, (curr_row, _from[1])):
                 captured_pieces.clear()
+                break
             else:
                 captured_pieces.append((curr_row, _from[1]))
             prev[0] = curr_row
             curr_row += a
-        return (valid_jump, captured_pieces)
+        return captured_pieces
     
     def horizontal_jump(self, _from, to):
         if _from[1] == to[1]:
-            return (True, [])
+            return []
 
         prev = [_from[0], _from[1]]
         a = 1 if to[1] - _from[1] > 0 else -1
         curr_col = _from[1] + a
-        valid_jump = True
         captured_pieces = []
         own_team = self.board[_from[0]][_from[1]].get_team()
-        while curr_col != to[1] and valid_jump:
+        while curr_col != to[1]:
             jumped_piece_team = self.board[_from[0]][curr_col].get_team()
-            if jumped_piece_team == None or jumped_piece_team == own_team:
-                valid_jump = False
-            elif self.is_blocked(prev, (_from[0], curr_col)):
-                valid_jump = False
+            if jumped_piece_team == None or jumped_piece_team == own_team or self.is_blocked(prev, (_from[0], curr_col)):
                 captured_pieces.clear()
+                break
             else:
                 captured_pieces.append((_from[0], curr_col))
             prev[1] = curr_col
             curr_col += a
-        return (valid_jump, captured_pieces)
+        return captured_pieces
 
     def delete_pieces(self, pieces_to_delete):
         print(f'Deleting Pieces {pieces_to_delete}')
         for pos in pieces_to_delete:
             self.board[pos[0]][pos[1]] = Piece(None, None)
+    
+    # Jump is valid if it is in one direction
+    def valid_jump(self, _from, to):
+        return _from[0] - to[0] == 0 or _from[1] - to[1] == 0
 
     def update(self):
         for row in range(Constants.GRID_SIZE):
@@ -354,28 +346,28 @@ class RedTangle:
         window = pygame.display.set_mode((Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT))
         clock = pygame.time.Clock()
         red_tangle = Game(window)
-        while running and not red_tangle.get_winner()[1]: 
+        while running: 
             clock.tick(Constants.FPS)
-            pygame.display.set_caption(f"{Constants.TITLE}: {red_tangle.get_turn()}'S TURN")
+            caption = f"{Constants.TITLE}: {red_tangle.get_turn()}'S TURN" if red_tangle.winner == '' else f"{Constants.TITLE}: {red_tangle.get_winner()} WON"
+            pygame.display.set_caption(caption)
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     running = False
-                elif event.type == pygame.MOUSEBUTTONDOWN:
+                elif event.type == pygame.MOUSEBUTTONDOWN and not red_tangle.get_winner():
                     if event.button == Constants.LEFT_CLICK:
                         print('Left Click Detected')
-                        red_tangle.select(pygame.mouse.get_pos())
+                        red_tangle.select_piece(pygame.mouse.get_pos())
                     elif event.button == Constants.RIGHT_CLICK:
                         print('Right Click Detected')
-                        red_tangle.select(pygame.mouse.get_pos(), double_jump=True)
+                        red_tangle.end_turn()
                     elif event.button == Constants.SCROLL_UP:
                         print('Scroll Up')
-                        red_tangle.select(pygame.mouse.get_pos(), rotate=(True, True))
+                        red_tangle.rotate(clockwise=True)
                     elif event.button == Constants.SCROLL_DOWN:
-                        red_tangle.select(pygame.mouse.get_pos(), rotate=(True, False))
                         print('Scroll Down')
+                        red_tangle.rotate(clockwise=False)
 
             red_tangle.update()
-        print(red_tangle.get_winner()[0] + ' Won')
         pygame.quit()
 
 RedTangle.run()
