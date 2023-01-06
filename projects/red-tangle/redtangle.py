@@ -218,8 +218,10 @@ class Game:
             # Handle the case for moving to eight adjacent
             eight_adj, diagnol = Game.is_eight_adj(self.piece_selected, (row, col))
             winning_move = self.is_winning_move((row, col))
+            print(winning_move)
             if eight_adj and not self.must_jump:
-                if diagnol and not winning_move:
+                if diagnol:
+                    if not winning_move:
                         self.make_move((row, col))
                         return True
                 else:
@@ -232,6 +234,7 @@ class Game:
             else:
                 cap_vert_pieces = self.vertical_jump(self.piece_selected, (row, col))
                 cap_horz_pieces = self.horizontal_jump(self.piece_selected, (row, col))
+                print(cap_horz_pieces + cap_vert_pieces)
                 if len(cap_horz_pieces + cap_vert_pieces) > 0 and self.valid_jump(self.piece_selected, (row, col)):
                     print('Jumping Piece Success')
                     self.make_move((row, col))
@@ -249,9 +252,12 @@ class Game:
         self.piece_locked = True
 
     def rotate(self, clockwise):
+        if self.piece_selected == (None, None):
+            return
         row, col = self.piece_selected
-        self.board[row][col].rotate(clockwise)
-        self.movement_locked = True
+        if not self.must_jump:
+            self.board[row][col].rotate(clockwise)
+        self.piece_locked = True
    
     def is_winning_move(self, to):
         OPPONENTS_RECT = Constants.BOTTOM_RECT if self.turn == Constants.WHITE else Constants.TOP_RECT
