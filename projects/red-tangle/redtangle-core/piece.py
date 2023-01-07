@@ -1,11 +1,5 @@
 from constants import *
 
-# This module defines a Piece, breaks it up into two components the display and algorithm
-# Piece_Display job is only to render the piece on the screen (read only)
-# Piece_Algorithm job is to only rotate the piece
-# The idea behind this design is so the client is read only and server is write only
-
-# Base Piece
 class Piece:
     def __init__(self, color, orien):
         self.team_color = color
@@ -17,10 +11,6 @@ class Piece:
     def get_orientation(self):
         return self.orientation
 
-# The client will use this class for displaying the piece in the window
-class Piece_Display(Piece):
-    
-    # Rendering an all black piece is slighly different than the others
     def is_all_black_piece(self):
         if self.team_color != BLACK:
             return False
@@ -28,8 +18,14 @@ class Piece_Display(Piece):
             if ori_color != BLACK:
                 return False
         return True
+    
+    def rotate(self, clockwise):
+        if clockwise:
+            self.orientation[:]=self.orientation[1:ORIENTATIONS]+self.orientation[0:1]
+        else:
+            self.orientation = (self.orientation[len(self.orientation) - 1:len(self.orientation)]
+                                + self.orientation[0:len(self.orientation) - 1])
 
-    # Renders the piece on the window
     def draw(self, win, row, col):
         rect = pygame.Rect(col * SQUARE_WIDTH + PIECE_WIDTH_OFFSET, 
                                 row * SQUARE_HEIGHT + PIECE_HEIGHT_OFFSET,
@@ -59,16 +55,3 @@ class Piece_Display(Piece):
             pygame.draw.polygon(win, c, points)
             pygame.draw.circle(win, circle_edge_color, rect.center, RADIUS + circle_edge_thickenss)
             pygame.draw.circle(win, self.team_color, rect.center, RADIUS)
-
-# The Server will use this class to rotate pieces
-class Piece_Algorithm(Piece):
-    def rotate(self, clockwise):
-        if clockwise:
-            self.orientation[:]=self.orientation[1:ORIENTATIONS]+self.orientation[0:1]
-        else:
-            self.orientation = (self.orientation[len(self.orientation) - 1:len(self.orientation)]
-                                + self.orientation[0:len(self.orientation) - 1])
-
-# Running locally requires having an algorithm and display
-class Local_Piece(Piece_Algorithm, Piece_Display):
-    pass

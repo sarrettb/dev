@@ -34,63 +34,6 @@ class Constants:
     BLACK = pygame.Color(0, 0, 0)
     WHITE = pygame.Color(255, 255, 255)
 
-
-class Piece:
-    def __init__(self, color, orien):
-        self.team_color = color
-        self.orientation = orien 
-
-    def get_team(self):
-        return self.team_color
-
-    def get_orientation(self):
-        return self.orientation
-
-    def is_all_black_piece(self):
-        if self.team_color != Constants.BLACK:
-            return False
-        for ori_color in self.orientation:
-            if ori_color != Constants.BLACK:
-                return False
-        return True
-    
-    def rotate(self, clockwise):
-        if clockwise:
-            self.orientation[:]=self.orientation[1:Constants.ORIENTATIONS]+self.orientation[0:1]
-        else:
-            self.orientation = (self.orientation[len(self.orientation) - 1:len(self.orientation)]
-                                + self.orientation[0:len(self.orientation) - 1])
-
-    def draw(self, win, row, col):
-        rect = pygame.Rect(col * Constants.SQUARE_WIDTH + Constants.PIECE_WIDTH_OFFSET, 
-                                row * Constants.SQUARE_HEIGHT + Constants.PIECE_HEIGHT_OFFSET,
-                                Constants.PIECE_WIDTH, Constants.PIECE_HEIGHT)
-        pygame.draw.rect(win, Constants.BLACK, rect)
-        points = []
-        # Orientations are in the order (LEFT, BOTTOM, RIGHT, TOP)
-        for c, i in zip(self.orientation, range(4)):
-            match i:
-                case 0:
-                    points = [(rect.left, rect.top), (rect.left, rect.bottom), 
-                            (rect.centerx - Constants.X_OFFSET, rect.centery + Constants.Y_OFFSET ), 
-                            (rect.centerx - Constants.X_OFFSET, rect.centery - Constants.Y_OFFSET)]
-                case 1:
-                    points = [(rect.left, rect.bottom), (rect.right, rect.bottom),
-                            (rect.centerx - Constants.X_OFFSET, rect.centery - Constants.Y_OFFSET),
-                            (rect.centerx + Constants.X_OFFSET, rect.centery - Constants.Y_OFFSET)]
-                case 2:
-                    points = [(rect.right, rect.bottom), (rect.right, rect.top),
-                            (rect.centerx + Constants.X_OFFSET, rect.centery - Constants.Y_OFFSET),
-                            (rect.centerx + Constants.X_OFFSET, rect.centery + Constants.Y_OFFSET)]
-                case 3:
-                    points = [(rect.left, rect.top), (rect.right, rect.top),
-                            (rect.centerx - Constants.X_OFFSET, rect.centery + Constants.Y_OFFSET),
-                            (rect.centerx + Constants.X_OFFSET, rect.centery + Constants.Y_OFFSET)]
-            circle_edge_color, circle_edge_thickenss = (Constants.WHITE, 1) if self.is_all_black_piece() else (Constants.BLACK, Constants.THICKNESS)
-            pygame.draw.polygon(win, c, points)
-            pygame.draw.circle(win, circle_edge_color, rect.center, Constants.RADIUS + circle_edge_thickenss)
-            pygame.draw.circle(win, self.team_color, rect.center, Constants.RADIUS)
-
 class Game: 
     def __init__(self, win):
         self.window = win
@@ -152,10 +95,6 @@ class Game:
 
         # Default -- Bug if occurs (TODO return error)
         return False
-
-    def get_square_color(row, col):
-        flag, _ = Game.is_redtangle(row, col)
-        return Constants.RED if flag else Constants.GOLD
     
     def get_row_col(pos):
         return (pos[0] // Constants.SQUARE_WIDTH, pos[1] // Constants.SQUARE_HEIGHT)
