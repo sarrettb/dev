@@ -1,4 +1,4 @@
-from game import RedTangle_LocalDisplay
+from game import RedTangle
 
-redtangle = RedTangle_LocalDisplay()
+redtangle = RedTangle.create('Local')
 redtangle.run()
