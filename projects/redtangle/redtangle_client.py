@@ -204,4 +204,4 @@ class RedTangleClient:
 
 # Runs the Client
 if __name__ == "__main__":
-    RedTangleClient()
+    RedTangleClient(host='192.168.1.93')
