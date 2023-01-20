@@ -1,7 +1,7 @@
 import pygame
 import math
     
-FPS = 60
+FPS = 30
 LEFT_CLICK = 1
 RIGHT_CLICK = 3
 SCROLL_UP = 4

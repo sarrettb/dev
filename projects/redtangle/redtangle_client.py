@@ -16,6 +16,10 @@ class GameFullError(Exception):
     def __init__(self):
         pass
 
+class UserQuit(Exception):
+    def __init__(self):
+        pass
+
 class RedTangleClient:
     def __init__(self, host='localhost', server_port=50051):
         self._host = host
@@ -73,6 +77,8 @@ class RedTangleClient:
                                               orien=[self.__str_to_color(ori) for ori in orientation])
 
     def _update_game_status(self, game_status):
+        if self._opponent and self._opponent != game_status.opponent:
+            self.user_left()
         self._turn = game_status.turn
         self._winner = game_status.winner
         self._opponent = game_status.opponent
@@ -83,7 +89,13 @@ class RedTangleClient:
         self._update_game_status(game_status=status.game_status)
         
     def connect(self):
-        self._username = redtangle_pb2.Username(username=pyautogui.prompt(title='Redtangle', text='Enter your username:'))
+        name = pyautogui.prompt(title='Redtangle', text='Enter username:')
+        while not name:
+            if name == None:
+                raise UserQuit()
+            name = pyautogui.prompt(title='Redtangle', text='Not a valid username. Enter a different username:')
+        
+        self._username = redtangle_pb2.Username(username=name)
         connection_response = self._client.Connect(self._username)
         self._check_codes(connection_response.status.server_status)
         while connection_response.status.server_status == redtangle_pb2.USER_EXISTS:
@@ -116,7 +128,7 @@ class RedTangleClient:
         status_updated = False
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                return False
+                raise UserQuit()
             elif event.type == pygame.MOUSEBUTTONDOWN and not self._winner:
                 if event.button == LEFT_CLICK:
                     print('Left Click Detected')
@@ -151,29 +163,42 @@ class RedTangleClient:
     def user_quit(self):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                return True
-        return False
+                raise UserQuit()
+
+    
+    def user_left(self):
+        response = pyautogui.confirm(title='Redtangle',
+                                     text=f'{self._username.username} has left the game.', 
+                                     buttons=['OK', 'Leave Game']
+                                    )
+        if response == 'Leave Game':
+            raise UserQuit()
+
+    def close(self):
+        if self._connected:
+            self._client.Disconnect(self._username)
+            self._connected = False
+        self._channel.close()
 
     # Main Loop   
     def _run(self):
         try:
             self.connect()
             self.init_game()
-            running = True
             caption = ''
-            while running:
+            while True:
                 if self._winner:
                     caption = f'{TITLE}: {self._username.username if self._winner == self._team_color else self._opponent} Won'
-                    running = not self.user_quit()
+                    self.user_quit()
                 elif self._opponent:
                     caption = f'{TITLE}: {self._username.username + " vs " + self._opponent} - '
                     caption += "Your Turn" if self._team_color == self._turn else self._opponent + "'s Turn"
-                    running = self._process_actions()
+                    self._process_actions()
                 else:
                     caption = f'{TITLE}: Waiting for an opponent to join...'
                     response_status = self._client.GetStatus(self._username)
                     self.set_status(response_status)
-                    running = not self.user_quit()
+                    self.user_quit()
                 
                 pygame.display.set_caption(caption)
                 self.clock.tick(FPS)
@@ -190,17 +215,14 @@ class RedTangleClient:
         except GameFullError:
             print('The redtangle game is currently full. Please try again later.')
 
+        except UserQuit:
+            print('User has requested to stop the application.')
+
         except Exception as e:
             print(f'{traceback.format_exc()}')
         
         finally:
             self.close()
-
-    def close(self):
-        if self._connected:
-            self._client.Disconnect(self._username)
-            self._connected = False
-        self._channel.close()
 
 # Runs the Client
 if __name__ == "__main__":
