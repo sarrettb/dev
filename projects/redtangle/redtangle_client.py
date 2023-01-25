@@ -1,22 +1,17 @@
-from redtangle_local import RedTangleLocal as redtangle_local
+from constants import *
 from piece import Piece
-from concurrent import futures
+from redtangle_local import *
 from proto import redtangle_pb2_grpc, redtangle_pb2
 import grpc
 import pyautogui
 import traceback
 import json
-from constants import *
 from time import sleep
 
 class RedtangleServerError(Exception):
     def __init__(self):
         pass
 class GameFullError(Exception):
-    def __init__(self):
-        pass
-
-class UserQuit(Exception):
     def __init__(self):
         pass
 
@@ -55,18 +50,6 @@ class RedTangleClient:
             case '':
                 return None
 
-    def print_board(self):
-        for row in range(GRID_SIZE):
-            for col in range(GRID_SIZE):
-                team_color = self._board[row][col].get_team()
-                if team_color == WHITE:
-                    print('W', end='\t')
-                elif team_color == BLACK:
-                    print('B', end='\t')
-                else:
-                    print('*', end='\t')
-            print()
-    
     def decode_board(self, board_json):
         my_dict = json.loads(board_json)
         for row in range(GRID_SIZE):
@@ -115,7 +98,7 @@ class RedTangleClient:
                                 pygame.Rect(col * SQUARE_WIDTH, 
                                 row * SQUARE_HEIGHT,
                                 SQUARE_WIDTH, SQUARE_HEIGHT))
-                pygame.draw.rect(self.window, redtangle_local.get_square_color(row, col), 
+                pygame.draw.rect(self.window, RedTangleLocal.get_square_color(row, col), 
                                 pygame.Rect(col * SQUARE_WIDTH + EDGE_SIZE, 
                                 row * SQUARE_HEIGHT + EDGE_SIZE,
                                 SQUARE_WIDTH - EDGE_SIZE, SQUARE_HEIGHT - EDGE_SIZE))
@@ -168,7 +151,7 @@ class RedTangleClient:
     
     def user_left(self):
         response = pyautogui.confirm(title='Redtangle',
-                                     text=f'{self._username.username} has left the game.', 
+                                     text=f'{self._opponent} has left the game.', 
                                      buttons=['OK', 'Leave Game']
                                     )
         if response == 'Leave Game':
