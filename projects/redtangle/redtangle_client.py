@@ -186,22 +186,10 @@ class RedTangleClient:
                 pygame.display.set_caption(caption)
                 self.clock.tick(FPS)
                 self._update_board()
-        
-        except grpc.RpcError as grpc_error:
-            if grpc_error.code() == grpc.StatusCode.UNAVAILABLE:
-                print('Redtangle Server is unavaliable.')
-            else:
-                print(f'{traceback.format_exc()}')
-        except RedtangleServerError:
-            print('Redtangle Server has entered bad state.')
-        
-        except GameFullError:
-            print('The redtangle game is currently full. Please try again later.')
-
-        except UserQuit:
-            print('User has requested to stop the application.')
-
+    
         except Exception as e:
+            pyautogui.alert(title='Redtangle',
+                            text=f'Error:{traceback.format_exc()}')
             print(f'{traceback.format_exc()}')
         
         finally:
