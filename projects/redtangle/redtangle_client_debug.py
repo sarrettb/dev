@@ -15,6 +15,7 @@ class GameFullError(Exception):
     def __init__(self):
         pass
 
+################ TRY AND USE WITH STATEMENT ON CHANNEL #########################################
 class RedTangleClient:
     def __init__(self, host='localhost', server_port=50051):
         print(host)

@@ -21,7 +21,7 @@ class RedTangleServer(redtangle_pb2_grpc.RedTangleServicer):
     def launch_server(self):
         print('Launching Server...')
         redtangle_pb2_grpc.add_RedTangleServicer_to_server(self, self._server)
-        self._server.add_insecure_port('[::]:' + self._port)
+        print(self._server.add_insecure_port('[::]:' + self._port))
         self._server.start()
         pyautogui.confirm(title='Redtangle', text='Server is Running!', buttons=['Stop Server']) 
         self._server.stop(grace=None)
