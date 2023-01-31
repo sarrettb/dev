@@ -1,5 +1,5 @@
 dev.code-workspace
-dsa/gfg *.exe
+*.exe
 dsa/.vscode/c_cpp_properties.json
 dsa/.vscode/launch.json
 projects/red-tangle/redtangle-core/__pycache__/piece.cpython-311.pyc
