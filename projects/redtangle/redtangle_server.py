@@ -10,7 +10,7 @@ import traceback
 # Server to run the RedTangle Game Remotely 
 # Only two players can be connected
 class RedTangleServer(redtangle_pb2_grpc.RedTangleServicer):
-    def __init__(self, port=50051):
+    def __init__(self, port=50052):
         self._port = str(port)
         self._server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
         self._redtangle = RedTangleAlgorithm()
@@ -23,7 +23,7 @@ class RedTangleServer(redtangle_pb2_grpc.RedTangleServicer):
         redtangle_pb2_grpc.add_RedTangleServicer_to_server(self, self._server)
         print(self._server.add_insecure_port('[::]:' + self._port))
         self._server.start()
-        pyautogui.confirm(title='Redtangle', text='Server is Running!', buttons=['Stop Server']) 
+        pyautogui.confirm(title='Redtangle', text='Server is Running', buttons=['Stop Server']) 
         self._server.stop(grace=None)
         self._server.wait_for_termination()
         print('Server Stopped.')

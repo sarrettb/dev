@@ -16,7 +16,7 @@ class GameFullError(Exception):
         pass
 
 class RedTangleClient:
-    def __init__(self, host='localhost', server_port=50051):
+    def __init__(self, host='localhost', server_port=50052):
         print(host)
         self._host = host
         self._server_port = server_port
@@ -189,6 +189,9 @@ class RedTangleClient:
                 self.clock.tick(FPS)
                 self._update_board()
     
+        except UserQuit as uq:
+            print('User Quit')
+        
         except Exception as e:
             pyautogui.alert(title='Redtangle',
                             text=f'Error:{traceback.format_exc()}')
