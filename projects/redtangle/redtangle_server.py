@@ -10,7 +10,7 @@ import traceback
 # Server to run the RedTangle Game Remotely 
 # Only two players can be connected
 class RedTangleServer(redtangle_pb2_grpc.RedTangleServicer):
-    def __init__(self, port=50052):
+    def __init__(self, port=50051):
         self._port = str(port)
         self._server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
         self._redtangle = RedTangleAlgorithm()

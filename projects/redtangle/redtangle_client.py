@@ -16,11 +16,11 @@ class GameFullError(Exception):
         pass
 
 class RedTangleClient:
-    def __init__(self, host='localhost', server_port=50052):
+    def __init__(self, host='localhost', server_port=50051):
         print(host)
         self._host = host
         self._server_port = server_port
-        self._channel = grpc.insecure_channel('{}:{}'.format(self._host, self._server_port))
+        self._channel = grpc.insecure_channel('localhost:50051', options=(('grpc.enable_http_proxy', 0),))
         print(self._channel)
         self._client = redtangle_pb2_grpc.RedTangleStub(self._channel)
         self._board = [[Piece(None, [None, None, None, None]) for i in range(GRID_SIZE)] for j in range(GRID_SIZE)]
@@ -202,4 +202,5 @@ class RedTangleClient:
 
 # Runs the Client
 if __name__ == "__main__":
+    print('Hello')
     RedTangleClient(host='192.168.1.93')
