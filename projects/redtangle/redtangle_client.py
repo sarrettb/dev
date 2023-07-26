@@ -61,7 +61,7 @@ class RedTangleClient:
             help="The servername to use to call the API.",
         )
         parser.add_argument(
-            "--ca_path", type=str, default="roots.pem", help="The path to the CA."
+            "--ca_path", type=str, default="grpc.crt", help="The path to the CA."
         )
         parser.add_argument(
             "--auth_token", default=None, help="The JWT auth token to use for the call"
@@ -90,7 +90,7 @@ class RedTangleClient:
                 )
             self._channel = grpc.secure_channel(f"{host}:{port}", creds, channel_opts)
         else:
-            self._channel = grpc.insecure_channel(f"{host}:{port}")
+            self._channel = grpc.insecure_channel(f"{host}:{port}", options=(("grpc.enable_http_proxy", 0),))
         
         self._client = redtangle_pb2_grpc.RedTangleStub(self._channel)
 
