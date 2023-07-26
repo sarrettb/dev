@@ -6,6 +6,7 @@ import grpc
 import pyautogui
 import traceback
 import json
+import argparse
 from time import sleep
 
 class RedtangleServerError(Exception):
@@ -20,16 +21,79 @@ class RedTangleClient:
         print(host)
         self._host = host
         self._server_port = server_port
-        self._channel = grpc.insecure_channel('localhost:50051', options=(('grpc.enable_http_proxy', 0),))
-        print(self._channel)
-        self._client = redtangle_pb2_grpc.RedTangleStub(self._channel)
+        #self._channel = grpc.insecure_channel('localhost:50051', options=(('grpc.enable_http_proxy', 0),))
+        #print(self._channel)
         self._board = [[Piece(None, [None, None, None, None]) for i in range(GRID_SIZE)] for j in range(GRID_SIZE)]
         self._turn = ''
         self._winner = ''
         self._team_color = ''
         self._opponent = ''
         self._connected = False
+        args = self.parseCommandLine()
+        self.setup_client(
+            args.host,
+            args.port,
+            args.api_key,
+            args.auth_token,
+            args.timeout,
+            args.use_tls,
+            args.servername,
+            args.ca_path,
+        )
         self._run()
+
+    def parseCommandLine(self):
+        parser = argparse.ArgumentParser(
+            description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter
+        )
+        parser.add_argument("--host", default="192.168.1.93", help="The host to connect to")
+        parser.add_argument("--port", type=int, default=50051, help="The port to connect to")
+        parser.add_argument(
+            "--timeout", type=int, default=10, help="The call timeout, in seconds"
+        )
+        parser.add_argument(
+            "--api_key", default=None, help="The API key to use for the call"
+        )
+        parser.add_argument(
+            "--servername",
+            type=str,
+            default="",
+            help="The servername to use to call the API.",
+        )
+        parser.add_argument(
+            "--ca_path", type=str, default="roots.pem", help="The path to the CA."
+        )
+        parser.add_argument(
+            "--auth_token", default=None, help="The JWT auth token to use for the call"
+        )
+        parser.add_argument(
+            "--use_tls",
+            type=bool,
+            default=False,
+            help="Enable when the server requires TLS",
+        )
+        args = parser.parse_args()
+        return args
+
+    def setup_client(self, host, port, api_key, auth_token, timeout, use_tls, servername_override, ca_path):
+        print(f"{host}:{port}")
+        if use_tls:
+            with open(ca_path, "rb") as f:
+                creds = grpc.ssl_channel_credentials(f.read())
+            channel_opts = ()
+            if servername_override:
+                channel_opts += (
+                    (
+                        "grpc.ssl_target_name_override",
+                        servername_override,
+                    ),
+                )
+            self._channel = grpc.secure_channel(f"{host}:{port}", creds, channel_opts)
+        else:
+            self._channel = grpc.insecure_channel(f"{host}:{port}")
+        
+        self._client = redtangle_pb2_grpc.RedTangleStub(self._channel)
+
     
     def init_game(self):
         pygame.init()
@@ -202,5 +266,4 @@ class RedTangleClient:
 
 # Runs the Client
 if __name__ == "__main__":
-    print('Hello')
-    RedTangleClient(host='192.168.1.93')
+       RedTangleClient()
