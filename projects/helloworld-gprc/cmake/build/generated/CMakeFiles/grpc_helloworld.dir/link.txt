@@ -1,0 +1,2 @@
+/usr/bin/ar qc libgrpc_helloworld.a  CMakeFiles/grpc_helloworld.dir/helloworld.pb.cc.o CMakeFiles/grpc_helloworld.dir/helloworld.grpc.pb.cc.o
+/usr/bin/ranlib libgrpc_helloworld.a

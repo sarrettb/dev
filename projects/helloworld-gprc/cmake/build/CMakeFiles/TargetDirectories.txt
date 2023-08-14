@@ -1,0 +1,8 @@
+/home/blake/dev/dev/projects/redtangle-cpp/cmake/build/CMakeFiles/rebuild_cache.dir
+/home/blake/dev/dev/projects/redtangle-cpp/cmake/build/CMakeFiles/edit_cache.dir
+/home/blake/dev/dev/projects/redtangle-cpp/cmake/build/src/CMakeFiles/edit_cache.dir
+/home/blake/dev/dev/projects/redtangle-cpp/cmake/build/src/CMakeFiles/rebuild_cache.dir
+/home/blake/dev/dev/projects/redtangle-cpp/cmake/build/src/CMakeFiles/helloworld.dir
+/home/blake/dev/dev/projects/redtangle-cpp/cmake/build/generated/CMakeFiles/rebuild_cache.dir
+/home/blake/dev/dev/projects/redtangle-cpp/cmake/build/generated/CMakeFiles/edit_cache.dir
+/home/blake/dev/dev/projects/redtangle-cpp/cmake/build/generated/CMakeFiles/grpc_helloworld.dir
