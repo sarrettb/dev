@@ -1,1 +1,2 @@
 add_subdirectory(helloworld_server)
+add_subdirectory(helloworld_client)

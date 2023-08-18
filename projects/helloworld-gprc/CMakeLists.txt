@@ -14,5 +14,7 @@ find_package(gRPC CONFIG REQUIRED)
 set(_GRPC_GRPCPP gRPC::grpc++)
 message(STATUS "Using gRPC ${gRPC_VERSION}")
 
+message("bin: ${CMAKE_BINARY_DIR}")
+add_subdirectory("${PROJECT_SOURCE_DIR}/../butility" ${CMAKE_BINARY_DIR}/butility)
 add_subdirectory(src)
 add_subdirectory(generated)

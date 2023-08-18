@@ -1,21 +1,30 @@
+#ifndef HELLOWORLD_SERVER_H
+#define HELLOWORLD_SERVER_H
+
 #include <string> 
 #include <grpcpp/grpcpp.h>
 #include "helloworld.grpc.pb.h"
 
-using grpc::Server;
-using grpc::ServerBuilder;
-using grpc::ServerContext;
-using grpc::Status; 
+class HelloWorldService : public helloworld::HelloWorld::Service {
+    grpc::Status SayHello(grpc::ServerContext* context, const helloworld::HelloRequest* request, helloworld::HelloResponse* response) override; 
+};
 
-using helloworld::HelloWorld;
-using helloworld::HelloRequest;
-using helloworld::HelloResponse;
-
-class HelloWorldService final : public helloworld::HelloWorld::Service {
+class HelloWorldServer {
   private:
-    Status SayHello(ServerContext* context, const helloworld::HelloRequest* request, helloworld::HelloResponse* response) override; 
+    int port_; 
+    std::string ip_address_; 
+    HelloWorldService helloworld_service_; 
+    std::shared_ptr<grpc::ServerCredentials> creds_; 
+    std::unique_ptr<grpc::Server> server_;
 
   public:
-    void start_server(const std::string& ip, int port = 50052); 
-    void start_server(const std::string&& ip, int port = 50052); 
+    HelloWorldServer(); 
+    ~HelloWorldServer(); 
+    void set_address(const std::string& ip); 
+    void set_address(const std::string&& ip); 
+    void set_port(int p); 
+    void set_server_credentials(std::shared_ptr<grpc::ServerCredentials> creds);
+    void start_server(); 
 };
+
+#endif 
