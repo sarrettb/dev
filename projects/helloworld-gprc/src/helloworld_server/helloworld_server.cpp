@@ -3,7 +3,8 @@
 
 grpc::Status HelloWorldService::SayHello(grpc::ServerContext* context, const helloworld::HelloRequest* request, helloworld::HelloResponse* response) {
     std::cout << "Received Request: " << request->message() << std::endl; 
-    response->set_message("Hello " + request->message());
+    requests[request->message()]++; 
+    response->set_message("Hello " + request->message() + ". You have said hello " + std::to_string(requests[request->message()]) + " time(s).");
     return grpc::Status::OK; 
 }
 

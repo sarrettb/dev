@@ -5,7 +5,9 @@
 #include <grpcpp/grpcpp.h>
 #include "helloworld.grpc.pb.h"
 
-class HelloWorldService : public helloworld::HelloWorld::Service {
+class HelloWorldService final : public helloworld::HelloWorld::Service {
+    private:
+    std::unordered_map<std::string, int> requests; 
     grpc::Status SayHello(grpc::ServerContext* context, const helloworld::HelloRequest* request, helloworld::HelloResponse* response) override; 
 };
 
