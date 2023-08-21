@@ -4,12 +4,8 @@
 int main(int argc, char* argv[]) {
     auto builder = HelloWorldClientBuilder(); 
     std::unordered_map<std::string, std::string> options = butility::parse_commandline(argc, argv);
-    if (options.find("ip") != options.end()) {
-        builder.set_address(options["ip"]);
-    }
-    if (options.find("port") != options.end()) {
-        builder.set_port(stoi(options["port"])); 
-    }
+    builder.set_address("10.0.2.15");
+    builder.set_port(50052); 
     auto client = builder.build_client(); 
     std::string name;
     std::cout << "Enter your name: ";
