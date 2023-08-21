@@ -1,1 +1,1 @@
-add_library(butility SHARED butility.cpp)
+add_library(butility STATIC butility.cpp)

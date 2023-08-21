@@ -5,6 +5,7 @@ cmake_minimum_required(VERSION 3.15)
 project(HELLO_WORLD)
 
 # Protobuf
+set(CMAKE_MSVC_RUNTIME_LIBRARY MultiThreaded$<$<CONFIG:Debug>:Debug>)
 set(protobuf_MODULE_COMPATIBLE TRUE)
 find_package(Protobuf CONFIG REQUIRED)
 message(STATUS "Using protobuf ${protobuf_VERSION}")
