@@ -29,4 +29,5 @@ target_link_libraries(grpc_helloworld PUBLIC
                       protobuf::libprotoc 
                       protobuf::libprotobuf
                       protobuf::libprotobuf-lite
+                      gRPC::grpc++_reflection
                     )
