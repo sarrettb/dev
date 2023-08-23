@@ -17,7 +17,7 @@ std::string HelloWorldClient::SayHello(const std::string& message) {
     
     else {
         std::cout << status.error_code() << ": " << status.error_message() << std::endl;
-        return "";
+        return "RPC failed\n";
     }
 }
 

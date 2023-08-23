@@ -1,6 +1,9 @@
 #include "helloworld_server.h"
 #include "butility.h"
 
+#include <grpcpp/health_check_service_interface.h>
+#include <grpcpp/ext/proto_server_reflection_plugin.h>
+
 grpc::Status HelloWorldService::SayHello(grpc::ServerContext* context, const helloworld::HelloRequest* request, helloworld::HelloResponse* response) {
     std::cout << "Received Request: " << request->message() << std::endl; 
     requests[request->message()]++; 
@@ -35,10 +38,13 @@ void HelloWorldServer::set_server_credentials(std::shared_ptr<grpc::ServerCreden
 }
 
 void HelloWorldServer::start_server() {
-    std::string address = ip_address_ + ':' + std::to_string(port_);  
+    std::string address = ip_address_ + ':' + std::to_string(port_); 
+    grpc::EnableDefaultHealthCheckService(true);
+    grpc::reflection::InitProtoReflectionServerBuilderPlugin(); 
     grpc::ServerBuilder builder;
     builder.AddListeningPort(address, creds_);
     builder.RegisterService(&helloworld_service_); 
     server_ = builder.BuildAndStart();
+    server_->Wait(); 
     std::cout << "Server listening on port: " << address << std::endl;
 }
