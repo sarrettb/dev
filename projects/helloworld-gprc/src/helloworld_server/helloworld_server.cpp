@@ -45,6 +45,6 @@ void HelloWorldServer::start_server() {
     builder.AddListeningPort(address, creds_);
     builder.RegisterService(&helloworld_service_); 
     server_ = builder.BuildAndStart();
-    server_->Wait(); 
+    //server_->Wait(); 
     std::cout << "Server listening on port: " << address << std::endl;
 }
