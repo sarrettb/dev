@@ -1,9 +1,6 @@
-[submodule "projects/redtangle-cpp/sdl2_gfx"]
-	path = projects/redtangle-cpp/sdl2_gfx
-	url = https://github.com/RobLoach/sdl2_gfx.git
 [submodule "projects/redtangle-cpp/libs/imgui"]
 	path = projects/redtangle-cpp/libs/imgui
 	url = https://github.com/ocornut/imgui.git
-[submodule "projects/redtangle-cpp/libs/SDL"]
-	path = projects/redtangle-cpp/libs/SDL
+[submodule "projects/redtangle-cpp/SDL"]
+	path = projects/redtangle-cpp/SDL
 	url = https://github.com/libsdl-org/SDL.git
