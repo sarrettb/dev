@@ -143,6 +143,58 @@ imgui/fast:
 .PHONY : imgui/fast
 
 #=============================================================================
+# Target rules for targets named uninstall
+
+# Build rule for target.
+uninstall: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 uninstall
+.PHONY : uninstall
+
+# fast build rule for target.
+uninstall/fast:
+	$(MAKE) $(MAKESILENT) -f libs/SDL/CMakeFiles/uninstall.dir/build.make libs/SDL/CMakeFiles/uninstall.dir/build
+.PHONY : uninstall/fast
+
+#=============================================================================
+# Target rules for targets named SDL3_test
+
+# Build rule for target.
+SDL3_test: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 SDL3_test
+.PHONY : SDL3_test
+
+# fast build rule for target.
+SDL3_test/fast:
+	$(MAKE) $(MAKESILENT) -f libs/SDL/CMakeFiles/SDL3_test.dir/build.make libs/SDL/CMakeFiles/SDL3_test.dir/build
+.PHONY : SDL3_test/fast
+
+#=============================================================================
+# Target rules for targets named SDL3-shared
+
+# Build rule for target.
+SDL3-shared: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 SDL3-shared
+.PHONY : SDL3-shared
+
+# fast build rule for target.
+SDL3-shared/fast:
+	$(MAKE) $(MAKESILENT) -f libs/SDL/CMakeFiles/SDL3-shared.dir/build.make libs/SDL/CMakeFiles/SDL3-shared.dir/build
+.PHONY : SDL3-shared/fast
+
+#=============================================================================
+# Target rules for targets named SDL3-static
+
+# Build rule for target.
+SDL3-static: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 SDL3-static
+.PHONY : SDL3-static
+
+# fast build rule for target.
+SDL3-static/fast:
+	$(MAKE) $(MAKESILENT) -f libs/SDL/CMakeFiles/SDL3-static.dir/build.make libs/SDL/CMakeFiles/SDL3-static.dir/build
+.PHONY : SDL3-static/fast
+
+#=============================================================================
 # Target rules for targets named redtangle
 
 # Build rule for target.
@@ -163,6 +215,10 @@ help:
 	@echo "... depend"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
+	@echo "... uninstall"
+	@echo "... SDL3-shared"
+	@echo "... SDL3-static"
+	@echo "... SDL3_test"
 	@echo "... imgui"
 	@echo "... redtangle"
 .PHONY : help

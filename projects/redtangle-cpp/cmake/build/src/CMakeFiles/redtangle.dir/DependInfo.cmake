@@ -21,8 +21,8 @@ set(CMAKE_CXX_TARGET_INCLUDE_PATH
   "../../src/game"
   "../../src/piece"
   "../../src/ui"
-  "/home/bsarrett/.local/include"
-  "/home/bsarrett/.local/include/SDL2"
+  "../../libs/SDL/include"
+  "../../libs/imgui"
   )
 
 # Targets to which this target links.

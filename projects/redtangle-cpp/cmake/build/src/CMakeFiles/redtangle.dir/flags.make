@@ -4,7 +4,7 @@
 # compile CXX with /usr/bin/c++
 CXX_DEFINES = 
 
-CXX_INCLUDES = -I/home/bsarrett/dev/projects/redtangle-cpp/src/redtangle -I/home/bsarrett/dev/projects/redtangle-cpp/src -I/home/bsarrett/dev/projects/redtangle-cpp/src/app -I/home/bsarrett/dev/projects/redtangle-cpp/src/game -I/home/bsarrett/dev/projects/redtangle-cpp/src/piece -I/home/bsarrett/dev/projects/redtangle-cpp/src/ui -isystem /home/bsarrett/.local/include -isystem /home/bsarrett/.local/include/SDL2
+CXX_INCLUDES = -I/home/bsarrett/dev/projects/redtangle-cpp/src/redtangle -I/home/bsarrett/dev/projects/redtangle-cpp/src -I/home/bsarrett/dev/projects/redtangle-cpp/src/app -I/home/bsarrett/dev/projects/redtangle-cpp/src/game -I/home/bsarrett/dev/projects/redtangle-cpp/src/piece -I/home/bsarrett/dev/projects/redtangle-cpp/src/ui -I/home/bsarrett/dev/projects/redtangle-cpp/libs/SDL/include -I/home/bsarrett/dev/projects/redtangle-cpp/libs/imgui
 
 CXX_FLAGS = 
 

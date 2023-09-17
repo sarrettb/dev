@@ -4,6 +4,8 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
+  "/home/bsarrett/dev/projects/redtangle-cpp/libs/imgui/backends/imgui_impl_sdl2.cpp" "/home/bsarrett/dev/projects/redtangle-cpp/cmake/build/libs/CMakeFiles/imgui.dir/imgui/backends/imgui_impl_sdl2.cpp.o"
+  "/home/bsarrett/dev/projects/redtangle-cpp/libs/imgui/backends/imgui_impl_sdlrenderer2.cpp" "/home/bsarrett/dev/projects/redtangle-cpp/cmake/build/libs/CMakeFiles/imgui.dir/imgui/backends/imgui_impl_sdlrenderer2.cpp.o"
   "/home/bsarrett/dev/projects/redtangle-cpp/libs/imgui/imgui.cpp" "/home/bsarrett/dev/projects/redtangle-cpp/cmake/build/libs/CMakeFiles/imgui.dir/imgui/imgui.cpp.o"
   "/home/bsarrett/dev/projects/redtangle-cpp/libs/imgui/imgui_demo.cpp" "/home/bsarrett/dev/projects/redtangle-cpp/cmake/build/libs/CMakeFiles/imgui.dir/imgui/imgui_demo.cpp.o"
   "/home/bsarrett/dev/projects/redtangle-cpp/libs/imgui/imgui_draw.cpp" "/home/bsarrett/dev/projects/redtangle-cpp/cmake/build/libs/CMakeFiles/imgui.dir/imgui/imgui_draw.cpp.o"
@@ -14,6 +16,10 @@ set(CMAKE_CXX_COMPILER_ID "GNU")
 
 # The include file search paths:
 set(CMAKE_CXX_TARGET_INCLUDE_PATH
+  "../../libs/imgui"
+  "../../libs/imgui_impl_sdl2.h"
+  "../../libs/imgui_impl_sdlrenderer2.h"
+  "../../libs/include/SDL3"
   )
 
 # Targets to which this target links.

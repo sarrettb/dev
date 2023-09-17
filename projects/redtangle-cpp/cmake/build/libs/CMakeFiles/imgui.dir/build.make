@@ -76,9 +76,35 @@ include libs/CMakeFiles/imgui.dir/progress.make
 # Include the compile flags for this target's objects.
 include libs/CMakeFiles/imgui.dir/flags.make
 
+libs/CMakeFiles/imgui.dir/imgui/backends/imgui_impl_sdl2.cpp.o: libs/CMakeFiles/imgui.dir/flags.make
+libs/CMakeFiles/imgui.dir/imgui/backends/imgui_impl_sdl2.cpp.o: ../../libs/imgui/backends/imgui_impl_sdl2.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/bsarrett/dev/projects/redtangle-cpp/cmake/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object libs/CMakeFiles/imgui.dir/imgui/backends/imgui_impl_sdl2.cpp.o"
+	cd /home/bsarrett/dev/projects/redtangle-cpp/cmake/build/libs && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/imgui.dir/imgui/backends/imgui_impl_sdl2.cpp.o -c /home/bsarrett/dev/projects/redtangle-cpp/libs/imgui/backends/imgui_impl_sdl2.cpp
+
+libs/CMakeFiles/imgui.dir/imgui/backends/imgui_impl_sdl2.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/imgui.dir/imgui/backends/imgui_impl_sdl2.cpp.i"
+	cd /home/bsarrett/dev/projects/redtangle-cpp/cmake/build/libs && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/bsarrett/dev/projects/redtangle-cpp/libs/imgui/backends/imgui_impl_sdl2.cpp > CMakeFiles/imgui.dir/imgui/backends/imgui_impl_sdl2.cpp.i
+
+libs/CMakeFiles/imgui.dir/imgui/backends/imgui_impl_sdl2.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/imgui.dir/imgui/backends/imgui_impl_sdl2.cpp.s"
+	cd /home/bsarrett/dev/projects/redtangle-cpp/cmake/build/libs && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/bsarrett/dev/projects/redtangle-cpp/libs/imgui/backends/imgui_impl_sdl2.cpp -o CMakeFiles/imgui.dir/imgui/backends/imgui_impl_sdl2.cpp.s
+
+libs/CMakeFiles/imgui.dir/imgui/backends/imgui_impl_sdlrenderer2.cpp.o: libs/CMakeFiles/imgui.dir/flags.make
+libs/CMakeFiles/imgui.dir/imgui/backends/imgui_impl_sdlrenderer2.cpp.o: ../../libs/imgui/backends/imgui_impl_sdlrenderer2.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/bsarrett/dev/projects/redtangle-cpp/cmake/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object libs/CMakeFiles/imgui.dir/imgui/backends/imgui_impl_sdlrenderer2.cpp.o"
+	cd /home/bsarrett/dev/projects/redtangle-cpp/cmake/build/libs && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/imgui.dir/imgui/backends/imgui_impl_sdlrenderer2.cpp.o -c /home/bsarrett/dev/projects/redtangle-cpp/libs/imgui/backends/imgui_impl_sdlrenderer2.cpp
+
+libs/CMakeFiles/imgui.dir/imgui/backends/imgui_impl_sdlrenderer2.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/imgui.dir/imgui/backends/imgui_impl_sdlrenderer2.cpp.i"
+	cd /home/bsarrett/dev/projects/redtangle-cpp/cmake/build/libs && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/bsarrett/dev/projects/redtangle-cpp/libs/imgui/backends/imgui_impl_sdlrenderer2.cpp > CMakeFiles/imgui.dir/imgui/backends/imgui_impl_sdlrenderer2.cpp.i
+
+libs/CMakeFiles/imgui.dir/imgui/backends/imgui_impl_sdlrenderer2.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/imgui.dir/imgui/backends/imgui_impl_sdlrenderer2.cpp.s"
+	cd /home/bsarrett/dev/projects/redtangle-cpp/cmake/build/libs && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/bsarrett/dev/projects/redtangle-cpp/libs/imgui/backends/imgui_impl_sdlrenderer2.cpp -o CMakeFiles/imgui.dir/imgui/backends/imgui_impl_sdlrenderer2.cpp.s
+
 libs/CMakeFiles/imgui.dir/imgui/imgui.cpp.o: libs/CMakeFiles/imgui.dir/flags.make
 libs/CMakeFiles/imgui.dir/imgui/imgui.cpp.o: ../../libs/imgui/imgui.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/bsarrett/dev/projects/redtangle-cpp/cmake/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object libs/CMakeFiles/imgui.dir/imgui/imgui.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/bsarrett/dev/projects/redtangle-cpp/cmake/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object libs/CMakeFiles/imgui.dir/imgui/imgui.cpp.o"
 	cd /home/bsarrett/dev/projects/redtangle-cpp/cmake/build/libs && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/imgui.dir/imgui/imgui.cpp.o -c /home/bsarrett/dev/projects/redtangle-cpp/libs/imgui/imgui.cpp
 
 libs/CMakeFiles/imgui.dir/imgui/imgui.cpp.i: cmake_force
@@ -91,7 +117,7 @@ libs/CMakeFiles/imgui.dir/imgui/imgui.cpp.s: cmake_force
 
 libs/CMakeFiles/imgui.dir/imgui/imgui_demo.cpp.o: libs/CMakeFiles/imgui.dir/flags.make
 libs/CMakeFiles/imgui.dir/imgui/imgui_demo.cpp.o: ../../libs/imgui/imgui_demo.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/bsarrett/dev/projects/redtangle-cpp/cmake/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object libs/CMakeFiles/imgui.dir/imgui/imgui_demo.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/bsarrett/dev/projects/redtangle-cpp/cmake/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object libs/CMakeFiles/imgui.dir/imgui/imgui_demo.cpp.o"
 	cd /home/bsarrett/dev/projects/redtangle-cpp/cmake/build/libs && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/imgui.dir/imgui/imgui_demo.cpp.o -c /home/bsarrett/dev/projects/redtangle-cpp/libs/imgui/imgui_demo.cpp
 
 libs/CMakeFiles/imgui.dir/imgui/imgui_demo.cpp.i: cmake_force
@@ -104,7 +130,7 @@ libs/CMakeFiles/imgui.dir/imgui/imgui_demo.cpp.s: cmake_force
 
 libs/CMakeFiles/imgui.dir/imgui/imgui_draw.cpp.o: libs/CMakeFiles/imgui.dir/flags.make
 libs/CMakeFiles/imgui.dir/imgui/imgui_draw.cpp.o: ../../libs/imgui/imgui_draw.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/bsarrett/dev/projects/redtangle-cpp/cmake/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object libs/CMakeFiles/imgui.dir/imgui/imgui_draw.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/bsarrett/dev/projects/redtangle-cpp/cmake/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object libs/CMakeFiles/imgui.dir/imgui/imgui_draw.cpp.o"
 	cd /home/bsarrett/dev/projects/redtangle-cpp/cmake/build/libs && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/imgui.dir/imgui/imgui_draw.cpp.o -c /home/bsarrett/dev/projects/redtangle-cpp/libs/imgui/imgui_draw.cpp
 
 libs/CMakeFiles/imgui.dir/imgui/imgui_draw.cpp.i: cmake_force
@@ -117,7 +143,7 @@ libs/CMakeFiles/imgui.dir/imgui/imgui_draw.cpp.s: cmake_force
 
 libs/CMakeFiles/imgui.dir/imgui/imgui_tables.cpp.o: libs/CMakeFiles/imgui.dir/flags.make
 libs/CMakeFiles/imgui.dir/imgui/imgui_tables.cpp.o: ../../libs/imgui/imgui_tables.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/bsarrett/dev/projects/redtangle-cpp/cmake/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object libs/CMakeFiles/imgui.dir/imgui/imgui_tables.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/bsarrett/dev/projects/redtangle-cpp/cmake/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object libs/CMakeFiles/imgui.dir/imgui/imgui_tables.cpp.o"
 	cd /home/bsarrett/dev/projects/redtangle-cpp/cmake/build/libs && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/imgui.dir/imgui/imgui_tables.cpp.o -c /home/bsarrett/dev/projects/redtangle-cpp/libs/imgui/imgui_tables.cpp
 
 libs/CMakeFiles/imgui.dir/imgui/imgui_tables.cpp.i: cmake_force
@@ -130,7 +156,7 @@ libs/CMakeFiles/imgui.dir/imgui/imgui_tables.cpp.s: cmake_force
 
 libs/CMakeFiles/imgui.dir/imgui/imgui_widgets.cpp.o: libs/CMakeFiles/imgui.dir/flags.make
 libs/CMakeFiles/imgui.dir/imgui/imgui_widgets.cpp.o: ../../libs/imgui/imgui_widgets.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/bsarrett/dev/projects/redtangle-cpp/cmake/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object libs/CMakeFiles/imgui.dir/imgui/imgui_widgets.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/bsarrett/dev/projects/redtangle-cpp/cmake/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object libs/CMakeFiles/imgui.dir/imgui/imgui_widgets.cpp.o"
 	cd /home/bsarrett/dev/projects/redtangle-cpp/cmake/build/libs && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/imgui.dir/imgui/imgui_widgets.cpp.o -c /home/bsarrett/dev/projects/redtangle-cpp/libs/imgui/imgui_widgets.cpp
 
 libs/CMakeFiles/imgui.dir/imgui/imgui_widgets.cpp.i: cmake_force
@@ -143,6 +169,8 @@ libs/CMakeFiles/imgui.dir/imgui/imgui_widgets.cpp.s: cmake_force
 
 # Object files for target imgui
 imgui_OBJECTS = \
+"CMakeFiles/imgui.dir/imgui/backends/imgui_impl_sdl2.cpp.o" \
+"CMakeFiles/imgui.dir/imgui/backends/imgui_impl_sdlrenderer2.cpp.o" \
 "CMakeFiles/imgui.dir/imgui/imgui.cpp.o" \
 "CMakeFiles/imgui.dir/imgui/imgui_demo.cpp.o" \
 "CMakeFiles/imgui.dir/imgui/imgui_draw.cpp.o" \
@@ -152,6 +180,8 @@ imgui_OBJECTS = \
 # External object files for target imgui
 imgui_EXTERNAL_OBJECTS =
 
+libs/libimgui.a: libs/CMakeFiles/imgui.dir/imgui/backends/imgui_impl_sdl2.cpp.o
+libs/libimgui.a: libs/CMakeFiles/imgui.dir/imgui/backends/imgui_impl_sdlrenderer2.cpp.o
 libs/libimgui.a: libs/CMakeFiles/imgui.dir/imgui/imgui.cpp.o
 libs/libimgui.a: libs/CMakeFiles/imgui.dir/imgui/imgui_demo.cpp.o
 libs/libimgui.a: libs/CMakeFiles/imgui.dir/imgui/imgui_draw.cpp.o
@@ -159,7 +189,7 @@ libs/libimgui.a: libs/CMakeFiles/imgui.dir/imgui/imgui_tables.cpp.o
 libs/libimgui.a: libs/CMakeFiles/imgui.dir/imgui/imgui_widgets.cpp.o
 libs/libimgui.a: libs/CMakeFiles/imgui.dir/build.make
 libs/libimgui.a: libs/CMakeFiles/imgui.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/bsarrett/dev/projects/redtangle-cpp/cmake/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Linking CXX static library libimgui.a"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/bsarrett/dev/projects/redtangle-cpp/cmake/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Linking CXX static library libimgui.a"
 	cd /home/bsarrett/dev/projects/redtangle-cpp/cmake/build/libs && $(CMAKE_COMMAND) -P CMakeFiles/imgui.dir/cmake_clean_target.cmake
 	cd /home/bsarrett/dev/projects/redtangle-cpp/cmake/build/libs && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/imgui.dir/link.txt --verbose=$(VERBOSE)
 

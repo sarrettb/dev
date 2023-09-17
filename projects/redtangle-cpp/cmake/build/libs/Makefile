@@ -144,6 +144,60 @@ imgui/fast:
 	cd /home/bsarrett/dev/projects/redtangle-cpp/cmake/build && $(MAKE) $(MAKESILENT) -f libs/CMakeFiles/imgui.dir/build.make libs/CMakeFiles/imgui.dir/build
 .PHONY : imgui/fast
 
+imgui/backends/imgui_impl_sdl2.o: imgui/backends/imgui_impl_sdl2.cpp.o
+
+.PHONY : imgui/backends/imgui_impl_sdl2.o
+
+# target to build an object file
+imgui/backends/imgui_impl_sdl2.cpp.o:
+	cd /home/bsarrett/dev/projects/redtangle-cpp/cmake/build && $(MAKE) $(MAKESILENT) -f libs/CMakeFiles/imgui.dir/build.make libs/CMakeFiles/imgui.dir/imgui/backends/imgui_impl_sdl2.cpp.o
+.PHONY : imgui/backends/imgui_impl_sdl2.cpp.o
+
+imgui/backends/imgui_impl_sdl2.i: imgui/backends/imgui_impl_sdl2.cpp.i
+
+.PHONY : imgui/backends/imgui_impl_sdl2.i
+
+# target to preprocess a source file
+imgui/backends/imgui_impl_sdl2.cpp.i:
+	cd /home/bsarrett/dev/projects/redtangle-cpp/cmake/build && $(MAKE) $(MAKESILENT) -f libs/CMakeFiles/imgui.dir/build.make libs/CMakeFiles/imgui.dir/imgui/backends/imgui_impl_sdl2.cpp.i
+.PHONY : imgui/backends/imgui_impl_sdl2.cpp.i
+
+imgui/backends/imgui_impl_sdl2.s: imgui/backends/imgui_impl_sdl2.cpp.s
+
+.PHONY : imgui/backends/imgui_impl_sdl2.s
+
+# target to generate assembly for a file
+imgui/backends/imgui_impl_sdl2.cpp.s:
+	cd /home/bsarrett/dev/projects/redtangle-cpp/cmake/build && $(MAKE) $(MAKESILENT) -f libs/CMakeFiles/imgui.dir/build.make libs/CMakeFiles/imgui.dir/imgui/backends/imgui_impl_sdl2.cpp.s
+.PHONY : imgui/backends/imgui_impl_sdl2.cpp.s
+
+imgui/backends/imgui_impl_sdlrenderer2.o: imgui/backends/imgui_impl_sdlrenderer2.cpp.o
+
+.PHONY : imgui/backends/imgui_impl_sdlrenderer2.o
+
+# target to build an object file
+imgui/backends/imgui_impl_sdlrenderer2.cpp.o:
+	cd /home/bsarrett/dev/projects/redtangle-cpp/cmake/build && $(MAKE) $(MAKESILENT) -f libs/CMakeFiles/imgui.dir/build.make libs/CMakeFiles/imgui.dir/imgui/backends/imgui_impl_sdlrenderer2.cpp.o
+.PHONY : imgui/backends/imgui_impl_sdlrenderer2.cpp.o
+
+imgui/backends/imgui_impl_sdlrenderer2.i: imgui/backends/imgui_impl_sdlrenderer2.cpp.i
+
+.PHONY : imgui/backends/imgui_impl_sdlrenderer2.i
+
+# target to preprocess a source file
+imgui/backends/imgui_impl_sdlrenderer2.cpp.i:
+	cd /home/bsarrett/dev/projects/redtangle-cpp/cmake/build && $(MAKE) $(MAKESILENT) -f libs/CMakeFiles/imgui.dir/build.make libs/CMakeFiles/imgui.dir/imgui/backends/imgui_impl_sdlrenderer2.cpp.i
+.PHONY : imgui/backends/imgui_impl_sdlrenderer2.cpp.i
+
+imgui/backends/imgui_impl_sdlrenderer2.s: imgui/backends/imgui_impl_sdlrenderer2.cpp.s
+
+.PHONY : imgui/backends/imgui_impl_sdlrenderer2.s
+
+# target to generate assembly for a file
+imgui/backends/imgui_impl_sdlrenderer2.cpp.s:
+	cd /home/bsarrett/dev/projects/redtangle-cpp/cmake/build && $(MAKE) $(MAKESILENT) -f libs/CMakeFiles/imgui.dir/build.make libs/CMakeFiles/imgui.dir/imgui/backends/imgui_impl_sdlrenderer2.cpp.s
+.PHONY : imgui/backends/imgui_impl_sdlrenderer2.cpp.s
+
 imgui/imgui.o: imgui/imgui.cpp.o
 
 .PHONY : imgui/imgui.o
@@ -288,6 +342,12 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... imgui"
+	@echo "... imgui/backends/imgui_impl_sdl2.o"
+	@echo "... imgui/backends/imgui_impl_sdl2.i"
+	@echo "... imgui/backends/imgui_impl_sdl2.s"
+	@echo "... imgui/backends/imgui_impl_sdlrenderer2.o"
+	@echo "... imgui/backends/imgui_impl_sdlrenderer2.i"
+	@echo "... imgui/backends/imgui_impl_sdlrenderer2.s"
 	@echo "... imgui/imgui.o"
 	@echo "... imgui/imgui.i"
 	@echo "... imgui/imgui.s"

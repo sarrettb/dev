@@ -173,8 +173,6 @@ src/redtangle: src/CMakeFiles/redtangle.dir/piece/redtangle_piece.cpp.o
 src/redtangle: src/CMakeFiles/redtangle.dir/redtangle.cpp.o
 src/redtangle: src/CMakeFiles/redtangle.dir/ui/redtangle_ui_sdl.cpp.o
 src/redtangle: src/CMakeFiles/redtangle.dir/build.make
-src/redtangle: /home/bsarrett/.local/lib/libSDL2maind.a
-src/redtangle: /home/bsarrett/.local/lib/libSDL2-2.0d.so.0.2800.2
 src/redtangle: libs/libimgui.a
 src/redtangle: src/CMakeFiles/redtangle.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/bsarrett/dev/projects/redtangle-cpp/cmake/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Linking CXX executable redtangle"

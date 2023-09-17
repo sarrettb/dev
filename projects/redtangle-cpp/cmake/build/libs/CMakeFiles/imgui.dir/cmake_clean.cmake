@@ -1,4 +1,6 @@
 file(REMOVE_RECURSE
+  "CMakeFiles/imgui.dir/imgui/backends/imgui_impl_sdl2.cpp.o"
+  "CMakeFiles/imgui.dir/imgui/backends/imgui_impl_sdlrenderer2.cpp.o"
   "CMakeFiles/imgui.dir/imgui/imgui.cpp.o"
   "CMakeFiles/imgui.dir/imgui/imgui_demo.cpp.o"
   "CMakeFiles/imgui.dir/imgui/imgui_draw.cpp.o"
