@@ -1,0 +1,1 @@
+/usr/bin/c++ CMakeFiles/test.dir/src/empty_piece.cpp.o CMakeFiles/test.dir/src/redtangle.cpp.o CMakeFiles/test.dir/src/redtangle_app.cpp.o CMakeFiles/test.dir/src/redtangle_local.cpp.o CMakeFiles/test.dir/src/redtangle_piece.cpp.o CMakeFiles/test.dir/src/redtangle_ui_sdl.cpp.o -o test 

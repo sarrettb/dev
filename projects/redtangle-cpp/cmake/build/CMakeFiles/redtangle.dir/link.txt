@@ -1,0 +1,1 @@
+/usr/bin/c++ CMakeFiles/redtangle.dir/src/empty_piece.cpp.o CMakeFiles/redtangle.dir/src/redtangle.cpp.o CMakeFiles/redtangle.dir/src/redtangle_app.cpp.o CMakeFiles/redtangle.dir/src/redtangle_local.cpp.o CMakeFiles/redtangle.dir/src/redtangle_piece.cpp.o CMakeFiles/redtangle.dir/src/redtangle_ui_sdl.cpp.o -o redtangle 
