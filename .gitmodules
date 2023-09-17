@@ -1,0 +1,3 @@
+[submodule "projects/redtangle-cpp/sdl2_gfx"]
+	path = projects/redtangle-cpp/sdl2_gfx
+	url = https://github.com/RobLoach/sdl2_gfx.git
