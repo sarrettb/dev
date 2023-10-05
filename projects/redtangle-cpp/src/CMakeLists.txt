@@ -2,7 +2,9 @@
 set(SDL2_INCLUDE_DIR "${PROJECT_SOURCE_DIR}/libs/SDL/include")
 
 # IMGUI include directory 
-set(IMGUI_INCLUDE_DIR "${PROJECT_SOURCE_DIR}/libs/imgui")
+set(IMGUI_INCLUDE_DIR "${PROJECT_SOURCE_DIR}/libs/imgui" 
+                      "${PROJECT_SOURCE_DIR}/libs/imgui/backends"
+    )
 
 # Redtangle include directories are all .h files in the src folder and its subdirectories  
 file(GLOB children RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_SOURCE_DIR}/*)

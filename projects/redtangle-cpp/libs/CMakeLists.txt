@@ -1,6 +1,6 @@
 # Add SDL2
 add_subdirectory(SDL)
-set(SDL_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/include/SDL3")
+set(SDL_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/SDL/include")
 
 # Create IMGUI static library 
 file(GLOB IMGUI_INCLUDES_DIR "${CMAKE_CURRENT_SOURCE_DIR}/imgui/*.h")

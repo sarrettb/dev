@@ -25,6 +25,7 @@ namespace redtangle {
     };
     struct Location { // location relative to the actual game (8x8 grid)
         int x, y;
+        Location(int xx, int yy) : x(xx), y(yy) {};
         bool operator == (const Location& loc) const {return this->x == loc.x && this->y == loc.y; }
         bool operator != (const Location& loc) const {return this->x != loc.x && this->y != loc.y; }
         friend std::ostream & operator << (std::ostream &out, const Location& loc) { std::cout << "{ " << loc.x << ", " << loc.y << "}" << std::endl; return out;}
@@ -39,10 +40,10 @@ namespace redtangle {
     // Commonly used constants 
     static const int GRID_SIZE = 8; 
     static const Location INVALID = {-1, -1}; 
-    static const Color BLACK = { 0, 0, 0 }; 
-    static const Color WHITE = { 255, 255, 255 }; 
-    static const Color RED = {255, 0, 0};
-    static const Color GOLD = {255, 215, 0}; 
+    static const Color BLACK = { 30, 28, 15 }; 
+    static const Color WHITE = { 204, 203, 202 }; 
+    static const Color RED = {153, 31, 32};
+    static const Color GOLD = {216, 188, 35}; 
     static const Color NONE = {-1, -1, -1 }; 
 
     // Helper function 
@@ -55,23 +56,34 @@ namespace redtangle {
     // Additionally, this lets the actual game logic not be dependent on rendering libraries 
     class RedtangleUI {
         protected:
+            Rect _redtangle_surface; 
             int _window_width;
             int _window_height; 
-            int _rect_width;
-            int _rect_height; 
+            double _rect_width;
+            double _rect_height; 
             int _edge_size; 
-            int _piece_width;
-            int _piece_height;
+            double _piece_width;
+            double _piece_height;
             int _inner_radius;
             int _outer_radius;
-            virtual void update_params() { // parameters are a function of window size
-                _rect_width = _window_width / GRID_SIZE;
-                _rect_height = _window_height / GRID_SIZE;
+            bool _debugging; 
+
+            // Set the window surface -> the area that the actual game is on (not the status or menu bar)
+            // Coerce to integer multiple of 8
+            void coerce_redtangleSurface() { 
+                _redtangle_surface.w = _redtangle_surface.w - (_redtangle_surface.w % GRID_SIZE); 
+                _redtangle_surface.h = _redtangle_surface.h - (_redtangle_surface.h % GRID_SIZE); 
+                update_params(); 
+            }
+            // Update rendering parameters dependent on size of surface
+            void update_params() {  
+                _rect_width = _redtangle_surface.w / GRID_SIZE;
+                _rect_height = _redtangle_surface.h / GRID_SIZE;
                 _edge_size = 2;
                 _piece_width = 0.72 * (_rect_width - _edge_size);
                 _piece_height = 0.72 * (_rect_height - _edge_size);
                 _inner_radius = 0.14 * _piece_width;
-                _outer_radius = 0.18 * _piece_width;
+                _outer_radius = 0.18 * _piece_width; 
             }
         public: 
             enum class EventType {
@@ -80,9 +92,13 @@ namespace redtangle {
                 END_TURN = 2,
                 ROTATION_CLOCKWISE = 3,
                 ROTATION_COUNTERCLOCKWISE = 4,
+                UI_EVENT = 5,
                 UNKNOWN = -1
             }; 
-            RedtangleUI(int width, int height) : _window_width(width), _window_height(height) { update_params(); }
+            RedtangleUI(int width, int height) : _window_width(width), _window_height(height), _redtangle_surface({0, 0, width, height}) { coerce_redtangleSurface(); }
+            virtual Rect get_redtangleSurface() const {return _redtangle_surface; }
+            virtual int get_windowWidth() const {return _window_width;}
+            virtual int get_windowHeight() const {return _window_height;}
             virtual int get_rectWidth() const { return _rect_width; }
             virtual int get_rectHeight() const { return _rect_height; }
             virtual int get_pieceWidth() const { return _piece_width; }
@@ -90,12 +106,14 @@ namespace redtangle {
             virtual int get_innerRadius() const { return _inner_radius; }
             virtual int get_outerRadius()  const { return _outer_radius; }
             virtual int get_edgeSize() const { return _edge_size; } 
+            virtual bool get_debugFlag() const { return _debugging; }
             virtual Location get_location() const = 0;  
-            virtual EventType get_eventType() const = 0; 
+            virtual EventType get_eventType() = 0; 
             virtual void render_filledRect(const Rect& rect, const Color& color) const = 0; 
             virtual void render_filledCircle(const Circle& circle, const Color& color) const = 0;
             virtual void render_filledTriangle(const std::vector<Point>& vertices, const Color& color) const = 0;
-            virtual bool wait_onEvent() = 0; 
+            virtual bool poll_event() = 0; 
+            virtual void set_status(const std::string& status) = 0; 
             virtual void show() = 0; 
             virtual void clear() = 0; 
             virtual ~RedtangleUI() {}; 
@@ -146,17 +164,19 @@ namespace redtangle {
             virtual bool select(const Location& piece_location) = 0; 
             virtual bool rotate(bool clockwise) = 0; 
             virtual bool end_turn() = 0; 
-            virtual std::string get_winner() const = 0; 
             virtual void render_board(const std::shared_ptr<RedtangleUI> ui) const = 0; 
+            virtual Color get_winner() const = 0; 
     }; 
 
     // Implementation that performs the game logic and renders pieces to the ui
     class RedtangleGame : public Redtangle {
         protected:
             std::vector<std::vector<std::shared_ptr<Piece>>> _board; 
-            std::string _winner; 
+            Color _winner; 
             Color _turn;
-            Location _curr_selection;  
+            Location _curr_selection;
+            int _black_pieces;
+            int _white_pieces;  
             enum class GameState {
                 SELECTING = 0,
                 ROTATING = 1,
@@ -164,16 +184,17 @@ namespace redtangle {
                 GAME_OVER = 3
             } _state;
             void create_board(const std::vector<std::vector<Color>>& orientations); 
-            bool select_piece(const Location& location);
+            bool select_piece(const Location& location); 
             bool is_suicide(const Location& loc) const; 
             bool jump(Location curr, const Location& dest, const Color& team_sideColor, Side team_side, Side opp_side);
             bool jump(const Location& location);
+            std::string format_status() const;
         public:
             RedtangleGame(); 
             bool select(const Location& location) override; 
             bool rotate(bool clockwise) override; 
             bool end_turn() override; 
-            std::string get_winner() const {return _winner; }
+            Color get_winner() const override {return _winner; }
             void render_board(const std::shared_ptr<RedtangleUI> ui) const override; 
     }; 
 }

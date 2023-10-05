@@ -3,14 +3,15 @@
 
 bool valid_location(const redtangle::Location& loc);
 bool is_eightAdj(const redtangle::Location& src, const redtangle::Location& dst);
+bool is_winner(const redtangle::Location& loc); 
 redtangle::Color get_opponent(const redtangle::Color& team);
 void generate_possibleOrientations(std::vector<redtangle::Color>& curr_orientation, std::vector<std::vector<redtangle::Color>>& orientations, int i = 0); 
 std::vector<std::vector<redtangle::Color>> generate_possibleOrientations(); 
 redtangle::Location move(const redtangle::Location& src, redtangle::Side team_side);
 
 // Create the local redtangle object
-redtangle::RedtangleGame::RedtangleGame() : 
-_board(GRID_SIZE, std::vector<std::shared_ptr<Piece>>(GRID_SIZE)), _turn(WHITE), _state(GameState::SELECTING), _curr_selection(INVALID) {
+redtangle::RedtangleGame::RedtangleGame() : _black_pieces(0), _white_pieces(0),_board(GRID_SIZE, std::vector<std::shared_ptr<Piece>>(GRID_SIZE)), 
+                                            _turn(WHITE), _state(GameState::SELECTING), _curr_selection(INVALID) {
     create_board(generate_possibleOrientations()); 
 }
 
@@ -23,6 +24,7 @@ void redtangle::RedtangleGame::create_board(const std::vector<std::vector<Color>
         for (int x = 0; x < GRID_SIZE; x++) {
             if (in_redtangle({x, y})) {
                 _board[x][y] = std::make_shared<RedtanglePiece>(y <= 1 ? WHITE : BLACK, orientations[rand() % orientations.size()]);
+                _board[x][y]->get_team() == WHITE ? _white_pieces++ : _black_pieces++; 
             }
             else {
                 _board[x][y] = std::make_shared<EmptyPiece>();
@@ -34,6 +36,7 @@ void redtangle::RedtangleGame::create_board(const std::vector<std::vector<Color>
 // Logic for selecting a square
 bool redtangle::RedtangleGame::select_piece(const Location& loc) { 
     bool status = false; 
+    bool moved = false;
     if (_board[loc.x][loc.y]->get_team() == _turn) { // piece selected 
         _curr_selection = loc; 
         status = true; 
@@ -44,11 +47,15 @@ bool redtangle::RedtangleGame::select_piece(const Location& loc) {
             _state = GameState::ROTATING;
             _curr_selection = loc; 
             status = true; 
+            moved = true; 
         } 
         else if (jump(loc)) { // move is not eight-adjacent, verify valid jump 
             _state = GameState::JUMPING; 
             status = true;
+            moved = true;
             if (is_suicide(loc)) { // if suicide then both pieces are lost
+                _white_pieces--;
+                _black_pieces--;
                 _board[_curr_selection.x][_curr_selection.y] = std::make_shared<EmptyPiece>(); 
                 _board[loc.x][loc.y] = std::make_shared<EmptyPiece>(); 
                 end_turn(); 
@@ -58,9 +65,9 @@ bool redtangle::RedtangleGame::select_piece(const Location& loc) {
                 _curr_selection = loc; 
             }
         }
-        if (status && in_redtangle(loc)) {
+        if (moved && in_redtangle(loc) && (_board[loc.x][loc.y]->get_team() == BLACK ? (loc.y == 0 || loc.y == 1) : (loc.y == 6 || loc.y == 7))) {
             _state = GameState::GAME_OVER; 
-            _winner = _board[loc.x][loc.y]->get_team() == WHITE ? "White" : "Black"; 
+            _winner = _board[loc.x][loc.y]->get_team();
             _curr_selection = INVALID; 
         }
     }
@@ -82,6 +89,7 @@ bool redtangle::RedtangleGame::jump(Location curr, const Location& dest, const C
     }
     Location next = move(curr, team_side);
     if (jump(next, dest, team_sideColor, team_side, opp_side)) {
+        _board[curr.x][curr.y]->get_team() == WHITE ? _white_pieces-- : _black_pieces--;
         _board[curr.x][curr.y] = std::make_shared<EmptyPiece>(); // piece captured 
         return true;
     }
@@ -91,7 +99,7 @@ bool redtangle::RedtangleGame::jump(Location curr, const Location& dest, const C
 // Suicide move is jumping off the board to capture an opponents piece
 // This is true if the destination location is a piece and it is on the edge of the board 
 bool redtangle::RedtangleGame::is_suicide(const Location& loc) const {
-    return _board[loc.x][loc.y]->is_piece() && ((loc.x == 0 || loc.x == GRID_SIZE - 1) || (loc.y == 0 || loc.y == GRID_SIZE - 1)); 
+    return _board[loc.x][loc.y]->is_piece() && (loc.x == 0 || loc.x == GRID_SIZE - 1 || loc.y == 0 || loc.y == GRID_SIZE - 1); 
 }
 
 // Calculate parameters and call recursive jump function 
@@ -112,8 +120,8 @@ bool redtangle::RedtangleGame::jump(const Location& location) {
     }
     else {
         team_side = y_dist > 0 ? Side::BOTTOM : Side::TOP; 
-        opp_side = y_dist > 0 ? Side::TOP : Side::RIGHT; 
-    } 
+        opp_side = y_dist > 0 ? Side::TOP : Side::BOTTOM;
+    }  
     // Call recursive function to capture pieces if valid jump 
     return jump( move( _curr_selection, team_side), 
                  location, 
@@ -145,13 +153,25 @@ bool redtangle::RedtangleGame::end_turn() {
     return false;
 }
 
-bool redtangle::RedtangleGame::rotate(bool clockwise) { 
+bool redtangle::RedtangleGame::rotate(bool clockwise) {
     if (_curr_selection != INVALID && _state < GameState::JUMPING) {
         _board[_curr_selection.x][_curr_selection.y]->rotate(clockwise); 
         _state = GameState::ROTATING; 
         return true;
     }
     return false;
+}
+
+std::string redtangle::RedtangleGame::format_status() const {
+    auto colorToStr = [](const Color& c) -> std::string {return c == WHITE ? "White" : "Black"; }; 
+    if (_state == GameState::GAME_OVER) {
+        return colorToStr(_winner) + " won!";
+    }
+    std::string status; 
+    status += colorToStr(BLACK) + " Pieces: " + std::to_string(_black_pieces) + "\n";
+    status += colorToStr(WHITE) + " Pieces: " + std::to_string(_white_pieces) + "\n";
+    status += colorToStr(_turn) + "'s Turn"; 
+    return status; 
 }
 
 // Renders every piece to the screen 
@@ -162,6 +182,8 @@ void redtangle::RedtangleGame::render_board(const std::shared_ptr<RedtangleUI> u
             _board[x][y]->render(ui, {x, y}); 
         }
     }
+    std::string status = format_status(); 
+    ui->set_status(status); 
     ui->show(); 
 }
 

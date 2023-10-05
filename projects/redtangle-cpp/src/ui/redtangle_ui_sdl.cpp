@@ -1,4 +1,5 @@
-#include <SDL2/SDL.h>
+#include <SDL.h>
+#include <math.h> 
 #include "redtangle_ui_sdl.h"
 
 using redtangle::Point; 
@@ -13,16 +14,20 @@ SDL_Color color_toSDLColor(const Color& color);
 void insert_sdlError(); 
 
 // Create the window and renderer
-RedtangleUI_SDL::RedtangleUI_SDL(int width, int height) : RedtangleUI(width, height) {
-    if (SDL_Init(SDL_INIT_VIDEO) != 0) {
+RedtangleUI_SDL::RedtangleUI_SDL(int width, int height, int options) : RedtangleUI(width, height) {
+    if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER | SDL_INIT_GAMECONTROLLER) != 0) {
         insert_sdlError(); 
     }
-    _window = SDL_CreateWindow("Redtangle", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, width, height, 0); 
-    _renderer = SDL_CreateRenderer(_window, -1, 0); 
+    _window = SDL_CreateWindow("Redtangle", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, SDL_WINDOW_RESIZABLE | SDL_WINDOW_ALLOW_HIGHDPI | options); 
+
+    _renderer = SDL_CreateRenderer(_window, -1, SDL_RENDERER_PRESENTVSYNC | SDL_RENDERER_ACCELERATED); 
+    if (_window == nullptr || _renderer == nullptr) {
+        insert_sdlError(); 
+    }
 }
 
-bool RedtangleUI_SDL::wait_onEvent(){
-    return SDL_WaitEvent(&_event);
+bool RedtangleUI_SDL::poll_event(){
+    return SDL_PollEvent(&_event);
 }
 
 redtangle::Location RedtangleUI_SDL::get_location() const {
@@ -36,11 +41,21 @@ void RedtangleUI_SDL::show() {
 
 // Clear the screen 
 void RedtangleUI_SDL::clear() { 
-    SDL_SetRenderDrawColor(_renderer, 0, 0, 0, 255);
+    SDL_SetRenderDrawColor(_renderer, 240, 240, 240, 255);
     SDL_RenderClear(_renderer); 
 }
 
-redtangle::RedtangleUI::EventType RedtangleUI_SDL::get_eventType() const {
+// Actions to perform on window resize event 
+void RedtangleUI_SDL::resizeWindow() {
+    SDL_GetWindowSize(_window, &_window_width, &_window_height); 
+    _redtangle_surface.w = _window_width;
+    _redtangle_surface.h = _window_height; 
+    coerce_redtangleSurface(); 
+    SDL_SetWindowSize(_window, _redtangle_surface.w, _redtangle_surface.h); 
+}
+
+redtangle::RedtangleUI::EventType RedtangleUI_SDL::get_eventType() {
+    _debugging = false; 
     switch (_event.type) {
         case SDL_QUIT:
             return redtangle::RedtangleUI::EventType::QUIT; 
@@ -55,8 +70,14 @@ redtangle::RedtangleUI::EventType RedtangleUI_SDL::get_eventType() const {
                 return RedtangleUI::EventType::UNKNOWN; 
             }
         case SDL_MOUSEWHEEL:
-            std::cout << "Rotation detected" << std::endl; 
             return _event.wheel.y > 0 ? RedtangleUI::EventType::ROTATION_CLOCKWISE : RedtangleUI::EventType::ROTATION_COUNTERCLOCKWISE;
+        case SDL_WINDOWEVENT: {
+            if (_event.window.event == SDL_WINDOWEVENT_SIZE_CHANGED) {
+                SDL_GetWindowSize(_window, &_window_width, &_window_height); 
+                resizeWindow();
+            }
+            return RedtangleUI::EventType::UI_EVENT; 
+        }
         default:
             return RedtangleUI::EventType::UNKNOWN;
     }

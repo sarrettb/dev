@@ -80,9 +80,10 @@ std::tuple<Circle, Circle, Rect> calculate_pieceAreas(const redtangle::Location&
     const int PIECE_HEIGHT = ui->get_pieceHeight(); 
     const int INNER_R = ui->get_innerRadius();
     const int OUTER_R = ui->get_outerRadius(); 
+    const Rect redtangle_surface = ui->get_redtangleSurface();
     Circle inner_circle = {
-                            location.x * RECT_WIDTH + EDGE_SIZE + (RECT_WIDTH - EDGE_SIZE) / 2,
-                            location.y * RECT_HEIGHT + EDGE_SIZE + (RECT_HEIGHT - EDGE_SIZE) / 2,
+                            location.x * RECT_WIDTH + EDGE_SIZE + (RECT_WIDTH - EDGE_SIZE) / 2 + redtangle_surface.top_left.x,
+                            location.y * RECT_HEIGHT + EDGE_SIZE + (RECT_HEIGHT - EDGE_SIZE) / 2 + redtangle_surface.top_left.y,
                             INNER_R
                           };
     Circle outer_circle = {inner_circle.center.x, inner_circle.center.y, OUTER_R}; 

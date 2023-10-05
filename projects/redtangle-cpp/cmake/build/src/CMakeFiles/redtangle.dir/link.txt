@@ -1,1 +1,0 @@
-/usr/bin/c++ CMakeFiles/redtangle.dir/app/redtangle_app.cpp.o CMakeFiles/redtangle.dir/game/redtangle_local.cpp.o CMakeFiles/redtangle.dir/piece/empty_piece.cpp.o CMakeFiles/redtangle.dir/piece/redtangle_piece.cpp.o CMakeFiles/redtangle.dir/redtangle.cpp.o CMakeFiles/redtangle.dir/ui/redtangle_ui_sdl.cpp.o -o redtangle  -lSDL2main -lSDL2 ../libs/libimgui.a 
