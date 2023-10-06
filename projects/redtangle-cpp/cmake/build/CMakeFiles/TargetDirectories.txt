@@ -1,0 +1,16 @@
+/home/bsarrett/dev/projects/redtangle-cpp/cmake/build/CMakeFiles/rebuild_cache.dir
+/home/bsarrett/dev/projects/redtangle-cpp/cmake/build/CMakeFiles/edit_cache.dir
+/home/bsarrett/dev/projects/redtangle-cpp/cmake/build/libs/CMakeFiles/rebuild_cache.dir
+/home/bsarrett/dev/projects/redtangle-cpp/cmake/build/libs/CMakeFiles/edit_cache.dir
+/home/bsarrett/dev/projects/redtangle-cpp/cmake/build/libs/CMakeFiles/imgui.dir
+/home/bsarrett/dev/projects/redtangle-cpp/cmake/build/libs/SDL/CMakeFiles/rebuild_cache.dir
+/home/bsarrett/dev/projects/redtangle-cpp/cmake/build/libs/SDL/CMakeFiles/edit_cache.dir
+/home/bsarrett/dev/projects/redtangle-cpp/cmake/build/libs/SDL/CMakeFiles/uninstall.dir
+/home/bsarrett/dev/projects/redtangle-cpp/cmake/build/libs/SDL/CMakeFiles/SDL2_test.dir
+/home/bsarrett/dev/projects/redtangle-cpp/cmake/build/libs/SDL/CMakeFiles/SDL2-static.dir
+/home/bsarrett/dev/projects/redtangle-cpp/cmake/build/libs/SDL/CMakeFiles/SDL2.dir
+/home/bsarrett/dev/projects/redtangle-cpp/cmake/build/libs/SDL/CMakeFiles/sdl_headers_copy.dir
+/home/bsarrett/dev/projects/redtangle-cpp/cmake/build/libs/SDL/CMakeFiles/SDL2main.dir
+/home/bsarrett/dev/projects/redtangle-cpp/cmake/build/src/CMakeFiles/rebuild_cache.dir
+/home/bsarrett/dev/projects/redtangle-cpp/cmake/build/src/CMakeFiles/edit_cache.dir
+/home/bsarrett/dev/projects/redtangle-cpp/cmake/build/src/CMakeFiles/redtangle.dir
