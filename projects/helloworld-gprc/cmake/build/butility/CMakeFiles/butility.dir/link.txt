@@ -1,0 +1,2 @@
+/usr/bin/ar qc libbutility.a CMakeFiles/butility.dir/butility.cpp.o
+/usr/bin/ranlib libbutility.a

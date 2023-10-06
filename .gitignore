@@ -4,6 +4,5 @@ dsa/.vscode/launch.json
 projects/red-tangle/redtangle-core/__pycache__/piece.cpython-311.pyc
 projects/red-tangle/redtangle-core/__pycache__/constants.cpython-311.pyc
 projects/red-tangle/redtangle-core/__pycache__/game.cpython-311.pyc
-**/cmake
-build/
+**/projects/redtangle-cpp/cmake
 .vscode/*
