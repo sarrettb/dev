@@ -61,10 +61,10 @@ void RedtangleUI_Imgui::render_menuBar() {
         if (ImGui::BeginMenu("Help"))
         {
             if (ImGui::MenuItem("Redtangle Directions")) {
-                system("xdg-open https://github.com/sarrettb/dev");
+                system("xdg-open https://github.com/sarrettb/dev/blob/main/projects/redtangle-cpp/docs/directions.pdf");
             }
             if (ImGui::MenuItem("Redtangle Controls")) {
-                system("xdg-open https://github.com/sarrettb/dev");
+                system("xdg-open https://github.com/sarrettb/dev/blob/main/projects/redtangle-cpp/docs/controls.md");
             } 
             ImGui::EndMenu();
         }

@@ -2,7 +2,7 @@
 add_subdirectory(SDL)
 set(SDL_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/SDL/include")
 
-# Create IMGUI static library 
+# Build IMGUI static library 
 file(GLOB IMGUI_INCLUDES_DIR "${CMAKE_CURRENT_SOURCE_DIR}/imgui/*.h")
 list(APPEND IMGUI_INCLUDE_DIR "imgui_impl_sdl2.h" "imgui_impl_sdlrenderer2.h")
 file(GLOB IMGUI_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/imgui/*.cpp"
