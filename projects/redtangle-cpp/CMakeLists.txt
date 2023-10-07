@@ -1,9 +1,11 @@
-# Minimum CMake required
 cmake_minimum_required(VERSION 3.15)
+project(my_project)
 
-# Project
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
+
 project(REDTANGLE)
 
-# Build Source
 add_subdirectory(libs)
 add_subdirectory(src)

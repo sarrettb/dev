@@ -1,4 +1,6 @@
 #include <algorithm> 
+#include <functional>
+#include <cassert> 
 #include "redtangle.h"
 
 using redtangle::Rect;  
@@ -31,8 +33,15 @@ void redtangle::RedtanglePiece::render(const std::shared_ptr<RedtangleUI> ui, co
 void redtangle::RedtanglePiece::rotate(bool clockwise) {
     Color temp = clockwise ? _sides.back() : _sides.front(); 
     int i = clockwise ? 0 : _sides.size() - 1; 
-    auto inc = clockwise ? [] (int& i) { i++; } : [] (int& i) { i--; }; 
-    for (i; i < _sides.size(); inc(i)) {
+    std::function<void(int&)> increment;
+    // ternary operator not supported for lamdas
+    if (clockwise) {
+        increment = [] (int& i) { i++; };
+    }
+    else {
+       increment = [] (int& i) { i--; };  
+    }
+    for (i; i < _sides.size(); increment(i)) {
         std::swap(temp, _sides[i]); 
     }
 }
@@ -67,6 +76,10 @@ std::vector<Point> calculate_sidePoints(redtangle::Side side, const Rect& area) 
                         { area.top_left.x, area.top_left.y + area.h },
                         { area.top_left.x + area.w, area.top_left.y + area.h}
                    };
+        }
+        default: {
+            assert(("Invalid value given as a side in calculate_sidePoints ", true));
+            return {}; 
         }
     }
 }

@@ -31,7 +31,7 @@ bool RedtangleUI_SDL::poll_event(){
 }
 
 redtangle::Location RedtangleUI_SDL::get_location() const {
-    return { _event.button.x / _rect_width, _event.button.y / _rect_height }; 
+    return { static_cast<int>(_event.button.x / _rect_width), static_cast<int>(_event.button.y / _rect_height) }; 
 }
 
 // Show the updated screen 
@@ -188,7 +188,7 @@ void add_filledCirclePoints(std::vector<SDL_Point>& points, const Circle& circle
 
 // Converts redtangle::Color to SDL_Color
 SDL_Color color_toSDLColor(const Color& color) {
-    return { color.red, color.green, color.blue, 255 }; 
+    return { static_cast<Uint8>(color.red), static_cast<Uint8>(color.green), static_cast<Uint8>(color.blue), 255 }; 
 }
 
 void insert_sdlError() {

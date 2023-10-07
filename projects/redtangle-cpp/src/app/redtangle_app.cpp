@@ -16,7 +16,6 @@ void redtangle_app::run() {
     #else 
         std::shared_ptr<redtangle::RedtangleUI> ui = std::make_shared<RedtangleUI_Imgui>(WINDOW_WIDTH, WINDOW_HEIGHT); 
     #endif 
-
     std::unique_ptr<redtangle::Redtangle> game = std::make_unique<redtangle::RedtangleGame>(); 
     game->render_board(ui); 
     bool quit = false;

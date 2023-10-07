@@ -4,8 +4,17 @@ using redtangle::Point;
 
 static const int STATUS_BAR_HEIGHT = 50;
 static const int BORDER_WIDTH = 2; 
+static const std::string DIRECTIONS_URL = "https://github.com/sarrettb/dev/blob/main/projects/redtangle-cpp/docs/directions.pdf";
+static const std::string CONTROLS_URL = "https://github.com/sarrettb/dev/blob/main/projects/redtangle-cpp/docs/controls.md";
+#ifdef _WIN32
+    static const std::string CMD = "start "; 
+#else 
+    static const std::string CMD = "xdg-open "; 
+#endif 
 
-RedtangleUI_Imgui::RedtangleUI_Imgui(int width, int height) :  RedtangleUI_SDL(width, height) {
+#define DEBUG
+
+RedtangleUI_Imgui::RedtangleUI_Imgui(int width, int height) :  RedtangleUI_SDL(width, height), _menuBar_surface({{0, 0}, 0, 0}), _statusBar_surface({{0, 0}, 0, 0}) {
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
     _io = ImGui::GetIO();
@@ -17,16 +26,19 @@ RedtangleUI_Imgui::RedtangleUI_Imgui(int width, int height) :  RedtangleUI_SDL(w
     calculate_surfaces(); 
 }
 
+// This seems to be an issue on Windows
 void RedtangleUI_Imgui::calculate_surfaces() {
     // Call show to update width height of surfaces
     // This is the only known way to get the height of the menu bar
     show();
     SDL_GetWindowSize(_window, &_window_width, &_window_height);
+    std::cout << _menuBar_surface; 
     _redtangle_surface = { BORDER_WIDTH, 
                            _menuBar_surface.top_left.y + _menuBar_surface.h + 1, 
                            _window_width - BORDER_WIDTH + 1, 
                            _window_height - _menuBar_surface.h - STATUS_BAR_HEIGHT
                          }; 
+    std::cout << _redtangle_surface; 
     coerce_redtangleSurface(); 
     SDL_SetWindowSize(_window, 2 * BORDER_WIDTH + _redtangle_surface.w, _window_height); 
     SDL_GetWindowSize(_window, &_window_width, &_window_height);
@@ -61,10 +73,10 @@ void RedtangleUI_Imgui::render_menuBar() {
         if (ImGui::BeginMenu("Help"))
         {
             if (ImGui::MenuItem("Redtangle Directions")) {
-                system("xdg-open https://github.com/sarrettb/dev/blob/main/projects/redtangle-cpp/docs/directions.pdf");
+                system(std::string(CMD + DIRECTIONS_URL).c_str());
             }
             if (ImGui::MenuItem("Redtangle Controls")) {
-                system("xdg-open https://github.com/sarrettb/dev/blob/main/projects/redtangle-cpp/docs/controls.md");
+                system(std::string(CMD + CONTROLS_URL).c_str());
             } 
             ImGui::EndMenu();
         }
@@ -78,8 +90,8 @@ void RedtangleUI_Imgui::render_menuBar() {
 void RedtangleUI_Imgui::render_statusBar() {
     bool is_open = false;
     ImGui::Begin("Redtangle Status", &is_open, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoScrollbar);   
-    ImGui::SetWindowPos({_statusBar_surface.top_left.x, _statusBar_surface.top_left.y });  
-    ImGui::SetWindowSize({_statusBar_surface.w, _statusBar_surface.h}); 
+    ImGui::SetWindowPos( { static_cast<float>(_statusBar_surface.top_left.x), static_cast<float>(_statusBar_surface.top_left.y) });  
+    ImGui::SetWindowSize({ static_cast<float>(_statusBar_surface.w), static_cast<float>(_statusBar_surface.h) }); 
     ImGui::Text(_status.c_str());
     ImGui::End();
 }

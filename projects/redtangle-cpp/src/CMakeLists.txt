@@ -20,14 +20,12 @@ file(GLOB_RECURSE REDTANGLE_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/*.cpp")
 
 message("${SDL2_LIBRARIES}")
 # Build EXE, add include dirs, link libraries 
-add_executable(redtangle ${IMGUI_SOURCES} 
-                         ${REDTANGLE_SOURCES}
-              ) 
+add_executable(redtangle ${REDTANGLE_SOURCES} ) 
 include_directories(redtangle ${REDTANGLE_INCLUDE_DIRS} 
                               ${SDL2_INCLUDE_DIR}
                               ${IMGUI_INCLUDE_DIR} 
                     )
 target_link_libraries(redtangle SDL2main 
-                                SDL2
+                                SDL2-static
                                 imgui
                     )

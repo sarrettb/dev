@@ -2,6 +2,7 @@
 #include <iostream> 
 #include <vector> 
 #include <memory> 
+#include <string> 
 
 // Declares all data structres, classes, and methods to play a redtangle game
 // Independent of any libraries. i.e. SDL, gRPC
@@ -13,6 +14,10 @@ namespace redtangle {
     struct Rect { // defines a rectangle for rendering 
        Point top_left;
        int w, h;
+       friend std::ostream & operator << (std::ostream &out, const Rect& r) { 
+        std::cout << "{ " << r.top_left.x << ", " << r.top_left.y << "," << r.w << "," << r.h << "}" << std::endl; 
+        return out;
+      }
     };
     struct Circle { // defines a circle for rendering
         Point center;
@@ -42,7 +47,7 @@ namespace redtangle {
     static const Location INVALID = {-1, -1}; 
     static const Color BLACK = { 30, 28, 15 }; 
     static const Color WHITE = { 204, 203, 202 }; 
-    static const Color RED = {153, 31, 32};
+    static const Color RED = {200, 31, 32};
     static const Color GOLD = {216, 188, 35}; 
     static const Color NONE = {-1, -1, -1 }; 
 
@@ -95,7 +100,7 @@ namespace redtangle {
                 UI_EVENT = 5,
                 UNKNOWN = -1
             }; 
-            RedtangleUI(int width, int height) : _window_width(width), _window_height(height), _redtangle_surface({0, 0, width, height}) { coerce_redtangleSurface(); }
+            RedtangleUI(int width, int height) : _window_width(width), _window_height(height), _redtangle_surface({{0, 0}, width, height}) { coerce_redtangleSurface(); }
             virtual Rect get_redtangleSurface() const {return _redtangle_surface; }
             virtual int get_windowWidth() const {return _window_width;}
             virtual int get_windowHeight() const {return _window_height;}
