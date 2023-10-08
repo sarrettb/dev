@@ -16,7 +16,7 @@ class RedtangleUI_Imgui : public RedtangleUI_SDL {
         void render_statusBar(); 
         void resizeWindow() override; 
     public:
-        RedtangleUI_Imgui(int width, int height);
+        RedtangleUI_Imgui(int width, int height, std::filesystem::path exe_path = std::filesystem::path());
         void set_status(const std::string& status) override { _status = status; }
         bool poll_event() override;   
         void show() override; 

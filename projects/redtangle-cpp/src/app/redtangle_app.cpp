@@ -9,12 +9,12 @@ static const int WINDOW_HEIGHT = 800;
 #define IMGUI_IMPL
 
 // Main loop
-void redtangle_app::run() {
+void redtangle_app::run(std::filesystem::path exe_path) {
 
     #ifndef IMGUI_IMPL
-        std::shared_ptr<redtangle::RedtangleUI> ui = std::make_shared<RedtangleUI_SDL>(WINDOW_WIDTH, WINDOW_HEIGHT); 
+        std::shared_ptr<redtangle::RedtangleUI> ui = std::make_shared<RedtangleUI_SDL>(WINDOW_WIDTH, WINDOW_HEIGHT, exe_path); 
     #else 
-        std::shared_ptr<redtangle::RedtangleUI> ui = std::make_shared<RedtangleUI_Imgui>(WINDOW_WIDTH, WINDOW_HEIGHT); 
+        std::shared_ptr<redtangle::RedtangleUI> ui = std::make_shared<RedtangleUI_Imgui>(WINDOW_WIDTH, WINDOW_HEIGHT, exe_path); 
     #endif 
     std::unique_ptr<redtangle::Redtangle> game = std::make_unique<redtangle::RedtangleGame>(); 
     game->render_board(ui); 

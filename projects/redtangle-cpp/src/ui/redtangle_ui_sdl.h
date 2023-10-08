@@ -1,5 +1,6 @@
 #pragma once
 #include <SDL.h>
+#include <filesystem>
 #include "redtangle.h"
 
 // Redtangle UI implemenation using the SDL library 
@@ -7,10 +8,11 @@ class RedtangleUI_SDL : public redtangle::RedtangleUI {
     protected:
         SDL_Window* _window; 
         SDL_Renderer* _renderer; 
+        SDL_Surface* _icon; 
         SDL_Event _event; 
         virtual void resizeWindow(); 
     public: 
-        RedtangleUI_SDL(int width, int height, int options = 0); 
+        RedtangleUI_SDL(int width, int height, std::filesystem::path exe_path = std::filesystem::path(), int options = 0); 
         ~RedtangleUI_SDL() override; 
         RedtangleUI::EventType get_eventType() override;
         redtangle::Location get_location() const override; 

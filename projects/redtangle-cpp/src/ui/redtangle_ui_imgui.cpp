@@ -14,7 +14,7 @@ static const std::string CONTROLS_URL = "https://github.com/sarrettb/dev/blob/ma
 
 #define DEBUG
 
-RedtangleUI_Imgui::RedtangleUI_Imgui(int width, int height) :  RedtangleUI_SDL(width, height), _menuBar_surface({{0, 0}, 0, 0}), _statusBar_surface({{0, 0}, 0, 0}) {
+RedtangleUI_Imgui::RedtangleUI_Imgui(int width, int height, std::filesystem::path exe_path) :  RedtangleUI_SDL(width, height, exe_path), _menuBar_surface({{0, 0}, 0, 0}), _statusBar_surface({{0, 0}, 0, 0}) {
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
     _io = ImGui::GetIO();
@@ -32,13 +32,11 @@ void RedtangleUI_Imgui::calculate_surfaces() {
     // This is the only known way to get the height of the menu bar
     show();
     SDL_GetWindowSize(_window, &_window_width, &_window_height);
-    std::cout << _menuBar_surface; 
     _redtangle_surface = { BORDER_WIDTH, 
                            _menuBar_surface.top_left.y + _menuBar_surface.h + 1, 
                            _window_width - BORDER_WIDTH + 1, 
                            _window_height - _menuBar_surface.h - STATUS_BAR_HEIGHT
                          }; 
-    std::cout << _redtangle_surface; 
     coerce_redtangleSurface(); 
     SDL_SetWindowSize(_window, 2 * BORDER_WIDTH + _redtangle_surface.w, _window_height); 
     SDL_GetWindowSize(_window, &_window_width, &_window_height);

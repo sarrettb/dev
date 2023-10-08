@@ -1,4 +1,5 @@
 #include <SDL.h>
+#include <SDL_image.h>
 #include <math.h> 
 #include "redtangle_ui_sdl.h"
 
@@ -14,15 +15,24 @@ SDL_Color color_toSDLColor(const Color& color);
 void insert_sdlError(); 
 
 // Create the window and renderer
-RedtangleUI_SDL::RedtangleUI_SDL(int width, int height, int options) : RedtangleUI(width, height) {
+RedtangleUI_SDL::RedtangleUI_SDL(int width, int height, std::filesystem::path exe_path, int options) : RedtangleUI(width, height), _icon(nullptr) {
     if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER | SDL_INIT_GAMECONTROLLER) != 0) {
         insert_sdlError(); 
     }
     _window = SDL_CreateWindow("Redtangle", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, SDL_WINDOW_RESIZABLE | SDL_WINDOW_ALLOW_HIGHDPI | options); 
-
     _renderer = SDL_CreateRenderer(_window, -1, SDL_RENDERER_PRESENTVSYNC | SDL_RENDERER_ACCELERATED); 
     if (_window == nullptr || _renderer == nullptr) {
         insert_sdlError(); 
+    }
+    if (!exe_path.empty()) {
+        auto icon_path = exe_path.remove_filename().concat("redtangle.png"); 
+        if (std::filesystem::exists(icon_path)) {
+            _icon = IMG_Load(icon_path.string().c_str()); 
+            SDL_SetWindowIcon(_window, _icon); 
+            if (_icon == nullptr) {
+                insert_sdlError(); 
+            }
+        }
     }
 }
 
@@ -114,6 +124,7 @@ void RedtangleUI_SDL::render_filledTriangle(const std::vector<Point>& vertices, 
 RedtangleUI_SDL::~RedtangleUI_SDL() {
   SDL_DestroyRenderer(_renderer); 
   SDL_DestroyWindow(_window);
+  SDL_FreeSurface(_icon); 
   SDL_Quit(); 
 }
 

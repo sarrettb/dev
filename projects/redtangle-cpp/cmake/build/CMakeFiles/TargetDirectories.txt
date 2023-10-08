@@ -3,9 +3,10 @@ C:/dev/projects/redtangle-cpp/cmake/build/CMakeFiles/ZERO_CHECK.dir
 C:/dev/projects/redtangle-cpp/cmake/build/libs/CMakeFiles/imgui.dir
 C:/dev/projects/redtangle-cpp/cmake/build/libs/SDL/CMakeFiles/sdl_headers_copy.dir
 C:/dev/projects/redtangle-cpp/cmake/build/libs/SDL/CMakeFiles/SDL2main.dir
-C:/dev/projects/redtangle-cpp/cmake/build/libs/SDL/CMakeFiles/SDL2.dir
 C:/dev/projects/redtangle-cpp/cmake/build/libs/SDL/CMakeFiles/SDL2-static.dir
 C:/dev/projects/redtangle-cpp/cmake/build/libs/SDL/CMakeFiles/SDL2_test.dir
 C:/dev/projects/redtangle-cpp/cmake/build/libs/SDL/CMakeFiles/uninstall.dir
 C:/dev/projects/redtangle-cpp/cmake/build/libs/SDL/CMakeFiles/ALL_BUILD.dir
+C:/dev/projects/redtangle-cpp/cmake/build/libs/SDL_image/CMakeFiles/SDL2_image.dir
+C:/dev/projects/redtangle-cpp/cmake/build/libs/SDL_image/CMakeFiles/ALL_BUILD.dir
 C:/dev/projects/redtangle-cpp/cmake/build/src/CMakeFiles/redtangle.dir

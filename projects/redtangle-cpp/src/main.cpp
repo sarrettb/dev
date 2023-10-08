@@ -1,4 +1,5 @@
 #include <iostream> 
+#include <filesystem> 
 #include <SDL.h> 
 #include <stdio.h>
 #include "imgui.h"
@@ -9,11 +10,11 @@
 
 //#define IMGUI_TEST
 
-int main(int argc, char** argv) {
-    
+int main(int argc, char** argv) {   
     #ifndef IMGUI_TEST
         try {
-                redtangle_app::run(); 
+                std::filesystem::path exe_path(argv[0]); 
+                redtangle_app::run(exe_path); 
         }
         catch (std::exception& e) {
             std::cout << "ERROR: " << e.what() << std::endl; 

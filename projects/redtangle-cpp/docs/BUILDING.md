@@ -12,9 +12,14 @@ Update all of the git submodules to obtain the dependencies:
     git submodule update --init --recursive
 
 Create the build spec using CMake:
-
-    cmake ../.. -DSDL_STATIC=ON
+    cmake ../.. -DSDL_STATIC=ON -DBUILD_SHARED_LIBS=OFF
 
 Build the executable:
 
     cmake --build . 
+
+Run the executable:
+
+    ./src/Debug/redtangle.exe
+
+Note: In order to see the icon, you must manually copy the file into the executable directory. This functionality is handled by the installer in the release version. 
