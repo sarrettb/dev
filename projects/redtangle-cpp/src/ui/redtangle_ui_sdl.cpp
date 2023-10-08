@@ -27,12 +27,19 @@ RedtangleUI_SDL::RedtangleUI_SDL(int width, int height, std::filesystem::path ex
     if (!exe_path.empty()) {
         auto icon_path = exe_path.remove_filename().concat("redtangle.png"); 
         if (std::filesystem::exists(icon_path)) {
+            std::cout << "Path Exists"; 
             _icon = IMG_Load(icon_path.string().c_str()); 
             SDL_SetWindowIcon(_window, _icon); 
             if (_icon == nullptr) {
                 insert_sdlError(); 
             }
         }
+        else {
+            std::cout << "Icon File does not exist.\n"; 
+        }
+    }
+    else {
+        std::cout << "empty exe path\n"; 
     }
 }
 
