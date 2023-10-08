@@ -9,3 +9,7 @@
 	path = projects/redtangle-cpp/libs/SDL_image
 	url = https://github.com/libsdl-org/SDL_image.git
 	branch = SDL2
+[submodule "projects/redtangle-cpp/libs/grpc"]
+	path = projects/redtangle-cpp/libs/grpc
+	url = https://github.com/grpc/grpc.git
+	branch = v1.59.x

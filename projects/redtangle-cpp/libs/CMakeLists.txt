@@ -1,12 +1,13 @@
-# SDL and SDL_image use CMake, so add the subdirectories to build 
+# Add SDL, SDL_image, and grpc directories since they use CMake as the build system 
 add_subdirectory(SDL)
 add_subdirectory(SDL_image)
+add_subdirectory(grpc)
 
 set(SDL_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/SDL/include" CACHE INTERNAL "")
 set(SDL_IMAGE_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/SDL_image/include" CACHE INTERNAL "")
 set(IMGUI_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/imgui" "${CMAKE_CURRENT_SOURCE_DIR}/imgui/backends" CACHE INTERNAL "")
 
-# Imgui does not use CMake, so specify a static library build 
+# Imgui does not use CMake so build source files into a static library 
 file(GLOB IMGUI_HEADERS "${CMAKE_CURRENT_SOURCE_DIR}/imgui/*.h")
 file(GLOB IMGUI_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/imgui/*.cpp"
                         "${CMAKE_CURRENT_SOURCE_DIR}/imgui/backends/imgui_impl_sdl2.cpp"
