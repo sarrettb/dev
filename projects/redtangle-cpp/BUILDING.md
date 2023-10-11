@@ -17,7 +17,6 @@ The rest of the dependencies are fully built from source via git submodules and 
 
 Update all of the git submodules to obtain the dependencies:
 
-    git submodule update --init --recursive
 
 CMake is the build system used for this project, so ensure it is installed and up-to-date (3.15). If it is not you will need to install CMake 3.15 or better. 
 

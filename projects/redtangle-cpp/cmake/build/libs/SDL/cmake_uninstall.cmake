@@ -1,13 +1,13 @@
-if (NOT EXISTS "C:/dev/projects/redtangle-cpp/cmake/build/install_manifest.txt")
-    message(FATAL_ERROR "Cannot find install manifest: \"C:/dev/projects/redtangle-cpp/cmake/build/install_manifest.txt\"")
-endif(NOT EXISTS "C:/dev/projects/redtangle-cpp/cmake/build/install_manifest.txt")
+if (NOT EXISTS "/home/bsarrett/dev/projects/redtangle-cpp/cmake/build/install_manifest.txt")
+    message(FATAL_ERROR "Cannot find install manifest: \"/home/bsarrett/dev/projects/redtangle-cpp/cmake/build/install_manifest.txt\"")
+endif(NOT EXISTS "/home/bsarrett/dev/projects/redtangle-cpp/cmake/build/install_manifest.txt")
 
-file(READ "C:/dev/projects/redtangle-cpp/cmake/build/install_manifest.txt" files)
+file(READ "/home/bsarrett/dev/projects/redtangle-cpp/cmake/build/install_manifest.txt" files)
 string(REGEX REPLACE "\n" ";" files "${files}")
 foreach (file ${files})
     message(STATUS "Uninstalling \"$ENV{DESTDIR}${file}\"")
     execute_process(
-        COMMAND C:/Program Files/CMake/bin/cmake.exe -E remove "$ENV{DESTDIR}${file}"
+        COMMAND /home/bsarrett/.local/bin/cmake -E remove "$ENV{DESTDIR}${file}"
         OUTPUT_VARIABLE rm_out
         RESULT_VARIABLE rm_retval
     )
