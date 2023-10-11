@@ -57,20 +57,20 @@
 /* #undef HAVE_CTYPE_H */
 /* #undef HAVE_FLOAT_H */
 /* #undef HAVE_ICONV_H */
-/* #undef HAVE_INTTYPES_H */
-/* #undef HAVE_LIMITS_H */
-/* #undef HAVE_MALLOC_H */
+#define HAVE_INTTYPES_H 1
+#define HAVE_LIMITS_H 1
+#define HAVE_MALLOC_H 1
 /* #undef HAVE_MATH_H */
-/* #undef HAVE_MEMORY_H */
-/* #undef HAVE_SIGNAL_H */
+#define HAVE_MEMORY_H 1
+#define HAVE_SIGNAL_H 1
 #define HAVE_STDARG_H 1
 #define HAVE_STDDEF_H 1
 #define HAVE_STDINT_H 1
 /* #undef HAVE_STDIO_H */
-/* #undef HAVE_STDLIB_H */
+#define HAVE_STDLIB_H 1
 /* #undef HAVE_STRINGS_H */
-/* #undef HAVE_STRING_H */
-/* #undef HAVE_SYS_TYPES_H */
+#define HAVE_STRING_H 1
+#define HAVE_SYS_TYPES_H 1
 /* #undef HAVE_WCHAR_H */
 /* #undef HAVE_LINUX_INPUT_H */
 /* #undef HAVE_PTHREAD_NP_H */
@@ -84,7 +84,7 @@
 /* #undef HAVE_FREE */
 /* #undef HAVE_ALLOCA */
 #ifndef __WIN32__ /* Don't use C runtime versions of these on Windows */
-/* #undef HAVE_GETENV */
+#define HAVE_GETENV 1
 /* #undef HAVE_SETENV */
 /* #undef HAVE_PUTENV */
 /* #undef HAVE_UNSETENV */

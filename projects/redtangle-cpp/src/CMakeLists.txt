@@ -1,4 +1,7 @@
-# Redtangle include directories are all .h files in the src folder and its subdirectories  
+ # Add gRPC subdirectory to created the auto-generated files and server/client directory 
+ #add_subdirectory(grpc)
+
+ # Redtangle include directories are all .h files in the src folder and its subdirectories 
 file(GLOB children RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_SOURCE_DIR}/*)
 set(REDTANGLE_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR})
 foreach(child ${children})

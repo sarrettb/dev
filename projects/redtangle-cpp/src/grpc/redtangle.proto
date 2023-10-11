@@ -1,0 +1,74 @@
+syntax = "proto3"; 
+
+package redtangle; 
+
+service Redtangle {
+    rpc Connect(ConnectRequest) returns (ConnectResponse) {}; 
+    rpc Select(SelectRequest) returns (SelectResponse) {}; 
+    rpc Rotate(RotateRequest) returns (RotateResponse) {}; 
+    rpc EndTurn(EndTurnRequest) returns (EndTurnResponse) {}; 
+    rpc GetStatus(GetStatusRequest) returns (GetStatusResponse) {}; 
+    rpc Disconnect(DisconnectRequest) returns(DisconnectResponse) {}; 
+}
+
+enum Color {
+    WHITE = 0;
+    BLACK = 1;
+}
+
+message Piece {
+    Color team_color = 0;
+    repeated Color sides = 1;
+}
+
+message Status {
+    string turn = 0;
+    string winner = 1; 
+    string status_message = 3; 
+    repeated Piece board = 4; 
+}
+
+message ConnnectRequest {
+    string user_name = 0; 
+}
+
+message ConnectResponse {
+    Status game_status = 0;
+}
+
+message SelectRequest {
+  string user_name = 0;
+  int32 x = 1;
+  int32 y = 2;   
+}
+
+message SelectReponse {
+    Status game_status = 0;
+}
+
+message RotateRequest {
+    string user_name = 0;
+    bool clockwise = 1; 
+}
+
+message RotateResponse {
+    Status game_status = 0;
+}
+
+message EndTurnRequest {
+    string user_name = 0;
+}
+
+message EndTurnResponse {
+    Status game_status = 0;
+}
+
+message GetStatusRequest {}
+
+message GetStatusResponse {
+    Status game_status = 0;
+}
+
+message DisconnectRequest {}
+
+message DisconnectResponse {}
