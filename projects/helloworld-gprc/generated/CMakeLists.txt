@@ -22,12 +22,7 @@ add_custom_command(
 
 # Create Generated Library
 add_library(grpc_helloworld STATIC "${hw_proto_srcs}" "${hw_proto_hdrs}" "${hw_grpc_srcs}" "${hw_grpc_hdrs}")
-target_link_libraries(grpc_helloworld PUBLIC 
-                      gRPC::grpc++
-                      gRPC::grpc
-                      gRPC::gpr
-                      protobuf::libprotoc 
-                      protobuf::libprotobuf
-                      protobuf::libprotobuf-lite
-                      gRPC::grpc++_reflection
-                    )
+target_link_libraries(hw_grpc_proto
+  ${_REFLECTION}
+  ${_GRPC_GRPCPP}
+  ${_PROTOBUF_LIBPROTOBUF})

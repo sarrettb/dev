@@ -1,4 +1,5 @@
-#include "redtangle_ui_imgui.h"
+#include <thread> 
+#include "ui/redtangle_ui_imgui.h"
 
 using redtangle::Point; 
 
@@ -6,15 +7,14 @@ static const int STATUS_BAR_HEIGHT = 50;
 static const int BORDER_WIDTH = 2; 
 static const std::string DIRECTIONS_URL = "https://github.com/sarrettb/dev/blob/main/projects/redtangle-cpp/docs/directions.pdf";
 static const std::string CONTROLS_URL = "https://github.com/sarrettb/dev/blob/main/projects/redtangle-cpp/docs/controls.md";
+
 #ifdef _WIN32
     static const std::string CMD = "start "; 
 #else 
     static const std::string CMD = "xdg-open "; 
 #endif 
 
-#define DEBUG
-
-RedtangleUI_Imgui::RedtangleUI_Imgui(int width, int height, std::filesystem::path exe_path) :  RedtangleUI_SDL(width, height, exe_path), _menuBar_surface({{0, 0}, 0, 0}), _statusBar_surface({{0, 0}, 0, 0}) {
+RedtangleUI_Imgui::RedtangleUI_Imgui(const std::string& icon_path) :  RedtangleUI_SDL(icon_path), _menuBar_surface({{0, 0}, 0, 0}), _statusBar_surface({{0, 0}, 0, 0}) {
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
     _io = ImGui::GetIO();
@@ -22,11 +22,17 @@ RedtangleUI_Imgui::RedtangleUI_Imgui(int width, int height, std::filesystem::pat
     _io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;
     ImGui::StyleColorsLight(); 
     ImGui_ImplSDL2_InitForSDLRenderer(_window, _renderer);
-    ImGui_ImplSDLRenderer2_Init(_renderer); 
+    ImGui_ImplSDLRenderer2_Init(_renderer);  
+    SDL_HideWindow(_window); 
+}
+
+void RedtangleUI_Imgui::InitBoard() {
+    ImGui::StyleColorsLight(); 
+    SDL_SetWindowSize(_window, DEFAULT_WIDTH, DEFAULT_HEIGHT); 
+    SDL_ShowWindow(_window); 
     calculate_surfaces(); 
 }
 
-// This seems to be an issue on Windows
 void RedtangleUI_Imgui::calculate_surfaces() {
     // Call show to update width height of surfaces
     // This is the only known way to get the height of the menu bar
@@ -98,3 +104,65 @@ void RedtangleUI_Imgui::resizeWindow() {
     calculate_surfaces(); 
 }
 
+// Return true when user selects 'OK' or 'Cancel'
+bool RedtangleUI_Imgui::popup(char* user_name, size_t user_nameSize, char* ip_address, size_t ip_addressSize, int* port) {  
+    ImGui::OpenPopup("Popup");
+    bool result = false;
+    if (ImGui::BeginPopupModal("Popup", NULL, ImGuiWindowFlags_NoTitleBar)) {
+        ImGui::SetWindowPos({0, 0});  
+        ImGui::SetItemDefaultFocus();
+        ImGui::Text("User Name:");
+        ImGui::SameLine(); 
+        ImGui::InputText("##user_name", user_name, user_nameSize);
+        ImGui::Text("IP Address:");
+        ImGui::SameLine(); 
+        ImGui::InputText("##ip_address", ip_address, ip_addressSize);
+        ImGui::Text("Port:");
+        ImGui::SameLine(); 
+        ImGui::InputInt("##port", port); 
+        ImGui::Separator();
+        if (ImGui::Button("OK")) {
+            ImGui::CloseCurrentPopup();
+            result = true; 
+        }
+        ImGui::SameLine(); 
+        if(ImGui::Button("Cancel")) { 
+            std::cout << "Cancel\n"; 
+            ImGui::CloseCurrentPopup(); 
+            result = true;
+        }
+        ImGui::EndPopup();
+    }
+    return result;
+}
+
+// Blocking function to display popup for user to input parameters to connect to remote server
+RemotePopupInfo RedtangleUI_Imgui::RemotePopup() {
+    const int BUFFER_SIZE = 100;
+    char user_name[BUFFER_SIZE] = ""; 
+    char ip_address[BUFFER_SIZE] = "0.0.0.0"; 
+    int port = 50052;
+    bool done = false;
+    SDL_SetWindowSize(_window, 340, 109); 
+    SDL_ShowWindow(_window); 
+    ImGui::StyleColorsDark(); 
+    while (!done) {
+        ImGui_ImplSDLRenderer2_NewFrame();
+        ImGui_ImplSDL2_NewFrame();
+        ImGui::NewFrame(); 
+        done = popup(user_name, BUFFER_SIZE, ip_address, BUFFER_SIZE, &port);
+        ImGui::Render();
+        SDL_RenderSetScale(_renderer, _io.DisplayFramebufferScale.x, _io.DisplayFramebufferScale.y);
+        ImGui_ImplSDLRenderer2_RenderDrawData(ImGui::GetDrawData());
+        SDL_RenderPresent(_renderer); 
+        while (poll_event()) {
+            if (get_eventType() == redtangle::RedtangleUI::EventType::QUIT) {
+                done = true;
+                break; 
+            }
+         }
+        std::this_thread::sleep_for(std::chrono::milliseconds(10));
+    }
+    SDL_HideWindow(_window); 
+    return { user_name, ip_address, port }; 
+}

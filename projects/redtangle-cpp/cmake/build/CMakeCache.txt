@@ -22,6 +22,9 @@ ABSL_BUILD_TESTING:BOOL=OFF
 // is configured to use GoogleTest.
 ABSL_BUILD_TEST_HELPERS:BOOL=OFF
 
+//Enable install rule
+ABSL_ENABLE_INSTALL:BOOL=OFF
+
 //If set, download GoogleTest from this URL
 ABSL_GOOGLETEST_DOWNLOAD_URL:STRING=
 
@@ -314,6 +317,12 @@ CMAKE_OBJCOPY:FILEPATH=/usr/bin/objcopy
 //Path to a program.
 CMAKE_OBJDUMP:FILEPATH=/usr/bin/objdump
 
+//Build static libraries with -fPIC
+CMAKE_POSITION_INDEPENDENT_CODE:BOOL=ON
+
+//No help, variable specified on the command line.
+CMAKE_PREFIX_PATH:UNINITIALIZED=/home/bsarrett/.local
+
 //Value Computed by CMake
 CMAKE_PROJECT_DESCRIPTION:STATIC=
 
@@ -324,16 +333,16 @@ CMAKE_PROJECT_HOMEPAGE_URL:STATIC=
 CMAKE_PROJECT_NAME:STATIC=REDTANGLE
 
 //Value Computed by CMake
-CMAKE_PROJECT_VERSION:STATIC=20230802
+CMAKE_PROJECT_VERSION:STATIC=2.7.0
 
 //Value Computed by CMake
-CMAKE_PROJECT_VERSION_MAJOR:STATIC=20230802
+CMAKE_PROJECT_VERSION_MAJOR:STATIC=2
 
 //Value Computed by CMake
-CMAKE_PROJECT_VERSION_MINOR:STATIC=
+CMAKE_PROJECT_VERSION_MINOR:STATIC=7
 
 //Value Computed by CMake
-CMAKE_PROJECT_VERSION_PATCH:STATIC=
+CMAKE_PROJECT_VERSION_PATCH:STATIC=0
 
 //Value Computed by CMake
 CMAKE_PROJECT_VERSION_TWEAK:STATIC=
@@ -563,6 +572,9 @@ PKG_CONFIG_EXECUTABLE:FILEPATH=/usr/bin/pkg-config
 //Path to a library.
 PULSE_LIB:FILEPATH=/usr/lib/x86_64-linux-gnu/libpulse.so
 
+//The directory containing a CMake configuration file for Protobuf.
+Protobuf_DIR:PATH=/home/bsarrett/.local/lib/cmake/protobuf
+
 //Value Computed by CMake
 RE2_BINARY_DIR:STATIC=/home/bsarrett/dev/projects/redtangle-cpp/cmake/build/libs/grpc/third_party/re2
 
@@ -581,6 +593,81 @@ REDTANGLE_SOURCE_DIR:STATIC=/home/bsarrett/dev/projects/redtangle-cpp
 //Dependencies for the target
 SDL2-static_LIB_DEPENDS:STATIC=general;m;general;-pthread;
 
+//Support loading AVIF images
+SDL2IMAGE_AVIF:BOOL=OFF
+
+//Use stb_image for loading JPEG and PNG files
+SDL2IMAGE_BACKEND_STB:BOOL=ON
+
+//Support loading BMP images
+SDL2IMAGE_BMP:BOOL=ON
+
+//Name suffix for debug builds
+SDL2IMAGE_DEBUG_POSTFIX:STRING=d
+
+//Load dependencies dynamically
+SDL2IMAGE_DEPS_SHARED:BOOL=ON
+
+//Support loading GIF images
+SDL2IMAGE_GIF:BOOL=ON
+
+//Support loading JPEG images
+SDL2IMAGE_JPG:BOOL=ON
+
+//Add JPEG save support
+SDL2IMAGE_JPG_SAVE:BOOL=ON
+
+//Support loading JXL images
+SDL2IMAGE_JXL:BOOL=OFF
+
+//Support loading LBM images
+SDL2IMAGE_LBM:BOOL=ON
+
+//Support loading PCX images
+SDL2IMAGE_PCX:BOOL=ON
+
+//Support loading PNG images
+SDL2IMAGE_PNG:BOOL=ON
+
+//Add PNG save support
+SDL2IMAGE_PNG_SAVE:BOOL=ON
+
+//Support loading PNM images
+SDL2IMAGE_PNM:BOOL=ON
+
+//Support loading QOI images
+SDL2IMAGE_QOI:BOOL=ON
+
+//Build the SDL2_image sample program(s)
+SDL2IMAGE_SAMPLES:BOOL=OFF
+
+//Support loading SVG images
+SDL2IMAGE_SVG:BOOL=ON
+
+//Build unit tests?
+SDL2IMAGE_TESTS:BOOL=OFF
+
+//Support loading TGA images
+SDL2IMAGE_TGA:BOOL=ON
+
+//Support loading TIFF images
+SDL2IMAGE_TIF:BOOL=OFF
+
+//Use vendored third-party libraries
+SDL2IMAGE_VENDORED:BOOL=OFF
+
+//Support loading WEBP images
+SDL2IMAGE_WEBP:BOOL=OFF
+
+//Support loading XCF images
+SDL2IMAGE_XCF:BOOL=ON
+
+//Support loading XPM images
+SDL2IMAGE_XPM:BOOL=ON
+
+//Support loading XV images
+SDL2IMAGE_XV:BOOL=ON
+
 //Value Computed by CMake
 SDL2_BINARY_DIR:STATIC=/home/bsarrett/dev/projects/redtangle-cpp/cmake/build/libs/SDL
 
@@ -593,8 +680,17 @@ SDL2_DISABLE_SDL2MAIN:BOOL=OFF
 //Disable uninstallation of SDL2
 SDL2_DISABLE_UNINSTALL:BOOL=OFF
 
+//Dependencies for the target
+SDL2_LIB_DEPENDS:STATIC=general;m;general;-pthread;general;-Wl,--no-undefined;
+
 //Value Computed by CMake
 SDL2_SOURCE_DIR:STATIC=/home/bsarrett/dev/projects/redtangle-cpp/libs/SDL
+
+//Value Computed by CMake
+SDL2_image_BINARY_DIR:STATIC=/home/bsarrett/dev/projects/redtangle-cpp/cmake/build/libs/SDL_image
+
+//Value Computed by CMake
+SDL2_image_SOURCE_DIR:STATIC=/home/bsarrett/dev/projects/redtangle-cpp/libs/SDL_image
 
 //Use 3Dnow! MMX assembly routines
 SDL_3DNOW:BOOL=ON
@@ -807,7 +903,7 @@ SDL_RPI:BOOL=ON
 SDL_SENSOR:BOOL=ON
 
 //Build a shared version of the library
-SDL_SHARED:BOOL=OFF
+SDL_SHARED:BOOL=ON
 
 //Support the sndio audio API
 SDL_SNDIO:BOOL=ON
@@ -984,8 +1080,233 @@ X_INCLUDEDIR:PATH=/usr/include
 //Value Computed by CMake
 absl_BINARY_DIR:STATIC=/home/bsarrett/dev/projects/redtangle-cpp/cmake/build/libs/grpc/third_party/abseil-cpp
 
+//The directory containing a CMake configuration file for absl.
+absl_DIR:PATH=/home/bsarrett/.local/lib/cmake/absl
+
 //Value Computed by CMake
 absl_SOURCE_DIR:STATIC=/home/bsarrett/dev/projects/redtangle-cpp/libs/grpc/third_party/abseil-cpp
+
+//Dependencies for the target
+absl_bad_any_cast_impl_LIB_DEPENDS:STATIC=general;absl::raw_logging_internal;
+
+//Dependencies for the target
+absl_bad_optional_access_LIB_DEPENDS:STATIC=general;absl::raw_logging_internal;
+
+//Dependencies for the target
+absl_bad_variant_access_LIB_DEPENDS:STATIC=general;absl::raw_logging_internal;
+
+//Dependencies for the target
+absl_base_LIB_DEPENDS:STATIC=general;absl::log_severity;general;absl::raw_logging_internal;general;absl::spinlock_wait;general;absl::type_traits;
+
+//Dependencies for the target
+absl_cord_LIB_DEPENDS:STATIC=general;absl::base;general;absl::cord_internal;general;absl::cordz_functions;general;absl::cordz_info;general;absl::crc_cord_state;general;absl::optional;general;absl::raw_logging_internal;general;absl::span;general;absl::strings;
+
+//Dependencies for the target
+absl_cord_internal_LIB_DEPENDS:STATIC=general;absl::crc_cord_state;general;absl::raw_logging_internal;general;absl::strings;general;absl::throw_delegate;
+
+//Dependencies for the target
+absl_cordz_functions_LIB_DEPENDS:STATIC=general;absl::exponential_biased;general;absl::raw_logging_internal;
+
+//Dependencies for the target
+absl_cordz_handle_LIB_DEPENDS:STATIC=general;absl::base;general;absl::raw_logging_internal;general;absl::synchronization;
+
+//Dependencies for the target
+absl_cordz_info_LIB_DEPENDS:STATIC=general;absl::base;general;absl::cord_internal;general;absl::cordz_functions;general;absl::cordz_handle;general;absl::span;general;absl::raw_logging_internal;general;absl::stacktrace;general;absl::synchronization;general;absl::time;
+
+//Dependencies for the target
+absl_cordz_sample_token_LIB_DEPENDS:STATIC=general;absl::cordz_handle;general;absl::cordz_info;
+
+//Dependencies for the target
+absl_crc32c_LIB_DEPENDS:STATIC=general;absl::crc_cpu_detect;general;absl::crc_internal;general;absl::non_temporal_memcpy;general;absl::str_format;general;absl::strings;
+
+//Dependencies for the target
+absl_crc_cord_state_LIB_DEPENDS:STATIC=general;absl::crc32c;general;absl::strings;
+
+//Dependencies for the target
+absl_crc_cpu_detect_LIB_DEPENDS:STATIC=general;absl::base;
+
+//Dependencies for the target
+absl_crc_internal_LIB_DEPENDS:STATIC=general;absl::crc_cpu_detect;general;absl::base;general;absl::raw_logging_internal;general;absl::memory;general;absl::bits;
+
+//Dependencies for the target
+absl_debugging_internal_LIB_DEPENDS:STATIC=general;absl::raw_logging_internal;
+
+//Dependencies for the target
+absl_demangle_internal_LIB_DEPENDS:STATIC=general;absl::base;
+
+//Dependencies for the target
+absl_die_if_null_LIB_DEPENDS:STATIC=general;absl::log;general;absl::strings;
+
+//Dependencies for the target
+absl_examine_stack_LIB_DEPENDS:STATIC=general;absl::stacktrace;general;absl::symbolize;general;absl::raw_logging_internal;
+
+//Dependencies for the target
+absl_failure_signal_handler_LIB_DEPENDS:STATIC=general;absl::examine_stack;general;absl::stacktrace;general;absl::base;general;absl::raw_logging_internal;
+
+//Dependencies for the target
+absl_flags_LIB_DEPENDS:STATIC=general;absl::flags_commandlineflag;general;absl::flags_config;general;absl::flags_internal;general;absl::flags_reflection;general;absl::base;general;absl::strings;
+
+//Dependencies for the target
+absl_flags_commandlineflag_LIB_DEPENDS:STATIC=general;absl::flags_commandlineflag_internal;general;absl::optional;general;absl::strings;
+
+//Dependencies for the target
+absl_flags_config_LIB_DEPENDS:STATIC=general;absl::flags_program_name;general;absl::strings;general;absl::synchronization;
+
+//Dependencies for the target
+absl_flags_internal_LIB_DEPENDS:STATIC=general;absl::base;general;absl::flags_commandlineflag;general;absl::flags_commandlineflag_internal;general;absl::flags_config;general;absl::flags_marshalling;general;absl::synchronization;general;absl::meta;general;absl::utility;
+
+//Dependencies for the target
+absl_flags_marshalling_LIB_DEPENDS:STATIC=general;absl::log_severity;general;absl::int128;general;absl::optional;general;absl::strings;general;absl::str_format;
+
+//Dependencies for the target
+absl_flags_parse_LIB_DEPENDS:STATIC=general;absl::flags_config;general;absl::flags;general;absl::flags_commandlineflag;general;absl::flags_commandlineflag_internal;general;absl::flags_internal;general;absl::flags_private_handle_accessor;general;absl::flags_program_name;general;absl::flags_reflection;general;absl::flags_usage;general;absl::strings;general;absl::synchronization;
+
+//Dependencies for the target
+absl_flags_private_handle_accessor_LIB_DEPENDS:STATIC=general;absl::flags_commandlineflag;general;absl::flags_commandlineflag_internal;general;absl::strings;
+
+//Dependencies for the target
+absl_flags_program_name_LIB_DEPENDS:STATIC=general;absl::strings;general;absl::synchronization;
+
+//Dependencies for the target
+absl_flags_reflection_LIB_DEPENDS:STATIC=general;absl::flags_commandlineflag;general;absl::flags_private_handle_accessor;general;absl::flags_config;general;absl::strings;general;absl::synchronization;
+
+//Dependencies for the target
+absl_flags_usage_LIB_DEPENDS:STATIC=general;absl::flags_usage_internal;general;absl::raw_logging_internal;general;absl::strings;general;absl::synchronization;
+
+//Dependencies for the target
+absl_flags_usage_internal_LIB_DEPENDS:STATIC=general;absl::flags_config;general;absl::flags;general;absl::flags_commandlineflag;general;absl::flags_internal;general;absl::flags_private_handle_accessor;general;absl::flags_program_name;general;absl::flags_reflection;general;absl::strings;general;absl::synchronization;
+
+//Dependencies for the target
+absl_graphcycles_internal_LIB_DEPENDS:STATIC=general;absl::base;general;absl::malloc_internal;general;absl::raw_logging_internal;
+
+//Dependencies for the target
+absl_hash_LIB_DEPENDS:STATIC=general;absl::bits;general;absl::city;general;absl::meta;general;absl::int128;general;absl::strings;general;absl::optional;general;absl::variant;general;absl::utility;general;absl::low_level_hash;
+
+//Dependencies for the target
+absl_hashtablez_sampler_LIB_DEPENDS:STATIC=general;absl::base;general;absl::exponential_biased;general;absl::raw_logging_internal;general;absl::sample_recorder;general;absl::synchronization;general;absl::time;
+
+//Dependencies for the target
+absl_kernel_timeout_internal_LIB_DEPENDS:STATIC=general;absl::base;general;absl::raw_logging_internal;general;absl::time;
+
+//Dependencies for the target
+absl_log_entry_LIB_DEPENDS:STATIC=general;absl::log_severity;general;absl::span;general;absl::strings;general;absl::time;
+
+//Dependencies for the target
+absl_log_flags_LIB_DEPENDS:STATIC=general;absl::log_globals;general;absl::log_severity;general;absl::flags;general;absl::flags_marshalling;general;absl::strings;
+
+//Dependencies for the target
+absl_log_globals_LIB_DEPENDS:STATIC=general;absl::hash;general;absl::log_severity;general;absl::raw_logging_internal;general;absl::strings;
+
+//Dependencies for the target
+absl_log_initialize_LIB_DEPENDS:STATIC=general;absl::log_globals;general;absl::log_internal_globals;general;absl::time;
+
+//Dependencies for the target
+absl_log_internal_check_op_LIB_DEPENDS:STATIC=general;absl::log_internal_nullguard;general;absl::log_internal_nullstream;general;absl::log_internal_strip;general;absl::strings;
+
+//Dependencies for the target
+absl_log_internal_conditions_LIB_DEPENDS:STATIC=general;absl::base;general;absl::log_internal_voidify;
+
+//Dependencies for the target
+absl_log_internal_format_LIB_DEPENDS:STATIC=general;absl::log_internal_append_truncated;general;absl::log_internal_globals;general;absl::log_severity;general;absl::strings;general;absl::str_format;general;absl::time;general;absl::span;
+
+//Dependencies for the target
+absl_log_internal_globals_LIB_DEPENDS:STATIC=general;absl::log_severity;general;absl::raw_logging_internal;general;absl::strings;general;absl::time;
+
+//Dependencies for the target
+absl_log_internal_log_sink_set_LIB_DEPENDS:STATIC=general;absl::base;general;absl::log_internal_globals;general;absl::log_globals;general;absl::log_entry;general;absl::log_severity;general;absl::log_sink;general;absl::raw_logging_internal;general;absl::synchronization;general;absl::span;general;absl::strings;
+
+//Dependencies for the target
+absl_log_internal_message_LIB_DEPENDS:STATIC=general;absl::base;general;absl::examine_stack;general;absl::log_internal_append_truncated;general;absl::log_internal_format;general;absl::log_internal_globals;general;absl::log_internal_proto;general;absl::log_internal_log_sink_set;general;absl::log_internal_nullguard;general;absl::log_globals;general;absl::log_entry;general;absl::log_severity;general;absl::log_sink;general;absl::log_sink_registry;general;absl::memory;general;absl::raw_logging_internal;general;absl::strings;general;absl::strerror;general;absl::time;general;absl::span;
+
+//Dependencies for the target
+absl_log_internal_proto_LIB_DEPENDS:STATIC=general;absl::base;general;absl::strings;general;absl::span;
+
+//Dependencies for the target
+absl_log_severity_LIB_DEPENDS:STATIC=general;absl::core_headers;
+
+//Dependencies for the target
+absl_log_sink_LIB_DEPENDS:STATIC=general;absl::log_entry;
+
+//Dependencies for the target
+absl_low_level_hash_LIB_DEPENDS:STATIC=general;absl::int128;
+
+//Dependencies for the target
+absl_malloc_internal_LIB_DEPENDS:STATIC=general;absl::base;general;absl::base_internal;general;absl::raw_logging_internal;
+
+//Dependencies for the target
+absl_periodic_sampler_LIB_DEPENDS:STATIC=general;absl::exponential_biased;
+
+//Dependencies for the target
+absl_random_distributions_LIB_DEPENDS:STATIC=general;absl::random_internal_generate_real;general;absl::random_internal_distribution_caller;general;absl::random_internal_fast_uniform_bits;general;absl::random_internal_fastmath;general;absl::random_internal_iostream_state_saver;general;absl::random_internal_traits;general;absl::random_internal_uniform_helper;general;absl::random_internal_wide_multiply;general;absl::strings;
+
+//Dependencies for the target
+absl_random_internal_distribution_test_util_LIB_DEPENDS:STATIC=general;absl::raw_logging_internal;general;absl::strings;general;absl::str_format;general;absl::span;
+
+//Dependencies for the target
+absl_random_internal_pool_urbg_LIB_DEPENDS:STATIC=general;absl::base;general;absl::random_internal_randen;general;absl::random_internal_seed_material;general;absl::random_seed_gen_exception;general;absl::raw_logging_internal;general;absl::span;
+
+//Dependencies for the target
+absl_random_internal_randen_LIB_DEPENDS:STATIC=general;absl::random_internal_platform;general;absl::random_internal_randen_hwaes;general;absl::random_internal_randen_slow;
+
+//Dependencies for the target
+absl_random_internal_randen_hwaes_LIB_DEPENDS:STATIC=general;absl::random_internal_platform;general;absl::random_internal_randen_hwaes_impl;
+
+//Dependencies for the target
+absl_random_internal_randen_hwaes_impl_LIB_DEPENDS:STATIC=general;absl::random_internal_platform;
+
+//Dependencies for the target
+absl_random_internal_randen_slow_LIB_DEPENDS:STATIC=general;absl::random_internal_platform;
+
+//Dependencies for the target
+absl_random_internal_seed_material_LIB_DEPENDS:STATIC=general;absl::optional;general;absl::raw_logging_internal;general;absl::span;general;absl::strings;
+
+//Dependencies for the target
+absl_random_seed_sequences_LIB_DEPENDS:STATIC=general;absl::random_internal_pool_urbg;general;absl::random_internal_salted_seed_seq;general;absl::random_internal_seed_material;general;absl::random_seed_gen_exception;general;absl::span;
+
+//Dependencies for the target
+absl_raw_hash_set_LIB_DEPENDS:STATIC=general;absl::bits;general;absl::hash;general;absl::hashtablez_sampler;general;absl::memory;general;absl::meta;general;absl::optional;general;absl::raw_logging_internal;general;absl::utility;
+
+//Dependencies for the target
+absl_raw_logging_internal_LIB_DEPENDS:STATIC=general;absl::config;general;absl::core_headers;general;absl::log_severity;
+
+//Dependencies for the target
+absl_scoped_set_env_LIB_DEPENDS:STATIC=general;absl::raw_logging_internal;
+
+//Dependencies for the target
+absl_spinlock_wait_LIB_DEPENDS:STATIC=general;absl::base_internal;general;absl::core_headers;
+
+//Dependencies for the target
+absl_stacktrace_LIB_DEPENDS:STATIC=general;absl::debugging_internal;general;absl::raw_logging_internal;
+
+//Dependencies for the target
+absl_status_LIB_DEPENDS:STATIC=general;absl::cord;general;absl::optional;general;absl::raw_logging_internal;general;absl::stacktrace;general;absl::str_format;general;absl::strerror;general;absl::strings;general;absl::symbolize;
+
+//Dependencies for the target
+absl_statusor_LIB_DEPENDS:STATIC=general;absl::base;general;absl::status;general;absl::raw_logging_internal;general;absl::strings;general;absl::utility;general;absl::variant;
+
+//Dependencies for the target
+absl_str_format_internal_LIB_DEPENDS:STATIC=general;absl::strings;general;absl::utility;general;absl::int128;general;absl::span;
+
+//Dependencies for the target
+absl_string_view_LIB_DEPENDS:STATIC=general;absl::base;general;absl::throw_delegate;
+
+//Dependencies for the target
+absl_strings_LIB_DEPENDS:STATIC=general;absl::string_view;general;absl::strings_internal;general;absl::base;general;absl::int128;general;absl::raw_logging_internal;general;absl::throw_delegate;
+
+//Dependencies for the target
+absl_strings_internal_LIB_DEPENDS:STATIC=general;absl::raw_logging_internal;
+
+//Dependencies for the target
+absl_symbolize_LIB_DEPENDS:STATIC=general;absl::debugging_internal;general;absl::demangle_internal;general;absl::base;general;absl::malloc_internal;general;absl::raw_logging_internal;general;absl::strings;
+
+//Dependencies for the target
+absl_synchronization_LIB_DEPENDS:STATIC=general;absl::graphcycles_internal;general;absl::kernel_timeout_internal;general;absl::base;general;absl::malloc_internal;general;absl::raw_logging_internal;general;absl::stacktrace;general;absl::symbolize;general;absl::time;
+
+//Dependencies for the target
+absl_throw_delegate_LIB_DEPENDS:STATIC=general;absl::raw_logging_internal;
+
+//Dependencies for the target
+absl_time_LIB_DEPENDS:STATIC=general;absl::base;general;absl::civil_time;general;absl::int128;general;absl::raw_logging_internal;general;absl::strings;general;absl::time_zone;
 
 //Dependencies for the target
 address_sorting_LIB_DEPENDS:STATIC=general;dl;general;m;general;rt;general;/usr/lib/x86_64-linux-gnu/libsystemd.so;
@@ -1126,6 +1447,9 @@ gRPC_BUILD_TESTS:BOOL=OFF
 //Provider of c-ares library
 gRPC_CARES_PROVIDER:STRING=module
 
+//The directory containing a CMake configuration file for gRPC.
+gRPC_DIR:PATH=/home/bsarrett/.local/lib/cmake/grpc
+
 //Generate installation target
 gRPC_INSTALL:BOOL=OFF
 
@@ -1194,6 +1518,9 @@ grpc_authorization_provider_LIB_DEPENDS:STATIC=general;dl;general;m;general;rt;g
 
 //Dependencies for the target
 grpc_plugin_support_LIB_DEPENDS:STATIC=general;dl;general;m;general;rt;general;/usr/lib/x86_64-linux-gnu/libsystemd.so;general;libprotobuf;general;libprotoc;
+
+//Dependencies for the target
+grpc_redtangle_LIB_DEPENDS:STATIC=general;grpc++_reflection;general;grpc++;general;libprotobuf;
 
 //Dependencies for the target
 grpc_unsecure_LIB_DEPENDS:STATIC=general;dl;general;m;general;rt;general;/usr/lib/x86_64-linux-gnu/libsystemd.so;general;upb_collections_lib;general;upb;general;zlibstatic;general;absl::hash;general;absl::random_distributions;general;absl::statusor;general;c-ares;general;gpr;general;address_sorting;
@@ -1412,6 +1739,12 @@ raw_hash_set_LIB_DEPENDS:STATIC=general;absl::bits;general;absl::hash;general;ab
 raw_logging_internal_LIB_DEPENDS:STATIC=general;absl::config;general;absl::core_headers;general;absl::log_severity;
 
 //Dependencies for the target
+redtangle-client_LIB_DEPENDS:STATIC=general;grpc_redtangle;
+
+//Dependencies for the target
+redtangle-lib_LIB_DEPENDS:STATIC=general;grpc_redtangle;
+
+//Dependencies for the target
 scoped_set_env_LIB_DEPENDS:STATIC=general;absl::raw_logging_internal;
 
 //Dependencies for the target
@@ -1473,6 +1806,9 @@ upb_textformat_lib_LIB_DEPENDS:STATIC=general;dl;general;m;general;rt;general;/u
 
 //Value Computed by CMake
 utf8_range_BINARY_DIR:STATIC=/home/bsarrett/dev/projects/redtangle-cpp/cmake/build/libs/grpc/third_party/protobuf/third_party/utf8_range
+
+//The directory containing a CMake configuration file for utf8_range.
+utf8_range_DIR:PATH=/home/bsarrett/.local/lib/cmake/utf8_range
 
 //Configure installation
 utf8_range_ENABLE_INSTALL:BOOL=ON
@@ -1685,7 +2021,7 @@ CMAKE_MODULE_LINKER_FLAGS_RELWITHDEBINFO-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_NM
 CMAKE_NM-ADVANCED:INTERNAL=1
 //number of local generators
-CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=40
+CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=42
 //ADVANCED property for variable: CMAKE_OBJCOPY
 CMAKE_OBJCOPY-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_OBJDUMP
@@ -1856,6 +2192,8 @@ FIND_PACKAGE_MESSAGE_DETAILS_ALSA:INTERNAL=[/usr/lib/x86_64-linux-gnu/libasound.
 FIND_PACKAGE_MESSAGE_DETAILS_Git:INTERNAL=[/usr/bin/git][v2.34.1()]
 //Details about finding PkgConfig
 FIND_PACKAGE_MESSAGE_DETAILS_PkgConfig:INTERNAL=[/usr/bin/pkg-config][v0.29.2()]
+//Details about finding Protobuf
+FIND_PACKAGE_MESSAGE_DETAILS_Protobuf:INTERNAL=[/home/bsarrett/.local/bin/protoc-23.4.0][/home/bsarrett/.local/lib/libprotobuf.a][/home/bsarrett/.local/include][v23.4.0()]
 //Details about finding Threads
 FIND_PACKAGE_MESSAGE_DETAILS_Threads:INTERNAL=[TRUE][v()]
 //Have library c
@@ -1864,6 +2202,7 @@ FOUND_CLOCK_GETTIME_LIBC:INTERNAL=1
 GITCOMMAND-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: GIT_EXECUTABLE
 GIT_EXECUTABLE-ADVANCED:INTERNAL=1
+GRPC_INCLUDE_DIR:INTERNAL=/home/bsarrett/dev/projects/redtangle-cpp/libs/grpc/include
 //Test HAVE_3DNOW
 HAVE_3DNOW:INTERNAL=1
 //Have symbol abs
@@ -1952,6 +2291,8 @@ HAVE_DLFCN_H:INTERNAL=1
 HAVE_DLOPEN_IN_LIBC:INTERNAL=1
 //Have symbol elf_aux_info
 HAVE_ELF_AUX_INFO:INTERNAL=
+//Test HAVE_ENABLE_NEW_DTAGS
+HAVE_ENABLE_NEW_DTAGS:INTERNAL=1
 //Have include errno.h
 HAVE_ERRNO_H:INTERNAL=1
 //Have symbol exp
@@ -2380,6 +2721,8 @@ HAVE_WCSNCASECMP:INTERNAL=1
 HAVE_WCSNCMP:INTERNAL=1
 //Have symbol wcsstr
 HAVE_WCSSTR:INTERNAL=1
+//Test HAVE_WL_NO_UNDEFINED
+HAVE_WL_NO_UNDEFINED:INTERNAL=1
 //Have symbol writev
 HAVE_WRITEV:INTERNAL=1
 //Test HAVE_XFIXES_H
@@ -2785,6 +3128,11 @@ PKG_WAYLAND_xkbcommon_LIBDIR:INTERNAL=/usr/lib/x86_64-linux-gnu
 PKG_WAYLAND_xkbcommon_MODULE_NAME:INTERNAL=xkbcommon
 PKG_WAYLAND_xkbcommon_PREFIX:INTERNAL=/usr
 PKG_WAYLAND_xkbcommon_VERSION:INTERNAL=1.4.0
+REDTANGLE_INCLUDES:INTERNAL=/home/bsarrett/dev/projects/redtangle-cpp/include
+REDTANGLE_INCLUDE_DIRS:INTERNAL=/home/bsarrett/dev/projects/redtangle-cpp/src
+REDTANGLE_SOURCES:INTERNAL=REDTANGLE_SOURCE_FILES
+//ADVANCED property for variable: SDL2IMAGE_DEBUG_POSTFIX
+SDL2IMAGE_DEBUG_POSTFIX-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: SDL_CMAKE_DEBUG_POSTFIX
 SDL_CMAKE_DEBUG_POSTFIX-ADVANCED:INTERNAL=1
 SDL_IMAGE_INCLUDE_DIR:INTERNAL=/home/bsarrett/dev/projects/redtangle-cpp/libs/SDL_image/include
@@ -2877,6 +3225,11 @@ _CARES_FUNC_IN_LIB_GLOBAL_res_servicename:INTERNAL=
 _CARES_FUNC_IN_LIB_GLOBAL_socket:INTERNAL=1
 //CMAKE_INSTALL_PREFIX during last run
 _GNUInstallDirs_LAST_CMAKE_INSTALL_PREFIX:INTERNAL=/usr/local
+_GRPC_CPP_PLUGIN_EXECUTABLE:INTERNAL=$<TARGET_FILE:grpc_cpp_plugin>
+_GRPC_GRPCPP:INTERNAL=grpc++
+_PROTOBUF_LIBPROTOBUF:INTERNAL=libprotobuf
+_PROTOBUF_PROTOC:INTERNAL=$<TARGET_FILE:protobuf::protoc>
+_REFLECTION:INTERNAL=grpc++_reflection
 __pkg_config_arguments_EGL:INTERNAL=egl
 __pkg_config_arguments_PKG_KMSDRM:INTERNAL=libdrm;gbm;egl
 __pkg_config_arguments_PKG_LIBDECOR:INTERNAL=libdecor-0

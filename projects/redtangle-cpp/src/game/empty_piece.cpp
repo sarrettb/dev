@@ -1,4 +1,4 @@
-#include "redtangle.h"
+#include "game/redtangle.h"
 
 
 // Renders the squares background 

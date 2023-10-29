@@ -1,5 +1,5 @@
 #include <time.h>
-#include "redtangle.h"
+#include "game/redtangle.h"
 
 bool valid_location(const redtangle::Location& loc);
 bool is_eightAdj(const redtangle::Location& src, const redtangle::Location& dst);
@@ -10,7 +10,7 @@ std::vector<std::vector<redtangle::Color>> generate_possibleOrientations();
 redtangle::Location move(const redtangle::Location& src, redtangle::Side team_side);
 
 // Create the local redtangle object
-redtangle::RedtangleGame::RedtangleGame() : _black_pieces(0), _white_pieces(0),_board(GRID_SIZE, std::vector<std::shared_ptr<Piece>>(GRID_SIZE)), 
+redtangle::RedtangleGame::RedtangleGame() : _winner(redtangle::NONE), _black_pieces(0), _white_pieces(0),_board(GRID_SIZE, std::vector<std::shared_ptr<Piece>>(GRID_SIZE)), 
                                             _turn(WHITE), _state(GameState::SELECTING), _curr_selection(INVALID) {
     create_board(generate_possibleOrientations()); 
 }
@@ -136,8 +136,10 @@ bool redtangle::RedtangleGame::jump(const Location& location) {
 // If in a valid state, then attempt to select or move a piece 
 bool redtangle::RedtangleGame::select(const Location& loc) {
     if (valid_location(loc) && _state == GameState::SELECTING) {
+        std::cout << "Attempting to select piece\n"; 
         return select_piece(loc); 
     }
+    std::cout << "Not valid location or game state\n"; 
     return false;
 }
 
@@ -162,16 +164,11 @@ bool redtangle::RedtangleGame::rotate(bool clockwise) {
     return false;
 }
 
-std::string redtangle::RedtangleGame::format_status() const {
-    auto colorToStr = [](const Color& c) -> std::string {return c == WHITE ? "White" : "Black"; }; 
-    if (_state == GameState::GAME_OVER) {
-        return colorToStr(_winner) + " won!";
+std::shared_ptr<redtangle::Piece> redtangle::RedtangleGame::get_piece(const Location& location) {
+    if (!valid_location(location)) {
+        throw std::invalid_argument("Location is invalid.\n");
     }
-    std::string status; 
-    status += colorToStr(BLACK) + " Pieces: " + std::to_string(_black_pieces) + "\n";
-    status += colorToStr(WHITE) + " Pieces: " + std::to_string(_white_pieces) + "\n";
-    status += colorToStr(_turn) + "'s Turn"; 
-    return status; 
+    return _board[location.x][location.y]; 
 }
 
 // Renders every piece to the screen 
@@ -182,8 +179,14 @@ void redtangle::RedtangleGame::render_board(const std::shared_ptr<RedtangleUI> u
             _board[x][y]->render(ui, {x, y}); 
         }
     }
-    std::string status = format_status(); 
-    ui->set_status(status); 
+    redtangle::StatusInfo status_info = { _white_pieces, 
+                                          _black_pieces,
+                                          redtangle::to_str(_turn),
+                                          _state == GameState::GAME_OVER ? redtangle::to_str(_winner) : "", 
+                                          "White",
+                                          "Black"
+                                        }; 
+    ui->set_status(format_statusInfo(status_info)); 
     ui->show(); 
 }
 

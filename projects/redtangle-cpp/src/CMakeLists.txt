@@ -1,27 +1,45 @@
- # Add gRPC subdirectory to created the auto-generated files and server/client directory 
- #add_subdirectory(grpc)
+# Build a library for just the redtangle game specific code 
+# This library can be used by the gRPC Server or a local client (2-player/1 PC mode)
+set (REDTANGLE_INCLUDES ${PROJECT_SOURCE_DIR}/include CACHE INTERNAL "")
+file(GLOB_RECURSE REDTANGLE_LIB_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/game/*.cpp")
+add_library(redtangle-lib ${REDTANGLE_LIB_SOURCES})
+include_directories(redtangle-lib ${REDTANGLE_LIB_INCLUDE})
+target_link_libraries(redtangle-lib grpc_redtangle)
 
- # Redtangle include directories are all .h files in the src folder and its subdirectories 
-file(GLOB children RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_SOURCE_DIR}/*)
-set(REDTANGLE_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR})
-foreach(child ${children})
-    if (IS_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/${child})
-        list(APPEND REDTANGLE_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/${child})
-    endif()
-endforeach()
-# Redtangle source files are all .cpp files in the src folder and its subdirectories 
-file(GLOB_RECURSE REDTANGLE_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/*.cpp")
+# Add gRPC subdirectory to created the auto-generated files and gRPC libraries  
+add_subdirectory(grpc)
 
-# Build EXE, add include dirs, link libraries 
-add_executable(redtangle ${REDTANGLE_SOURCES} ) 
-include_directories(redtangle ${REDTANGLE_INCLUDE_DIRS} 
+# Build Application 
+file(GLOB_RECURSE REDTANGLE_APP_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/ui/*.cpp")
+list(APPEND REDTANGLE_APP_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/apps/redtangle_app.cpp")
+list(APPEND REDTANGLE_APP_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/apps/redtangle_builder.cpp")
+
+add_executable(redtangle ${REDTANGLE_APP_SOURCES} ) 
+include_directories(redtangle ${REDTANGLE_INCLUDES} 
                               ${SDL_INCLUDE_DIR}
                               ${SDL_IMAGE_INCLUDE_DIR}
                               ${IMGUI_INCLUDE_DIR} 
+                              ${GRPC_INCLUDE_DIR}
                    )
 target_link_libraries(redtangle SDL2main 
                                 SDL2-static
                                 SDL2_image
                                 imgui
-                                Kernel32
+                                redtangle-lib
+                                redtangle-client
                      )
+
+add_executable(debug main.cpp ) 
+include_directories(debug ${REDTANGLE_INCLUDES} 
+                            ${SDL_INCLUDE_DIR}
+                            ${SDL_IMAGE_INCLUDE_DIR}
+                            ${IMGUI_INCLUDE_DIR} 
+                            ${GRPC_INCLUDE_DIR}
+                )
+target_link_libraries(debug SDL2main 
+                                SDL2-static
+                                SDL2_image
+                                imgui
+                                redtangle-lib
+                                redtangle-client
+                    )

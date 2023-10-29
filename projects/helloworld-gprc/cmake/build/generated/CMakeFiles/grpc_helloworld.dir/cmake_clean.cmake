@@ -4,9 +4,7 @@ file(REMOVE_RECURSE
   "../../../generated/helloworld.pb.cc"
   "../../../generated/helloworld.pb.h"
   "CMakeFiles/grpc_helloworld.dir/helloworld.grpc.pb.cc.o"
-  "CMakeFiles/grpc_helloworld.dir/helloworld.grpc.pb.cc.o.d"
   "CMakeFiles/grpc_helloworld.dir/helloworld.pb.cc.o"
-  "CMakeFiles/grpc_helloworld.dir/helloworld.pb.cc.o.d"
   "libgrpc_helloworld.a"
   "libgrpc_helloworld.pdb"
 )

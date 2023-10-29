@@ -1,7 +1,7 @@
 #include <algorithm> 
 #include <functional>
 #include <cassert> 
-#include "redtangle.h"
+#include "game/redtangle.h"
 
 using redtangle::Rect;  
 using redtangle::Circle;  

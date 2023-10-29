@@ -1,6 +1,5 @@
 file(REMOVE_RECURSE
   "CMakeFiles/butility.dir/butility.cpp.o"
-  "CMakeFiles/butility.dir/butility.cpp.o.d"
   "libbutility.a"
   "libbutility.pdb"
 )

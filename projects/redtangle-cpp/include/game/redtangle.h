@@ -3,6 +3,7 @@
 #include <vector> 
 #include <memory> 
 #include <string> 
+#include <any> 
 
 // Declares all data structres, classes, and methods to play a redtangle game
 // Independent of any libraries. i.e. SDL, gRPC
@@ -53,6 +54,7 @@ namespace redtangle {
 
     // Helper function 
     inline bool in_redtangle(const Location& loc) { return (loc.y == 0 || loc.y == 1 || loc.y == 6 || loc.y == 7) && (loc.x >= 2 && loc.x < 6); }
+
     
     // Interface for rendering the redtangle game
     // One implementation will be to run the game headless (no UI) which will be used by the gRPC Server 
@@ -118,8 +120,8 @@ namespace redtangle {
             virtual void render_filledCircle(const Circle& circle, const Color& color) const = 0;
             virtual void render_filledTriangle(const std::vector<Point>& vertices, const Color& color) const = 0;
             virtual bool poll_event() = 0; 
-            virtual void set_status(const std::string& status) = 0; 
-            virtual void show() = 0; 
+            virtual void show() = 0;
+            virtual void set_status(const std::string& status) = 0;  
             virtual void clear() = 0; 
             virtual ~RedtangleUI() {}; 
     }; 
@@ -170,8 +172,10 @@ namespace redtangle {
             virtual bool rotate(bool clockwise) = 0; 
             virtual bool end_turn() = 0; 
             virtual void render_board(const std::shared_ptr<RedtangleUI> ui) const = 0; 
-            virtual Color get_winner() const = 0; 
+            virtual ~Redtangle() = 0;
     }; 
+
+    inline Redtangle::~Redtangle() {}; 
 
     // Implementation that performs the game logic and renders pieces to the ui
     class RedtangleGame : public Redtangle {
@@ -193,13 +197,49 @@ namespace redtangle {
             bool is_suicide(const Location& loc) const; 
             bool jump(Location curr, const Location& dest, const Color& team_sideColor, Side team_side, Side opp_side);
             bool jump(const Location& location);
-            std::string format_status() const;
         public:
             RedtangleGame(); 
             bool select(const Location& location) override; 
             bool rotate(bool clockwise) override; 
             bool end_turn() override; 
-            Color get_winner() const override {return _winner; }
             void render_board(const std::shared_ptr<RedtangleUI> ui) const override; 
+            Color get_winner() const {return _winner; }
+            Color get_turn() const { return _turn; }
+            int get_white_pieces() const {return _white_pieces; }
+            int get_black_pieces() const {return _black_pieces; }
+            std::shared_ptr<Piece> get_piece(const Location& location); 
+            ~RedtangleGame() override {}; 
     }; 
+    struct StatusInfo {
+        int white_pieces;
+        int black_pieces; 
+        std::string turn;
+        std::string winner;
+        std::string white_name;
+        std::string black_name;
+    };
+    inline std::string to_str(const Color& c) { 
+        if (c == redtangle::NONE) {
+            return ""; 
+        }
+        else if (c == redtangle::WHITE) {
+            return "White"; 
+        }
+        else if (c == redtangle::BLACK) {
+            return "Black"; 
+        }
+        else {
+            throw std::invalid_argument("Unable to convert color.");
+        }
+     }
+    inline std::string format_statusInfo(const StatusInfo& info) {
+        if (info.winner != "") {
+            return info.winner + " won!";
+        }
+        std::string status; 
+        status += info.white_name + " Pieces: " + std::to_string(info.white_pieces) + "\n";
+        status += info.black_name + " Pieces: " + std::to_string(info.black_pieces) + "\n";
+        status += info.turn + "'s Turn"; 
+        return status; 
+    }
 }

@@ -6,5 +6,6 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 
 project(REDTANGLE)
 
+add_subdirectory("${PROJECT_SOURCE_DIR}/../butility" ${CMAKE_BINARY_DIR}/butility)
 add_subdirectory(libs)
 add_subdirectory(src)

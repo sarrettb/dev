@@ -1,7 +1,10 @@
 #pragma once
 #include <SDL.h>
-#include <filesystem>
-#include "redtangle.h"
+#include "game/redtangle.h"
+
+#define DEFAULT_WIDTH 1000
+#define DEFAULT_HEIGHT 800
+
 
 // Redtangle UI implemenation using the SDL library 
 class RedtangleUI_SDL : public redtangle::RedtangleUI {
@@ -12,7 +15,7 @@ class RedtangleUI_SDL : public redtangle::RedtangleUI {
         SDL_Event _event; 
         virtual void resizeWindow(); 
     public: 
-        RedtangleUI_SDL(int width, int height, std::filesystem::path exe_path = std::filesystem::path(), int options = 0); 
+        RedtangleUI_SDL(const std::string& icon_path = "", int options = 0); 
         ~RedtangleUI_SDL() override; 
         RedtangleUI::EventType get_eventType() override;
         redtangle::Location get_location() const override; 

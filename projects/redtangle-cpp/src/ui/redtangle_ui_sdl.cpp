@@ -1,7 +1,8 @@
 #include <SDL.h>
 #include <SDL_image.h>
 #include <math.h> 
-#include "redtangle_ui_sdl.h"
+#include <filesystem>
+#include "ui/redtangle_ui_sdl.h"
 
 using redtangle::Point; 
 using redtangle::Circle; 
@@ -11,35 +12,27 @@ using redtangle::Color;
 bool in_circle(const SDL_Point& point, const Circle& circle); 
 void add_circlePoints(std::vector<SDL_Point>& points, const Circle& circle); 
 void add_filledCirclePoints(std::vector<SDL_Point>& points, const Circle& circle);
-SDL_Color color_toSDLColor(const Color& color);  
 void insert_sdlError(); 
+SDL_Color color_toSDLColor(const Color& color); 
 
 // Create the window and renderer
-RedtangleUI_SDL::RedtangleUI_SDL(int width, int height, std::filesystem::path exe_path, int options) : RedtangleUI(width, height), _icon(nullptr) {
+RedtangleUI_SDL::RedtangleUI_SDL(const std::string& icon_path, int options) : RedtangleUI(DEFAULT_WIDTH, DEFAULT_HEIGHT), _icon(nullptr) {
     if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER | SDL_INIT_GAMECONTROLLER) != 0) {
         insert_sdlError(); 
     }
-    _window = SDL_CreateWindow("Redtangle", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, SDL_WINDOW_RESIZABLE | SDL_WINDOW_ALLOW_HIGHDPI | options); 
+    _window = SDL_CreateWindow("Redtangle", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, _window_width, _window_height, SDL_WINDOW_RESIZABLE | SDL_WINDOW_ALLOW_HIGHDPI | options); 
     _renderer = SDL_CreateRenderer(_window, -1, SDL_RENDERER_PRESENTVSYNC | SDL_RENDERER_ACCELERATED); 
     if (_window == nullptr || _renderer == nullptr) {
         insert_sdlError(); 
     }
-    if (!exe_path.empty()) {
-        auto icon_path = exe_path.remove_filename().concat("redtangle.png"); 
+    if (!icon_path.empty()) {
         if (std::filesystem::exists(icon_path)) {
-            std::cout << "Path Exists"; 
-            _icon = IMG_Load(icon_path.string().c_str()); 
+            _icon = IMG_Load(icon_path.c_str()); 
             SDL_SetWindowIcon(_window, _icon); 
             if (_icon == nullptr) {
                 insert_sdlError(); 
             }
         }
-        else {
-            std::cout << "Icon File does not exist.\n"; 
-        }
-    }
-    else {
-        std::cout << "empty exe path\n"; 
     }
 }
 
