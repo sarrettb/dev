@@ -1,3 +1,4 @@
+#include <filesystem> 
 #include "apps/redtangle_builder.h"
 
 // Comment these out to disable options 
@@ -18,13 +19,15 @@
 
 int main(int argc, char** argv) {   
     try {
-            RedtangleBuilder builder; 
+            std::filesystem::path icon_path = std::filesystem::path(argv[0]).replace_filename("redtangle.png");  
+            RedtangleBuilder builder;  
             builder.set_gameType(game_type);
             builder.set_UIType(ui_type); 
+            builder.set_iconPath(icon_path.string()); 
             builder.build(); 
             auto game = builder.get_game();
             auto ui = builder.get_UI(); 
-            bool quit = false;
+            bool quit = builder.build_valid(); 
             while (!quit) {
                 while (ui->poll_event()) {
                     switch (ui->get_eventType()) {

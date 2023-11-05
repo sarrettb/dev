@@ -16,6 +16,9 @@ void RedtangleBuilder::build() {
         }
         std::shared_ptr<RedtangleUI_Imgui> imgui_ui = std::make_shared<RedtangleUI_Imgui>(_icon_path);
         RemotePopupInfo info = imgui_ui->RemotePopup(); 
+        if (info.user_name.empty()) {
+            return; // cancelled
+        }
         auto remote_game = std::make_shared<RedtangleRemote>(info.user_name, info.ip_address, info.port);
         imgui_ui->InitBoard();  
         _game = remote_game;

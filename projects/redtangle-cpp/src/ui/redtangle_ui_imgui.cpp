@@ -121,13 +121,12 @@ bool RedtangleUI_Imgui::popup(char* user_name, size_t user_nameSize, char* ip_ad
         ImGui::SameLine(); 
         ImGui::InputInt("##port", port); 
         ImGui::Separator();
-        if (ImGui::Button("OK")) {
+        if (ImGui::Button("Connect")) {
             ImGui::CloseCurrentPopup();
             result = true; 
         }
         ImGui::SameLine(); 
         if(ImGui::Button("Cancel")) { 
-            std::cout << "Cancel\n"; 
             ImGui::CloseCurrentPopup(); 
             result = true;
         }

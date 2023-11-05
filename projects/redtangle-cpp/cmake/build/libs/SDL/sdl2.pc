@@ -1,6 +1,6 @@
 # sdl pkg-config source file
 
-prefix=/usr/local
+prefix=C:/Program Files (x86)/REDTANGLE
 exec_prefix=${prefix}
 libdir=${exec_prefix}/lib
 includedir=${prefix}/include
@@ -10,6 +10,5 @@ Description: Simple DirectMedia Layer is a cross-platform multimedia library des
 Version: 2.29.0
 Requires.private: 
 Conflicts:
-Libs: -L${libdir} -Wl,-rpath,${libdir} -Wl,--enable-new-dtags  -lSDL2 
-Libs.private:  -lSDL2 -pthread  -lm
-Cflags: -I${includedir} -I${includedir}/SDL2  -D_REENTRANT
+Libs: -L${libdir}   -lSDL2-static    -lSDL2-static  -lkernel32 -luser32 -lgdi32 -lwinmm -limm32 -lole32 -loleaut32 -lversion -luuid -ladvapi32 -lsetupapi -lshell32 -ldinput8
+Cflags: -I${includedir} -I${includedir}/SDL2 
