@@ -7,6 +7,8 @@ static const int STATUS_BAR_HEIGHT = 50;
 static const int BORDER_WIDTH = 2; 
 static const std::string DIRECTIONS_URL = "https://github.com/sarrettb/dev/blob/main/projects/redtangle-cpp/docs/directions.pdf";
 static const std::string CONTROLS_URL = "https://github.com/sarrettb/dev/blob/main/projects/redtangle-cpp/docs/controls.md";
+static const int POPUP_WIDTH = 340;
+static const int POPUP_HEIGHT = 109; 
 
 #ifdef _WIN32
     static const std::string CMD = "start "; 
@@ -109,7 +111,8 @@ bool RedtangleUI_Imgui::popup(char* user_name, size_t user_nameSize, char* ip_ad
     ImGui::OpenPopup("Popup");
     bool result = false;
     if (ImGui::BeginPopupModal("Popup", NULL, ImGuiWindowFlags_NoTitleBar)) {
-        ImGui::SetWindowPos({0, 0});  
+        ImGui::SetWindowPos({0, 0}); 
+        ImGui::SetWindowSize({POPUP_WIDTH, POPUP_HEIGHT}); 
         ImGui::SetItemDefaultFocus();
         ImGui::Text("User Name:");
         ImGui::SameLine(); 
@@ -142,7 +145,7 @@ RemotePopupInfo RedtangleUI_Imgui::RemotePopup() {
     char ip_address[BUFFER_SIZE] = "0.0.0.0"; 
     int port = 50052;
     bool done = false;
-    SDL_SetWindowSize(_window, 340, 109); 
+    SDL_SetWindowSize(_window, POPUP_WIDTH, POPUP_HEIGHT); 
     SDL_ShowWindow(_window); 
     ImGui::StyleColorsDark(); 
     while (!done) {

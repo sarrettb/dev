@@ -27,6 +27,10 @@ file(GLOB IMGUI_SOURCES "${LIBS_DIR}/imgui/*.cpp"
 add_library(imgui STATIC ${IMGUI_HEADERS} ${IMGUI_SOURCES})
 include_directories(imgui ${IMGUI_INCLUDE_DIR} ${SDL_INCLUDE_DIR})
 
+# Utility library for parsing commandline which is used by the server
+set(BUTILITY_DIR "${PROJECT_SOURCE_DIR}/../butility")
+add_subdirectory(${BUTILITY_DIR} ${CMAKE_BINARY_DIR}/butility)
+
 # gRPC generated sources based on proto file 
 set(REDTANGLE_GRPC_INCLUDES "${PROJECT_SOURCE_DIR}/include/grpc")
 set(GENERATED_DIR ${REDTANGLE_GRPC_INCLUDES}/generated)
@@ -68,13 +72,22 @@ if (WIN32)
     else()
         set(_GRPC_CPP_PLUGIN_EXECUTABLE $<TARGET_FILE:gRPC::grpc_cpp_plugin> CACHE INTERNAL "")
     endif()
+    set(GRPC_LIBS gRPC::grpc++
+                  gRPC::grpc++_reflection
+                  gRPC::gpr 
+                  gRPC::grpc 
+                  gRPC::grpc++ 
+                  protobuf::libprotoc 
+                  protobuf::libprotobuf 
+                  protobuf::libprotobuf-lite
+        )
     
 # If building for Linux (tested on Ubuntu) 
 # Then gRPC just needs to be added as a gitsubmodule via git submodule update --init --recursive
 # gRPC will be built from source without requiring a local install 
 else()
     set(ABSL_ENABLE_INSTALL ON)
-    add_subdirectory(grpc)
+    add_subdirectory("${LIBS_DIR}/grpc")
     message(STATUS "Using gRPC via add_subdirectory.")
     # After using add_subdirectory, we can now use the grpc targets directly from this build.
     if(CMAKE_CROSSCOMPILING)
@@ -87,6 +100,10 @@ else()
     else()
         set(_GRPC_CPP_PLUGIN_EXECUTABLE $<TARGET_FILE:grpc_cpp_plugin> CACHE INTERNAL "")
     endif()
+    list(APPEND GRPC_LIBS grpc++_reflection)
+    list(APPEND GRPC_LIBS grpc++)
+    list(APPEND GRPC_LIBS libprotobuf)
+    set(GPRC_INCLUDE "${PROJECT_SOURCE_DIR}/libs/grpc/include")
 endif()
 
 # Run the gRPC protoc compiler from CMake
@@ -108,17 +125,9 @@ add_library(grpc_redtangle STATIC
             ${REDTANGLE_PROTO_HEADER}
           )
 include_directories(grpc_redtangle ${_PROTOBUF_INCLUDE_DIRS})
-target_link_libraries(grpc_redtangle
-                      gRPC::grpc++
-                      gRPC::grpc++_reflection
-                      gRPC::gpr 
-                      gRPC::grpc 
-                      gRPC::grpc++ 
-                      protobuf::libprotoc 
-                      protobuf::libprotobuf 
-                      protobuf::libprotobuf-lite
-                      )
-# Build Application 
+target_link_libraries(grpc_redtangle ${GRPC_LIBS})
+
+# Build Client Application 
 set(REDTANGLE_INCLUDES "${PROJECT_SOURCE_DIR}/include")
 file(GLOB_RECURSE UI_SOURCES "${PROJECT_SOURCE_DIR}/src/ui/*.cpp")
 file(GLOB_RECURSE GAME_SOURCES "${PROJECT_SOURCE_DIR}/src/game/*.cpp")
@@ -141,3 +150,15 @@ target_link_libraries(redtangle SDL2main
                                 imgui
                                 grpc_redtangle
                       )
+
+# Build Server Application 
+list(APPEND REDTANGLE_SERVER_SOURCES "${PROJECT_SOURCE_DIR}/src/game/redtangle_game.cpp")
+list(APPEND REDTANGLE_SERVER_SOURCES "${PROJECT_SOURCE_DIR}/src/game/empty_piece.cpp")
+list(APPEND REDTANGLE_SERVER_SOURCES "${PROJECT_SOURCE_DIR}/src/game/redtangle_piece.cpp")
+list(APPEND REDTANGLE_SERVER_SOURCES "${PROJECT_SOURCE_DIR}/src/apps/redtangle_server_app.cpp")
+list(APPEND REDTANGLE_SERVER_SOURCES "${PROJECT_SOURCE_DIR}/src/grpc/redtangle_server.cpp")
+add_executable(redtangle_server ${REDTANGLE_SERVER_SOURCES} ) 
+include_directories(redtangle_server ${REDTANGLE_INCLUDES} 
+                                     ${BUTILITY_DIR}
+                   )
+target_link_libraries(redtangle_server grpc_redtangle butility)

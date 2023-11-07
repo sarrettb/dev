@@ -27,7 +27,7 @@ int main(int argc, char** argv) {
             builder.build(); 
             auto game = builder.get_game();
             auto ui = builder.get_UI(); 
-            bool quit = builder.build_valid(); 
+            bool quit = !builder.build_valid(); 
             while (!quit) {
                 while (ui->poll_event()) {
                     switch (ui->get_eventType()) {
