@@ -81,6 +81,7 @@ if (WIN32)
                   protobuf::libprotobuf 
                   protobuf::libprotobuf-lite
         )
+    # /ENTRY:mainCRTStartup keeps the same "main" function instead of requiring "WinMain")
     
 # If building for Linux (tested on Ubuntu) 
 # Then gRPC just needs to be added as a gitsubmodule via git submodule update --init --recursive
@@ -150,6 +151,11 @@ target_link_libraries(redtangle SDL2main
                                 imgui
                                 grpc_redtangle
                       )
+set_target_properties(
+    redtangle
+    PROPERTIES LINK_FLAGS_DEBUG "/SUBSYSTEM:CONSOLE"
+                LINK_FLAGS_RELEASE "/SUBSYSTEM:WINDOWS /ENTRY:mainCRTStartup"
+)
 
 # Build Server Application 
 list(APPEND REDTANGLE_SERVER_SOURCES "${PROJECT_SOURCE_DIR}/src/game/redtangle_game.cpp")

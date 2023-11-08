@@ -4,14 +4,14 @@
 #define MyAppName "Redtangle"
 #define MyAppVersion "2.0"
 #define MyAppPublisher "Redtangle"
-#define MyAppURL "https://github.com/sarrettb/dev"
+#define MyAppURL "https://github.com/sarrettb"
 #define MyAppExeName "redtangle.exe"
 #define MyAppIconName "redtangle-icon.ico"
 
 [Setup]
 ; NOTE: The value of AppId uniquely identifies this application. Do not use the same AppId value in installers for other applications.
 ; (To generate a new GUID, click Tools | Generate GUID inside the IDE.)
-AppId={{4E7BD8C8-5680-4176-AFB0-9B7009C09C0D}
+AppId={{FC463A10-4192-43E7-9D36-013CA5322D61}
 AppName={#MyAppName}
 AppVersion={#MyAppVersion}
 ;AppVerName={#MyAppName} {#MyAppVersion}
@@ -24,8 +24,9 @@ DisableProgramGroupPage=yes
 ; Uncomment the following line to run in non administrative install mode (install for current user only.)
 ;PrivilegesRequired=lowest
 PrivilegesRequiredOverridesAllowed=dialog
-OutputDir=C:\dev\projects\redtangle-cpp\installer
-OutputBaseFilename=redtangle-installer
+OutputDir=C:\Users\blake\redtangle-install
+OutputBaseFilename=mysetup
+SetupIconFile=C:\dev\projects\redtangle-cpp\cmake\build\install-files\redtangle-icon.ico
 Compression=lzma
 SolidCompression=yes
 WizardStyle=modern
@@ -37,16 +38,13 @@ Name: "english"; MessagesFile: "compiler:Default.isl"
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
 
 [Files]
-Source: "C:\dev\projects\redtangle-cpp\cmake\build\src\Debug\{#MyAppExeName}"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\dev\projects\redtangle-cpp\cmake\build\src\Debug\redtangle.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\dev\projects\redtangle-cpp\cmake\build\src\Debug\redtangle-icon.ico"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\dev\projects\redtangle-cpp\docs\redtangle.png"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\dev\projects\redtangle-cpp\cmake\build\install-files\{#MyAppExeName}"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\dev\projects\redtangle-cpp\cmake\build\install-files\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]
-Name: "{autoprograms}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"
-Name: "{autodesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; Tasks: desktopicon
-Name: "{userdesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; IconFilename: "{app}\{#MyAppIconName}"; Tasks: desktopicon
+;Name: "{autoprograms}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"
+Name: "{autodesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; Tasks: desktopicon ; IconFilename: "{app}\{#MyAppIconName}";
 
 [Run]
 Filename: "{app}\{#MyAppExeName}"; Description: "{cm:LaunchProgram,{#StringChange(MyAppName, '&', '&&')}}"; Flags: nowait postinstall skipifsilent

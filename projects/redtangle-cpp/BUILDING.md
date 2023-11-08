@@ -11,7 +11,7 @@ Update all of the git submodules to obtain the dependencies:
 
 If building on Windows, gRPC must be installed locally on the system. See the following for instructions:
 
-    https://sanoj.in/2020/05/07/working-with-grpc-in-windows.html
+    https://sanoj.in/20 20/05/07/working-with-grpc-in-windows.html
 
 Verify cmake is installed and the version is at least 3.5:
 
@@ -31,7 +31,7 @@ Push the build directory:
 
 Create the build spec:
     
-    cmake ../.. -DSDL_STATIC=ON -DBUILD_SHARED_LIBS=OFF
+    cmake ../..  
 
 Build the executable:
 
