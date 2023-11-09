@@ -8,6 +8,7 @@ struct RemotePopupInfo {
     std::string user_name;
     std::string ip_address;
     int port;
+    bool cancelled; 
 }; 
 
 // Extend the RedtangleUI_SDL to provide a status message and menu options 
@@ -21,8 +22,7 @@ class RedtangleUI_Imgui : public RedtangleUI_SDL {
         void render_menuBar();
         void render_statusBar();
         void resizeWindow() override;  
-        bool popup(char* user_name, size_t user_nameSize, char* ip_address, size_t ip_addressSize, int* port); 
-        void InitImGui();
+        bool popup(char* user_name, size_t user_nameSize, char* ip_address, size_t ip_addressSize, int* port,  bool* cancelled); 
     public:
         RedtangleUI_Imgui(const std::string& icon_path = "");
         void InitBoard(); 

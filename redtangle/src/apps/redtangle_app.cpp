@@ -2,7 +2,7 @@
 #include "apps/redtangle_builder.h"
 
 // Comment these out to disable options 
-//#define USE_GRPC
+#define USE_GRPC
 #define USE_IMGUI
 
 #ifdef USE_GRPC

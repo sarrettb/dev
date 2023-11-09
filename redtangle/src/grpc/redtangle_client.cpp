@@ -6,15 +6,15 @@ RedtangleClient::RedtangleClient(const std::string& user_name,
                                  std::shared_ptr<grpc::ChannelCredentials> creds
                                 ) : _user_name(user_name)
 {
+    if (_user_name.empty()) {
+        _user_name =  std::to_string((long long int) this); // If user name not specified set it to the address of the client object
+    }
     std::string address = ip_address + ':' + std::to_string(port); 
     _stub = redtangle_grpc::Redtangle::NewStub(grpc::CreateChannel(address, creds)); 
     connect(); 
 }
 
 void RedtangleClient::connect() {
-    if (_user_name.empty()) {
-        throw std::invalid_argument("User name must be set before connecting.");
-    }
     redtangle_grpc::ConnectRequest request; 
     redtangle_grpc::ConnectResponse response;
     grpc::ClientContext context;

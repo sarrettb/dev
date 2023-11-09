@@ -107,7 +107,7 @@ void RedtangleUI_Imgui::resizeWindow() {
 }
 
 // Return true when user selects 'OK' or 'Cancel'
-bool RedtangleUI_Imgui::popup(char* user_name, size_t user_nameSize, char* ip_address, size_t ip_addressSize, int* port) {  
+bool RedtangleUI_Imgui::popup(char* user_name, size_t user_nameSize, char* ip_address, size_t ip_addressSize, int* port, bool* cancelled) {  
     ImGui::OpenPopup("Popup");
     bool result = false;
     if (ImGui::BeginPopupModal("Popup", NULL, ImGuiWindowFlags_NoTitleBar)) {
@@ -132,6 +132,7 @@ bool RedtangleUI_Imgui::popup(char* user_name, size_t user_nameSize, char* ip_ad
         if(ImGui::Button("Cancel")) { 
             ImGui::CloseCurrentPopup(); 
             result = true;
+            *cancelled = true;
         }
         ImGui::EndPopup();
     }
@@ -142,9 +143,10 @@ bool RedtangleUI_Imgui::popup(char* user_name, size_t user_nameSize, char* ip_ad
 RemotePopupInfo RedtangleUI_Imgui::RemotePopup() {
     const int BUFFER_SIZE = 100;
     char user_name[BUFFER_SIZE] = ""; 
-    char ip_address[BUFFER_SIZE] = "0.0.0.0"; 
-    int port = 50052;
+    char ip_address[BUFFER_SIZE] = "18.223.134.77"; // ip address of AWS Server
+    int port = 50052; // port used by AWS Server 
     bool done = false;
+    bool cancelled = false;
     SDL_SetWindowSize(_window, POPUP_WIDTH, POPUP_HEIGHT); 
     SDL_ShowWindow(_window); 
     ImGui::StyleColorsDark(); 
@@ -152,7 +154,7 @@ RemotePopupInfo RedtangleUI_Imgui::RemotePopup() {
         ImGui_ImplSDLRenderer2_NewFrame();
         ImGui_ImplSDL2_NewFrame();
         ImGui::NewFrame(); 
-        done = popup(user_name, BUFFER_SIZE, ip_address, BUFFER_SIZE, &port);
+        done = popup(user_name, BUFFER_SIZE, ip_address, BUFFER_SIZE, &port, &cancelled);
         ImGui::Render();
         SDL_RenderSetScale(_renderer, _io.DisplayFramebufferScale.x, _io.DisplayFramebufferScale.y);
         ImGui_ImplSDLRenderer2_RenderDrawData(ImGui::GetDrawData());
@@ -166,5 +168,5 @@ RemotePopupInfo RedtangleUI_Imgui::RemotePopup() {
         std::this_thread::sleep_for(std::chrono::milliseconds(10));
     }
     SDL_HideWindow(_window); 
-    return { user_name, ip_address, port }; 
+    return { user_name, ip_address, port, cancelled }; 
 }

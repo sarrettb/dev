@@ -19,7 +19,7 @@ Verify cmake is installed and the version is at least 3.5:
 
 Set the current directory to the redtangle-cpp folder:
 
-    cd dev/projects/redtangle-cpp
+    cd dev/redtangle
 
 Create the build folder:
 
@@ -31,14 +31,16 @@ Push the build directory:
 
 Create the build spec:
     
-    cmake ../..  
+    cmake ../.. -DSDL_STATIC=ON -DBUILD_SHARED_LIBS=OFF
+
+If building on Windows, -DCMAKE_TOOLCHAIN_FILE=<path> needs to also be specified. 
 
 Build the executable:
 
     cmake --build . 
 
-Run the executable:
+Run the executable (path is for windows build):
 
-    ./src/Debug/redtangle.exe
+    ./Debug/redtangle.exe
 
 Note: In order to see the redtangle icon, you must manually copy the file into the executable directory. This functionality is handled when using the installer.  
