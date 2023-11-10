@@ -17,7 +17,7 @@ Verify cmake is installed and the version is at least 3.5:
 
     cmake --version 
 
-Set the current directory to the redtangle-cpp folder:
+Set the current directory to the redtangle folder:
 
     cd dev/redtangle
 
@@ -33,7 +33,7 @@ Create the build spec:
     
     cmake ../.. -DSDL_STATIC=ON -DBUILD_SHARED_LIBS=OFF
 
-If building on Windows, -DCMAKE_TOOLCHAIN_FILE=<path> needs to also be specified. 
+If building on Windows, -DCMAKE_TOOLCHAIN_FILE=<`path`> needs to also be specified. 
 
 Build the executable:
 
