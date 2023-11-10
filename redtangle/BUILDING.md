@@ -43,4 +43,8 @@ Run the executable (path is for windows build):
 
     ./Debug/redtangle.exe
 
+Pop the directory to go back to redtangle folder:
+
+    popd
+
 Note: In order to see the redtangle icon, you must manually copy the file into the executable directory. This functionality is handled when using the installer.  
