@@ -5,6 +5,10 @@ Start by cloning the repo:
 
     git clone https://github.com/sarrettb/dev.git
 
+Step into the repo directory:
+
+    cd dev
+
 Update all of the git submodules to obtain the dependencies:
 
     git submodule update --init --recursive
@@ -19,7 +23,7 @@ Verify cmake is installed and the version is at least 3.5:
 
 Set the current directory to the redtangle folder:
 
-    cd dev/redtangle
+    cd redtangle
 
 Create the build folder:
 
