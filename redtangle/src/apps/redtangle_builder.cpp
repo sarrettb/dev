@@ -17,6 +17,8 @@ void RedtangleBuilder::build() {
             return; // cancelled
         }
         auto remote_game = std::make_shared<RedtangleRemote>(info.user_name, info.ip_address, info.port);
+        imgui_ui->InitBoard(); 
+        remote_game->render_board(imgui_ui); 
         _game = remote_game;
         _ui = imgui_ui; 
     }
