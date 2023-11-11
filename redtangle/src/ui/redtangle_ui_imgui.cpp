@@ -161,6 +161,7 @@ RemotePopupInfo RedtangleUI_Imgui::RemotePopup() {
         SDL_RenderPresent(_renderer); 
         while (poll_event()) {
             if (get_eventType() == redtangle::RedtangleUI::EventType::QUIT) {
+                cancelled = true; 
                 done = true;
                 break; 
             }
