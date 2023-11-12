@@ -195,7 +195,7 @@ namespace redtangle {
             void create_board(const std::vector<std::vector<Color>>& orientations); 
             bool select_piece(const Location& location); 
             bool is_suicide(const Location& loc) const; 
-            bool jump(Location curr, const Location& dest, const Color& team_sideColor, Side team_side, Side opp_side);
+            bool jump(Location curr, const Location& dest, const Color& team_sideColor, Side team_side, Side opp_side, int& pieces_captured);
             bool jump(const Location& location);
         public:
             RedtangleGame(); 

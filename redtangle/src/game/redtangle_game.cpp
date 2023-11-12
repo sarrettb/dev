@@ -51,7 +51,7 @@ bool redtangle::RedtangleGame::select_piece(const Location& loc) {
         else if (in_opponentsRedtangle(loc, _board[_curr_selection.x][_curr_selection.y]->get_team()) && is_diagnol(loc, _curr_selection)) {
             status = false; 
         }
-        else if (_curr_selection != INVALID && is_eightAdj(_curr_selection, loc) && !_board[loc.x][loc.y]->is_piece()) { // eight adjancent move
+        else if (_curr_selection != INVALID && is_eightAdj(_curr_selection, loc) && !_board[loc.x][loc.y]->is_piece() && _state != GameState::JUMPING) { // eight adjancent move
             std::swap(_board[loc.x][loc.y], _board[_curr_selection.x][_curr_selection.y]);
             _state = GameState::ROTATING;
             _curr_selection = loc; 
@@ -86,7 +86,7 @@ bool redtangle::RedtangleGame::select_piece(const Location& loc) {
 // Recursive function to simulate jumping the pieces
 // For every recursive call check if current team_sideColor != opp_sideColor
 // If all checks pass, on the recursive return set the board piece to an empty piece (simulating a capture)
-bool redtangle::RedtangleGame::jump(Location curr, const Location& dest, const Color& team_sideColor, Side team_side, Side opp_side) {
+bool redtangle::RedtangleGame::jump(Location curr, const Location& dest, const Color& team_sideColor, Side team_side, Side opp_side, int& pieces_captured) {
     if (curr == dest) {
         return true;
     } 
@@ -97,9 +97,10 @@ bool redtangle::RedtangleGame::jump(Location curr, const Location& dest, const C
         return false;
     }
     Location next = move(curr, team_side);
-    if (jump(next, dest, team_sideColor, team_side, opp_side)) {
+    if (jump(next, dest, team_sideColor, team_side, opp_side, pieces_captured)) {
         _board[curr.x][curr.y]->get_team() == WHITE ? _white_pieces-- : _black_pieces--;
         _board[curr.x][curr.y] = std::make_shared<EmptyPiece>(); // piece captured 
+        pieces_captured++; 
         return true;
     }
     return false; 
@@ -116,11 +117,11 @@ bool redtangle::RedtangleGame::jump(const Location& location) {
     if ( _board[location.x][location.y]->is_piece() && !is_suicide(location)) {
         return false; // not valid jump 
     }
-    std::cout << "Attempting jump\n"; 
     Side team_side; // side to compare with opp_side
     Side opp_side; // the side to check if an opponent is blocking the jump 
     int x_dist = location.x - _curr_selection.x;
     int y_dist = location.y - _curr_selection.y; 
+    int pieces_captured = 0;
     if (x_dist  != 0 && y_dist != 0) {
         return false; // diagnal jump not permitted 
     }
@@ -137,8 +138,9 @@ bool redtangle::RedtangleGame::jump(const Location& location) {
                  location, 
                  _board[_curr_selection.x][_curr_selection.y]->get_sides()[(int) team_side], 
                  team_side, 
-                 opp_side
-               );
+                 opp_side,
+                 pieces_captured
+               ) && pieces_captured > 0;
 }
 
 
