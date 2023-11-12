@@ -38,13 +38,17 @@ void redtangle::RedtangleGame::create_board(const std::vector<std::vector<Color>
 bool redtangle::RedtangleGame::select_piece(const Location& loc) { 
     bool status = false; 
     bool moved = false;
+    std::cout << _curr_selection << std::endl; 
     if (_board[loc.x][loc.y]->get_team() == _turn) { // piece selected 
         _curr_selection = loc; 
         status = true; 
     }
     else { // check for valid move 
         // Winning move cannot be diagnol 
-        if (in_opponentsRedtangle(loc, _board[_curr_selection.x][_curr_selection.y]->get_team()) && is_diagnol(loc, _curr_selection)) {
+        if (!valid_location(_curr_selection)) {
+            status = false; 
+        }
+        else if (in_opponentsRedtangle(loc, _board[_curr_selection.x][_curr_selection.y]->get_team()) && is_diagnol(loc, _curr_selection)) {
             status = false; 
         }
         else if (_curr_selection != INVALID && is_eightAdj(_curr_selection, loc) && !_board[loc.x][loc.y]->is_piece()) { // eight adjancent move
@@ -109,9 +113,10 @@ bool redtangle::RedtangleGame::is_suicide(const Location& loc) const {
 
 // Calculate parameters and call recursive jump function 
 bool redtangle::RedtangleGame::jump(const Location& location) {
-    if (_board[location.x][location.y]->is_piece() && !is_suicide(location)) {
+    if ( _board[location.x][location.y]->is_piece() && !is_suicide(location)) {
         return false; // not valid jump 
     }
+    std::cout << "Attempting jump\n"; 
     Side team_side; // side to compare with opp_side
     Side opp_side; // the side to check if an opponent is blocking the jump 
     int x_dist = location.x - _curr_selection.x;
@@ -140,11 +145,9 @@ bool redtangle::RedtangleGame::jump(const Location& location) {
 // Filter user input based on game state 
 // If in a valid state, then attempt to select or move a piece 
 bool redtangle::RedtangleGame::select(const Location& loc) {
-    if (valid_location(loc) && _state == GameState::SELECTING) {
-        std::cout << "Attempting to select piece\n"; 
+    if (valid_location(loc) && (_state == GameState::SELECTING || _state == GameState::JUMPING)) {
         return select_piece(loc); 
     }
-    std::cout << "Not valid location or game state\n"; 
     return false;
 }
 
