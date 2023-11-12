@@ -5,8 +5,8 @@ using redtangle::Point;
 
 static const int STATUS_BAR_HEIGHT = 50;
 static const int BORDER_WIDTH = 2; 
-static const std::string DIRECTIONS_URL = "https://github.com/sarrettb/dev/blob/main/projects/redtangle-cpp/docs/directions.pdf";
-static const std::string CONTROLS_URL = "https://github.com/sarrettb/dev/blob/main/projects/redtangle-cpp/docs/controls.md";
+static const std::string DIRECTIONS_URL = "https://github.com/sarrettb/dev/blob/main/redtangle/docs/directions.pdf";
+static const std::string CONTROLS_URL = "https://github.com/sarrettb/dev/blob/main/redtangle/docs/controls.md";
 static const int POPUP_WIDTH = 340;
 static const int POPUP_HEIGHT = 109; 
 
