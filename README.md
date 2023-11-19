@@ -1,5 +1,5 @@
 # Introduction
-This repo contains personal software development projects I have worked on. Each subfolder contains a pesonal project to some level. 
+This repo contains personal software development projects I have worked on. Each subfolder contains a project to some level. 
 
 ## BUtility 
 - `BUtility` stands for "Blake's Utility" which is meant to be a folder to host any common C++ code that could be shared among different projects. 
