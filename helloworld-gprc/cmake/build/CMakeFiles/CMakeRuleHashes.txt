@@ -1,2 +1,0 @@
-# Hashes of file build rules.
-7c59ab6e91dacd7e480a034bd3374fac ../../generated/helloworld.pb.cc
