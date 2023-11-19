@@ -3,7 +3,7 @@ This repo contains personal software development projects I have worked on. Each
 
 ## BUtility 
 - `BUtility` stands for "Blake's Utility" which is meant to be a folder to host any common C++ code that could be shared among different projects. 
-- Currently, there is only one function here which assists in parsing command line arguments. 
+- Currently, there is only one function here to assist in parsing command line arguments. 
 
 ## Helloworld gRPC 
 - A starter project for building gRPC client,  server, and deploying the server on an AWS Machine.  
