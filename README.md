@@ -3,7 +3,7 @@ This repo contains personal software development projects and courses/trainings 
 
 ## IBM Full Stack Developer
 - `ibm-full-stack-dev` contains project/source-controlled work completed during this course.
-- Each folder maps to a module in the course
+- Each folder maps to a module in the course (some modules do not have source-controlled work). 
   
 ## Redtangle 
 - `redtangle` is a board game similar to chess that has been converted into a desktop application. 
